@@ -34,5 +34,5 @@ async function getUsers(db) {
 
 // SDKs
 export const authentication = getAuth(app);
-export 
+
 
