@@ -1,0 +1,125 @@
+/*import { useNavigation } from '@react-navigation/core'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { signOut } from 'firebase/auth';
+import React from 'react'
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Image } from 'react-native';
+import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
+import { authentication } from "../firebase/firebase-config";
+import COLORS from '../consts/colors';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import background from "../assets/palmshadow-bg.png";
+
+const HomeScreen = () => {
+  
+  const navigation = useNavigation()
+
+  const handleSignOut = () => {
+    signOut(authentication)
+    .then(() => {
+      navigation.replace("Login")
+    })
+    .catch(error => alert(error.message))
+  }
+
+  const shopByRetailer = () => {
+    navigation.navigate("Retailers")
+  }
+
+  const quickShop = () => {
+    navigation.navigate("Quickshop")
+  }
+
+  /*const manageOrders = () => {
+    navigation.navigate("Quickshop")
+
+  const discounts = () => {
+    navigation.navigate("Discounts")
+  }
+
+  return (
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior="padding"
+    >
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={quickShop}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Quick Shop</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Retailers")}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonText}>Shop by Retailer</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          //onPress={manageOrders}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonText}>Manage My Orders</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          //onPress={manageOrders}
+          style={[styles.button, styles.buttonOutline]}
+        >
+          <Text style={styles.buttonText}>Discounts</Text>
+        </TouchableOpacity>
+      </View>
+      
+      <View style={styles.container}>
+        <Text>Email: {authentication.currentUser?.email}</Text>
+        <TouchableOpacity
+          onPress={handleSignOut}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Sign out</Text>
+        </TouchableOpacity>
+      </View>
+
+    </KeyboardAvoidingView>
+  )
+}
+
+export default HomeScreen
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+   button: {
+    backgroundColor: '#0782F9',
+    width: '60%',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 40,
+  },
+  buttonContainer:{
+    flex: 1,
+    width: '60%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  mainMenuOptionsContainer:{
+    flexDirection: 'row',
+    marginTop: 30,
+    marginBottom: 20,
+    justifyContent: 'space-between',
+  },
+  mainMenuOptionsText: {
+    fontsize: 16,
+    color: 'grey',
+    fontWeight: 'bold',
+  }
+})
+*/
