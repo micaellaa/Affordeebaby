@@ -26,9 +26,12 @@ if (getApps().length < 1) {
 
 const db = getFirestore(app);
 
+/*
 async function getUsers(db) {
   const 
 }
+*/
+
 // SDKs
 export const authentication = getAuth(app);
 export 
