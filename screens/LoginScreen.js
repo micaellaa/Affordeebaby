@@ -18,7 +18,7 @@ const LoginScreen = () => {
 
   const navigation = useNavigation()
 
-  // custom Hook here. good job
+  //
 /*
   const useFirebaseAuthentication = (firebase) => {
     const [authUser, setAuthUser] = useState(null);

@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { getApps, initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, getDocs } from "firebase/auth";
+//import { getFirestore, collection, getDocs } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -24,7 +24,7 @@ if (getApps().length < 1) {
   // Initialize other firebase products here
 }
 
-const db = getFirestore(app);
+//const db = getFirestore(app);
 
 /*
 async function getUsers(db) {
