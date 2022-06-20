@@ -23,7 +23,7 @@ const RetailersScreen = () => {
           <Text style={styles.buttonText}>Zara</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          //onPress={handleSignUp}
+          onPress={() => navigation.navigate("Quickshop")}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonOutlineText}>ASOS</Text>

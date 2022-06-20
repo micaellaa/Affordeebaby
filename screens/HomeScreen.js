@@ -3,12 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { signOut } from 'firebase/auth';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Image } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Image, Alert } from 'react-native';
 import { ImageBackground, TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { authentication } from "../firebase/firebase-config";
 import COLORS from '../consts/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import background from "../assets/palmshadow-bg.png";
+
 
 const HomeScreen = () => {
   
@@ -78,7 +79,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           //onPress={manageOrders}
-          style={[styles.button, styles.buttonOutline]}
+          style={[styles.button, styles.buttonOutline]} 
         >
           <Text style={styles.buttonText}>Manage My Orders</Text>
         </TouchableOpacity>

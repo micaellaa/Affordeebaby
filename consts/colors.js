@@ -5,6 +5,7 @@ const COLORS = {
     light: '#F1f1f1',
     green: '#00B761',
     indigo: '#5353cd',
+    
 };
 
 export default COLORS;
