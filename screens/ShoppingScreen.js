@@ -9,6 +9,11 @@ const ShoppingScreen = () => {
   
   const navigation = useNavigation()
   
+  return (
+    <View>
+      <Text>Shoppingscreen</Text>
+    </View>
+  )
 }
   
 export default ShoppingScreen;

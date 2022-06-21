@@ -3,8 +3,9 @@ import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Image } from '
 import React, { useState } from 'react';
 import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 //import { auth } from '../firebase'
-import { authentication } from "../firebase/firebase-config";
+import { authentication, createUserDocument } from "../firebase/firebase-config";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+import { collection, getDocs } from 'firebase/firestore'
 //import { useEffect } from 'react/cjs/react.production.min';
 import { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
@@ -20,6 +21,8 @@ const RegisterScreen = () => {
 
   const navigation = useNavigation()
   
+
+
   useEffect(() => {
     return onAuthStateChanged(authentication, user => {
       if (user) {
@@ -33,6 +36,7 @@ const RegisterScreen = () => {
       .then(userCredentials => {
         const user = userCredentials.user;
         console.log(user.email);
+        createUserDocument(user, [firstName, username, mobileNum])
       })
       .catch(error => alert(error.message))
   }

@@ -29,7 +29,7 @@ const RetailersScreen = () => {
           <Text style={styles.buttonOutlineText}>ASOS</Text>
         </TouchableOpacity>
       </View>
-
+      
     </KeyboardAvoidingView>
   )
 }
