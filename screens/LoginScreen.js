@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Image } from 'react-native';
 import React, { useState } from 'react';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
+import { TouchableOpacity } from 'react-native';
 //import { auth } from '../firebase'
 import { authentication } from "../firebase/firebase-config";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   },
   input:{
     backgroundColor: "white", //grey
-    addingHorizontal: 15,
+    paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 10,
     marginTop: 5,

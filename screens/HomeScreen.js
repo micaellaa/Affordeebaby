@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { signOut } from 'firebase/auth';
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Image } from 'react-native';
-import { ImageBackground, TouchableHighlight, TouchableOpacity } from 'react-native-web';
+import { ImageBackground, TouchableOpacity } from 'react-native';
 import { authentication } from "../firebase/firebase-config";
 import COLORS from '../consts/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
