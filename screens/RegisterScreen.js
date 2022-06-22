@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/core'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View, Image } from 'react-native';
 import React, { useState } from 'react';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
+import { TouchableOpacity } from 'react-native';
 //import { auth } from '../firebase'
 import { authentication, createUserDocument } from "../firebase/firebase-config";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';

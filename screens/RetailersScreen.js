@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/core'
 import { signOut } from 'firebase/auth';
 import React from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, View } from 'react-native';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
+import { TouchableOpacity } from 'react-native';
 import { authentication } from "../firebase/firebase-config";
 
 const RetailersScreen = () => {
