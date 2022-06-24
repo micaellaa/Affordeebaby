@@ -23,8 +23,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import COLORS from "../consts/colors";
-
-//import Fetch from "../components/Fetch";
+import FetchProfile from "../components/FetchProfile";
 
 /*//authentication for profile
 const user = authentication.currentUser;
@@ -100,9 +99,8 @@ const ProfileScreen = () => {
         ))}
       </View>
 
-      <View>
-        <Text>{userUID}</Text>
-      </View>
+    <FetchProfile/>
+      
 
     </ImageBackground>
   );

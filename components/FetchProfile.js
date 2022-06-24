@@ -15,24 +15,23 @@ const FetchProfile = () => {
 
   const usersRef = doc(firestore, "users", userUID);
 
-  useEffect(async () => {
-    /*const { firstName, username } = docSnap.data();
-        users1.push({
-          id: docSnap.id,
-          firstName,
-          username,
-        });
-      
-      setUsers1(users1);*/
-
-    const docSnap = await getDoc(usersRef);
-
-    if (docSnap.exists()) {
-      const firstName = docSnap.get(firstName);
-      setUsers1(firstName);
-    } else {
-      console.log("Profile Not Found. Try Again");
+  useEffect(() => {
+    async function fetchProfileData() {
+      const docSnap = await getDoc(usersRef);
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+      }
+      try {
+        console.log("try entered");
+        const fN = docSnap.firstName;
+        setUsers1(fN);
+        console.log("users1: ", users1);
+      } catch (error) {
+        console.log("Error in finding profile", error);
+      }
     }
+
+    fetchProfileData();
   }, []);
   /*useEffect(async () => {
     usersRef.onSnapshot((querySnapshot) => {
