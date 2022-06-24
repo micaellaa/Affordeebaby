@@ -100,8 +100,20 @@ const ProfileScreen = () => {
       </View>
 
     <FetchProfile/>
-      
-
+    <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          //onPress={quickShop}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>View Cart</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          //onPress={quickShop}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Friend Requests</Text>
+        </TouchableOpacity>
+    </View>
     </ImageBackground>
   );
 };
@@ -123,18 +135,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   button: {
-    backgroundColor: "#0782F9",
-    width: "60%",
+    backgroundColor: COLORS.indigo,
+    width: "90%",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
     marginTop: 40,
   },
   buttonContainer: {
+    flex: 1,
     width: "60%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
   },
   buttonText: {
     color: "white",

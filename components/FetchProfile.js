@@ -23,8 +23,9 @@ const FetchProfile = () => {
       }
       try {
         console.log("try entered");
-        const fN = docSnap.firstName;
+        const fN = docSnap.get("firstName");
         setUsers1(fN);
+        console.log("docSnap.firstName: ", docSnap.get("firstName"));
         console.log("users1: ", users1);
       } catch (error) {
         console.log("Error in finding profile", error);
@@ -32,7 +33,7 @@ const FetchProfile = () => {
     }
 
     fetchProfileData();
-  }, []);
+  });
   /*useEffect(async () => {
     usersRef.onSnapshot((querySnapshot) => {
       const users1 = [];
@@ -60,10 +61,8 @@ const FetchProfile = () => {
 
   return (
     <View style={{ flex: 1, marginTop: 100 }}>
-      <Text style={StyleSheet.itemHeading}>{users1}</Text>
+      <Text style={StyleSheet.itemHeading}>Hi, {users1}!</Text>
     </View>
-    //docSnap.data()
-    //docSnap.get(firstName)
   );
 };
 
