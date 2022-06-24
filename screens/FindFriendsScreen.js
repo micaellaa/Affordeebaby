@@ -1,15 +1,27 @@
-import { useNavigation } from '@react-navigation/core'
-import React, { useState } from 'react';
-import { ImageBackground, SafeAreaView, StyleSheet, ScrollView, View, Text, StatusBar, FlatList, TouchableOpacity, TextInput } from 'react-native';
-import COLORS from '../consts/colors';
-import Searchbar from '../components/Searchbar';
+import { useNavigation } from "@react-navigation/core";
+import React, { useState } from "react";
+import {
+  ImageBackground,
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+  Pressable,
+} from "react-native";
+import COLORS from "../consts/colors";
+import Searchbar from "../components/Searchbar";
+import FetchUsers from "../components/FetchUsers";
 
 const FindFriendsScreen = () => {
-  
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   //top menu constants
-  const menuOptions = ['Shop', 'Profile', 'Find Friends'];
+  const menuOptions = ["Shop", "Profile", "Find Friends"];
   const [menuOptionsIndex, setMenuOptionsIndex] = useState(0);
 
   //searchbar constants
@@ -18,29 +30,33 @@ const FindFriendsScreen = () => {
     // search logic
   }
 
+  // prettier-ignore
   return (
     <ImageBackground
-      source={require('../assets/palmshadow-bg.png')} //stub image
+      source={require("../assets/palmshadow-bg.png")} //stub image
       style={styles.container}
     >
-      <View style={styles.menuContainer}> 
+      <View style={styles.menuContainer}>
         {menuOptions.map((item, index) => (
-          <TouchableOpacity 
+          <TouchableOpacity
             key={index}
             activeOpacity={0.8}
-            onPress={()=> {setMenuOptionsIndex(index)
+            onPress={() => {
+              setMenuOptionsIndex(index);
               if (index == 0) {
                 navigation.navigate("Home"); // stub
-              } 
+              }
               if (index == 1) {
                 navigation.navigate("Profile");
               }
-            }}>
+            }}
+          >
             <Text
-            style={[
-              styles.menuOptionsText,
-              menuOptionsIndex == index && styles.menuOptionsTextSelected,
-            ]}>
+              style={[
+                styles.menuOptionsText,
+                menuOptionsIndex == index && styles.menuOptionsTextSelected,
+              ]}
+            >
               {item}
             </Text>
           </TouchableOpacity>
@@ -48,66 +64,60 @@ const FindFriendsScreen = () => {
       </View>
 
       <View style={styles.menuContainer}>
-        <Searchbar
-          value={value}
-          updateSearch={updateSearch}
-          style={{}}
-        />
+        <Searchbar value={value} updateSearch={updateSearch} style={{}} />
       </View>
 
-    <View style = {styles.container}></View>
-
+      
     </ImageBackground>
-  )
-}
+  );
+};
 
 export default FindFriendsScreen;
 
 const styles = StyleSheet.create({
   searchbarContainer: {
-    flexDirection: 'row',
-    width: '80%',
+    flexDirection: "row",
+    width: "80%",
     marginTop: 20,
     marginBottom: 40,
-    justifyContent: 'space-between',
-    backgroundColor: '#0782F9',
-  
+    justifyContent: "space-between",
+    backgroundColor: "#0782F9",
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
-   button: {
-    backgroundColor: '#0782F9',
-    width: '60%',
+  button: {
+    backgroundColor: "#0782F9",
+    width: "60%",
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 40,
   },
-  buttonContainer:{
-    width: '60%',
-    justifyContent: 'center',
-    alignItems: 'center',
+  buttonContainer: {
+    width: "60%",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 40,
   },
   buttonText: {
-    color: 'white',
-    fontWeight: '700',
+    color: "white",
+    fontWeight: "700",
     fontSize: 16,
   },
   menuContainer: {
-    flexDirection: 'row',
-    width: '80%',
+    flexDirection: "row",
+    width: "80%",
     marginTop: 30,
     marginBottom: 40,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   menuOptionsText: {
     fontsize: 16,
-    color: 'grey',
-    fontWeight: 'bold',
+    color: "grey",
+    fontWeight: "bold",
   },
   menuOptionsTextSelected: {
     color: COLORS.indigo,
@@ -115,5 +125,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: COLORS.indigo,
   },
-})
+});
 // swipescreen: https://www.youtube.com/watch?v=Sb9paeF2SQs
