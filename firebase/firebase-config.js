@@ -10,7 +10,7 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import firebase from "firebase/compat/app";
+import firebase from "firebase/app";
 //import { getFirestore, collection, getDocs } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -39,7 +39,7 @@ initializeFirestore(app, {
 
 // SDKs
 export const authentication = getAuth(app);
-const firestore = getFirestore(app); // CHANGED THIS FROM NO EXPORT OKAY
+export const firestore = getFirestore(app); // CHANGED THIS FROM NO EXPORT OKAY
 export const createUserDocument = async (user, additionalData) => {
   if (!user) return;
   console.log("is user");
@@ -77,6 +77,7 @@ export const createUserDocument = async (user, additionalData) => {
   }
 };
 
+/*
 class Profile {
   constructor(firstName, userName, mobileNum) {
     this.firstName = firstName;
@@ -96,6 +97,7 @@ const profileConverter = {
           country: city.country
           };
   },*/
+/*
   fromFirestore: (snapshot, options) => {
     const data = snapshot.data(options);
     return new Profile(data.firstName, data.username, data.mobileNum);
@@ -112,16 +114,7 @@ export const fetchProfile = async (user) => {
   try {
     const docSnap = await getDoc(usersRef);
     console.log("docsnaptaken");
-    //const [users1, setUsers1] = useState([]);
-    /*
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      const uN = docSnap.get(firstName);
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-      const uN = "User Not Found";
-    }*/
+
     const profile = docSnap.data();
     console.log(profile instanceof Profile);
     return profile; //docSnap.get(firstName);
@@ -129,6 +122,4 @@ export const fetchProfile = async (user) => {
     return "Error";
   }
 };
-
-export default firestore;
-export { firebase };
+*/

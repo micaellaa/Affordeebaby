@@ -1,15 +1,39 @@
-/*import { View, text, Flatlist, StyleSheet, Pressable } from "react-native";
+import { View, Text, Flatlist, StyleSheet, Pressable } from "react-native";
 import React, { useState, useEffect } from "react";
-import { firebase } from "../firebase/firebase-config";
+import { authentication, firebase } from "../firebase/firebase-config";
 import "firebase/firestore";
-import { doc, get } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
 
-const FetchProfile = async (user) => {
-  const [users1, setUsers1] = useState([]);
-  const usersRef = doc(firestore, "users", user.id);
-  const docSnap = await getDoc(usersRef);
+const FetchProfile = () => {
+  const [users1, setUsers1] = useState("");
 
+  const user = authentication.currentUser;
+  const userUID = user.uid;
+
+  if (!user) return;
+
+  const usersRef = doc(firestore, "users", userUID);
+
+  useEffect(async () => {
+    /*const { firstName, username } = docSnap.data();
+        users1.push({
+          id: docSnap.id,
+          firstName,
+          username,
+        });
+      
+      setUsers1(users1);*/
+
+    const docSnap = await getDoc(usersRef);
+
+    if (docSnap.exists()) {
+      const firstName = docSnap.get(firstName);
+      setUsers1(firstName);
+    } else {
+      console.log("Profile Not Found. Try Again");
+    }
+  }, []);
   /*useEffect(async () => {
     usersRef.onSnapshot((querySnapshot) => {
       const users1 = [];
@@ -24,33 +48,23 @@ const FetchProfile = async (user) => {
       setUsers1(users1);
     });
   }, []);*/
-/*
+
+  /*
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    const uN = docSnap.get(firstName);
+    uN = docSnap.get(firstName);
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
-    const uN = "User Not Found";
-  }
+    uN = "User Not Found";
+  }*/
 
   return (
-    /*<View style={{ flex: 1, marginTop: 100 }}>
-      <Flatlist
-        style={{ height: "100%" }}
-        data={users}
-        numColumns={1}
-        renderItem={({ item }) => (
-          <Pressable style={StyleSheet.containerFetch}>
-            <View style={StyleSheet.innerContainer}>
-              <Text style={StyleSheet.itemHeading}>{uN}</Text>
-            </View>
-          </Pressable>
-        )}
-      />
-    </View>*/
-//docSnap.data()
-/*docSnap.get(firstName)
+    <View style={{ flex: 1, marginTop: 100 }}>
+      <Text style={StyleSheet.itemHeading}>{users1}</Text>
+    </View>
+    //docSnap.data()
+    //docSnap.get(firstName)
   );
 };
 
@@ -75,5 +89,3 @@ const styles = StyleSheet.create({
     fontWeight: 300,
   },
 });
-
-*/

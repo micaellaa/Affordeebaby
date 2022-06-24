@@ -13,7 +13,6 @@ import {
   TextInput,
 } from "react-native";
 import { authentication, fetchProfile } from "../firebase/firebase-config";
-import { firestore } from "../firebase/firebase-config";
 import {
   initializeFirestore,
   getFirestore,
