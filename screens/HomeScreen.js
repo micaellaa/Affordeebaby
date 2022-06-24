@@ -51,7 +51,14 @@ const HomeScreen = () => {
           <TouchableOpacity 
             key={index}
             activeOpacity={0.8}
-            onPress={()=>setMenuOptionsIndex(index)}>
+            onPress={()=> {setMenuOptionsIndex(index)
+              if (index == 1) {
+                navigation.navigate("Profile"); // stub
+              } 
+              if (index == 2) {
+                navigation.navigate("FindFriends");
+              }
+            }}>
             <Text
             style={[
               styles.menuOptionsText,
