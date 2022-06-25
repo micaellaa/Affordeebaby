@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core'
+/*import { useNavigation } from '@react-navigation/core'
 //import { signOut } from 'firebase/auth';
 import React from 'react'
 import { StyleSheet, Text, View, Image, SafeAreaView, FlatList, Dimensions } from 'react-native';
@@ -8,7 +8,7 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import COLORS from '../consts/colors';
 import products from '../consts/products';
 /*import { ScrollView } from 'react-native-gesture-handler';*/
-import Icon from 'react-native-vector-icons/MaterialIcons';
+/*import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const ShoppingScreen = () => {
 
@@ -223,4 +223,4 @@ const styles = StyleSheet.create({
   
 
   
-})
+})*/

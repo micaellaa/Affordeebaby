@@ -1,26 +1,19 @@
 import { useNavigation } from "@react-navigation/core";
 //import { signOut } from 'firebase/auth';
 import React from "react";
-import {
-  KeyboardAvoidingView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
-import { TouchableOpacity } from "react-native";
+import { KeyboardAvoidingView, TextInput, View } from "react-native";
+//import { TouchableOpacity } from "react-native";
 import { authentication } from "../firebase/firebase-config";
 import {
   StyleSheet,
   Text,
-  View,
   Image,
   SafeAreaView,
   FlatList,
   Dimensions,
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
 //import { authentication } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
 import products from "../consts/products";
