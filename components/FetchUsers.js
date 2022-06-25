@@ -1,4 +1,4 @@
-import { View, Text, Flatlist, StyleSheet, Pressable } from "react-native";
+import { View, Text, FlatList, StyleSheet, Pressable } from "react-native";
 import React, { useState, useEffect } from "react";
 import { authentication, firebase } from "../firebase/firebase-config";
 import "firebase/firestore";
@@ -33,7 +33,6 @@ const FetchUsers = () => {
         console.log(doc.id, " => ", doc.data());
         const { email, firstName, mobileNum, username } = doc.data();
         users1.push({
-          id: doc.id,
           email,
           firstName,
           mobileNum,
@@ -48,7 +47,7 @@ const FetchUsers = () => {
 
   return (
     <View style={{ flex: 1, marginTop: 100 }}>
-      <Flatlist
+      <FlatList
         style={{ height: "100%" }}
         data={users1}
         numColumns={1}

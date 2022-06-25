@@ -21,8 +21,11 @@ import {
   where,
   getDocs,
   QuerySnapshot,
+  doc,
 } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
+import { authentication } from "../firebase/firebase-config";
+//import FetchUsers from "./FetchUsers";
 
 export default function Searchbar({ value, style }) {
   const [queryInput, setQueryInput] = useState("");
@@ -31,6 +34,7 @@ export default function Searchbar({ value, style }) {
   const [users1, setUsers1] = useState([]);
   //const [usernameInput, setUsernameInput] = useState("");
 
+  /*
   function updateSearch(value) {
     console.log("updateSearch() entered");
     const q = query(
@@ -60,6 +64,44 @@ export default function Searchbar({ value, style }) {
     fetchUsers();
     //});
   }
+  */
+
+  /*useEffect(() => {
+    async function fetchUsers() {
+      const docSnap = await getDoc(usersRef);
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+      }
+      try {
+        console.log("try entered");
+        const fN = docSnap.get("carts");
+        setCarts(cartsList);
+      } catch (error) {
+        console.log("Error in finding carts", error);
+      }
+    }
+    fetchUsers();
+  }, [value]);
+*/
+
+  const user = authentication.currentUser;
+  const userUID = user.uid;
+
+  const handleSearch = async (queryInput) => {
+    const usersRef = doc(firestore, "users", userUID);
+    const q = query(
+      collection(firestore, "users"),
+      where("username", "==", queryInput)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      const fN = doc.get("firstName");
+      const uN = doc.get("username");
+      setUsers1([fN, uN]);
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -68,6 +110,7 @@ export default function Searchbar({ value, style }) {
           //resizeMode='center'
           style={styles.searchIcon}
           source={require("../assets/blue-search-icon.png")}
+          onPress={handleSearch(queryInput)}
         />
         <TextInput
           value={queryInput}
@@ -85,7 +128,7 @@ export default function Searchbar({ value, style }) {
                         }
                         else setError("Please only enter alphabets")*/
             setQueryInput(text);
-            updateSearch(text);
+            //updateSearch(text);
           }}
         />
         {queryInput ? (
@@ -101,22 +144,6 @@ export default function Searchbar({ value, style }) {
         ) : (
           <View style={styles.vwClear} />
         )}
-      </View>
-
-      <View style={{ flex: 1, marginTop: 100 }}>
-        <FlatList
-          style={{ height: "100%" }}
-          data={users1}
-          numColumns={1}
-          renderItem={({ item }) => (
-            <Pressable style={StyleSheet.container}>
-              <View style={StyleSheet.innerContainer}>
-                <Text style={StyleSheet.itemHeading}>{item.firstName}</Text>
-                <Text style={StyleSheet.itemText}>{item.username}</Text>
-              </View>
-            </Pressable>
-          )}
-        />
       </View>
     </View>
   );
@@ -213,3 +240,24 @@ const styles = StyleSheet.create({
     fontWeight: 300,
   },
 });
+
+/*
+flatlist that didn't work
+
+<View style={{ flex: 1, marginTop: 100 }}>
+        <FlatList
+          style={{ height: "100%" }}
+          data={users1}
+          numColumns={1}
+          renderItem={({ item }) => (
+            <Pressable style={StyleSheet.container}>
+              <View style={StyleSheet.innerContainer}>
+                <Text style={StyleSheet.itemHeading}>{item.firstName}</Text>
+                <Text style={StyleSheet.itemText}>{item.username}</Text>
+              </View>
+            </Pressable>
+          )}
+        />
+      </View>
+
+  */

@@ -60,13 +60,9 @@ const FindFriendsScreen = () => {
           </TouchableOpacity>
         ))}
       </View>
-
-      <View style={styles.menuContainer}>
-        <Searchbar value={value} style={{}} />
-      </View>
-
-
-      
+      <Searchbar/>
+      <FetchUsers/>
+    
     </ImageBackground>
   );
 };
@@ -126,3 +122,7 @@ const styles = StyleSheet.create({
   },
 });
 // swipescreen: https://www.youtube.com/watch?v=Sb9paeF2SQs
+/* not working search bar <View style={styles.menuContainer}>
+        <Searchbar value={value} style={{}} />
+        </View>
+*/

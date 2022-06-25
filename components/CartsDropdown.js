@@ -22,7 +22,23 @@ const CartsDropdown = (productID) => {
 
   if (!user) return;
 
-  const usersRef = doc(firestore, "users", userUID);
+  const cartConverter = {
+    toFirestore: (cart) => {
+      return {
+        name: cart.cartname,
+        products: cart.productsID,
+        users: cart.users - id,
+      };
+    },
+    fromFirestore: (snapshot, options) => {
+      const data = snapshot.data(options);
+      return data.cartname;
+    },
+  };
+
+  const usersRef = doc(firestore, "users", userUID).withConverter(
+    cartConverter
+  );
 
   useEffect(() => {
     async function fetchUserCarts() {
@@ -52,7 +68,7 @@ const CartsDropdown = (productID) => {
   const stub = ["1", "2"];
   return (
     <SelectDropdown
-      data={stub}
+      data={cartsData}
       onSelect={(selectedItem, index) => {
         console.log(selectedItem, index);
         handleAddToCart(selectedItem);
