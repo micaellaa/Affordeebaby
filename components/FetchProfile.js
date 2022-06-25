@@ -31,9 +31,8 @@ const FetchProfile = () => {
         console.log("Error in finding profile", error);
       }
     }
-
     fetchProfileData();
-  });
+  }, []);
   /*useEffect(async () => {
     usersRef.onSnapshot((querySnapshot) => {
       const users1 = [];

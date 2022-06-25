@@ -9,6 +9,8 @@ import {
   doc,
   getDoc,
   setDoc,
+  updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import firebase from "firebase/app";
 //import { getFirestore, collection, getDocs } from "firebase/auth";
@@ -77,49 +79,30 @@ export const createUserDocument = async (user, additionalData) => {
   }
 };
 
-/*
-class Profile {
-  constructor(firstName, userName, mobileNum) {
-    this.firstName = firstName;
-    this.userName = userName;
-    this.mobileNum = mobileNum;
-  }
-  toString() {
-    return this.firstName + ", " + this.userName + ", " + this.mobileNum;
-  }
-}
-
-const profileConverter = {
-  /*toFirestore: (profile) => {
-      return {
-          firstName: users.firstName,
-          state: city.state,
-          country: city.country
-          };
-  },*/
-/*
-  fromFirestore: (snapshot, options) => {
-    const data = snapshot.data(options);
-    return new Profile(data.firstName, data.username, data.mobileNum);
-  },
-};
-
-export const fetchProfile = async (user) => {
+export const updateCartDocument = async (user, cartID, productID) => {
   if (!user) return;
   console.log("is user");
-  const usersRef = doc(firestore, "users", user.id).withConverter(
-    profileConverter
-  );
-
+  const cartsRef = doc(firestore, "carts", cartID);
   try {
-    const docSnap = await getDoc(usersRef);
-    console.log("docsnaptaken");
-
-    const profile = docSnap.data();
-    console.log(profile instanceof Profile);
-    return profile; //docSnap.get(firstName);
-  } catch (e) {
-    return "Error";
+    console.log("Added to cart", productID);
+    await updateDoc(cartsRef, {
+      productsID: arrayUnion(productID),
+    });
+  } catch (error) {
+    console.log("Error in creating order", error);
   }
 };
+/*
+  const handleAddToCart = (cartID) => {
+    const cartsRef = doc(firestore, "carts", cartID);
+    if (!cartsRef) return;
+    
+    try {
+        await updateDoc(cartsRef, {
+            productsID: arrayUnion(productID),
+        });
+    } catch (error) {
+      console.log("Error in creating order", error);
+    }
+  };
 */

@@ -1,17 +1,47 @@
 import { useNavigation } from "@react-navigation/core";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import COLORS from "../consts/colors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 //import products from '../consts/products';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
+import CartsDropdown from "../components/CartsDropdown";
 
 const DetailsScreen = ({ navigation, route }) => {
   //const navigation = useNavigation();
   //const route = useRoute();
   const product = route.params;
+
+  /*
+  const addNewOrder = async (cartID, productID) => {
+    const cartsRef = doc(firestore, "carts", cartID);
+    try {
+      if (!cartsRef) {
+        console.log("try entered with: " + user.uid);
+        await setDoc(doc(firestore, "carts", cartID), {
+          productsID: [productID],
+          sharersID: [user.id],
+        });
+        console.log("user data added");
+      } else {
+        await updateDoc(cartsRef, {
+          productsID: arrayUnion(productID),
+        });
+      }
+    } catch (error) {
+      console.log("Error in creating order", error);
+    }
+  };*/
 
   //add to cart function using async
   const addToCart = async (id) => {
@@ -44,26 +74,6 @@ const DetailsScreen = ({ navigation, route }) => {
       } catch (error) {
         return error;
       }
-    }
-  };
-
-  const addNewOrder = async (orderID, id) => {
-    const ordersRef = doc(firestore, "orders", orderID);
-    try {
-      if (!ordersRef) {
-        console.log("try entered with: " + user.uid);
-        await setDoc(doc(firestore, "orders", orderID), {
-          productsID: [productID],
-          sharersID: [user.id],
-        });
-        console.log("user data added");
-      } else {
-        await updateDoc(ordersRef, {
-          productsID: arrayUnion(id),
-        });
-      }
-    } catch (error) {
-      console.log("Error in creating order", error);
     }
   };
 
@@ -101,7 +111,7 @@ const DetailsScreen = ({ navigation, route }) => {
     }
   };
   */
-
+  // prettier-ignore
   return (
     <View
       style={{
@@ -203,7 +213,7 @@ const DetailsScreen = ({ navigation, route }) => {
 
             <View style={styles.buyBtn}>
               <TouchableOpacity
-                onPress={() => addToCart(product.id)} // to test if navigation working
+                onPress={() => addNewOrder(product.id)} // to test if navigation working
                 style={styles.buyBtn}
               >
                 <Text style={{ fontSize: 20, color: "white" }}>
@@ -211,14 +221,20 @@ const DetailsScreen = ({ navigation, route }) => {
                 </Text>
               </TouchableOpacity>
             </View>
+
+            <CartsDropdown productID = {1}/> 
           </View>
         </View>
       </View>
     </View>
   );
 };
+// what's the product ID ah
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   header: {
     paddingHorizontal: 20,
     marginTop: 20,
@@ -272,6 +288,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderTopLeftRadius: 25,
     borderBottomLeftRadius: 25,
+  },
+  dropdown: {
+    backgroundColor: "white",
+    borderBottomColor: "gray",
+    borderBottomWidth: 0.5,
+    marginTop: 20,
   },
 });
 
