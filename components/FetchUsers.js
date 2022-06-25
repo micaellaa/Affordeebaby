@@ -5,7 +5,7 @@ import "firebase/firestore";
 import { collection, query, where, getDocs, doc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
 
-const FetchUsersBasedOnSearch = () => {
+const FetchUsers = () => {
   const [users1, setUsers1] = useState([]);
   const [usernameInput, setUsernameInput] = useState("");
 
@@ -65,7 +65,7 @@ const FetchUsersBasedOnSearch = () => {
   );
 };
 
-export default FetchUsersBasedOnSearch;
+export default FetchUsers;
 
 const styles = StyleSheet.create({
   container: {

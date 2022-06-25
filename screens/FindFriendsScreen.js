@@ -26,9 +26,7 @@ const FindFriendsScreen = () => {
 
   //searchbar constants
   const [value, setValue] = useState();
-  function updateSearch(value) {
-    // search logic
-  }
+  //function updateSearch(value) {}
 
   // prettier-ignore
   return (
@@ -64,8 +62,9 @@ const FindFriendsScreen = () => {
       </View>
 
       <View style={styles.menuContainer}>
-        <Searchbar value={value} updateSearch={updateSearch} style={{}} />
+        <Searchbar value={value} style={{}} />
       </View>
+
 
       
     </ImageBackground>

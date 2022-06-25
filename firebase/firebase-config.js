@@ -49,8 +49,8 @@ export const createUserDocument = async (user, additionalData) => {
   //if (user) {
   const email = user.email;
   const firstName = additionalData[0];
-  const mobileNumber = additionalData[1];
-  const username = additionalData[2];
+  const mobileNumber = additionalData[2];
+  const username = additionalData[1];
 
   console.log(user.uid);
   console.log(firstName);
