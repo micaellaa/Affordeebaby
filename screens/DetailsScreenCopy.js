@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core'
+/*import { useNavigation } from '@react-navigation/core'
 import React from 'react';
 import {View, Image, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -161,4 +161,4 @@ const styles = StyleSheet.create({
   },
 }); 
 
-export default DetailsScreen; 
+export default DetailsScreen; */

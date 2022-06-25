@@ -29,7 +29,7 @@ export default function Searchbar({ value, style }) {
 
   //fetchUsers
   const [users1, setUsers1] = useState([]);
-  const [usernameInput, setUsernameInput] = useState("");
+  //const [usernameInput, setUsernameInput] = useState("");
 
   function updateSearch(value) {
     console.log("updateSearch() entered");
@@ -43,12 +43,11 @@ export default function Searchbar({ value, style }) {
       console.log("fetchUsers() entered");
       const querySnapshot = await getDocs(q);
       console.log(querySnapshot);
+      const users1 = [];
       querySnapshot.forEach((doc) => {
         console.log("data", doc.id, " => ", doc.data());
         const { email, firstName, mobileNum, username } = doc.data();
-
         users1.push({
-          id: doc.id,
           email,
           firstName,
           mobileNum,
@@ -103,6 +102,7 @@ export default function Searchbar({ value, style }) {
           <View style={styles.vwClear} />
         )}
       </View>
+
       <View style={{ flex: 1, marginTop: 100 }}>
         <FlatList
           style={{ height: "100%" }}
