@@ -212,18 +212,11 @@ const DetailsScreen = ({ navigation, route }) => {
             </View>
 
             <View style={styles.buyBtn}>
-              <TouchableOpacity
-                onPress={() => addNewOrder(product.id)} // to test if navigation working
-                style={styles.buyBtn}
-              >
-                <Text style={{ fontSize: 20, color: "white" }}>
-                  add to cart
-                </Text>
-              </TouchableOpacity>
-            </View>
-
             <CartsDropdown productID = {1}/> 
+              
+            </View>
           </View>
+          
         </View>
       </View>
     </View>
@@ -298,3 +291,14 @@ const styles = StyleSheet.create({
 });
 
 export default DetailsScreen;
+
+/* fion's add to cart button
+<TouchableOpacity
+                onPress={() => addNewOrder(product.id)} // to test if navigation working
+                style={styles.buyBtn}
+              >
+                <Text style={{ fontSize: 20, color: "white" }}>
+                  add to cart
+                </Text>
+              </TouchableOpacity>
+              */

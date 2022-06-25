@@ -11,6 +11,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import SelectDropdown from "react-native-select-dropdown";
+import COLORS from "../consts/colors";
 
 const CartsDropdown = (productID) => {
   const [value, setValue] = useState(""); //fix infinite loop
@@ -41,19 +42,22 @@ const CartsDropdown = (productID) => {
   }, [value]);
 
   //const cartsList = docSnap.get("carts");
-  console.log(cartsList);
+  const cartsData = cartsList;
+  console.log(cartsData);
 
   const handleAddToCart = (cartID) => {
     updateCartDocument(user, cartID, productID);
   };
 
+  const stub = ["1", "2"];
   return (
     <SelectDropdown
-      data={cartsList}
+      data={stub}
       onSelect={(selectedItem, index) => {
         console.log(selectedItem, index);
         handleAddToCart(selectedItem);
       }}
+      defaultButtonText={"add to cart"}
       buttonTextAfterSelection={(selectedItem, index) => {
         // text represented after item is selected
         // if data array is an array of objects then return selectedItem.property to render after item is selected
@@ -64,6 +68,8 @@ const CartsDropdown = (productID) => {
         // if data array is an array of objects then return item.property to represent item in dropdown
         return item;
       }}
+      buttonStyle={styles.dropdown3BtnStyle}
+      rowStyle={styles.dropdown3RowStyle}
     />
   );
 };
@@ -81,6 +87,19 @@ const styles = StyleSheet.create({
     borderBottomColor: "gray",
     borderBottomWidth: 0.5,
     marginTop: 20,
+  },
+  dropdown3BtnStyle: {
+    width: 130,
+    height: 50,
+    backgroundColor: COLORS.green,
+    paddingHorizontal: 0,
+    borderWidth: 1,
+    borderRadius: 8,
+  },
+  dropdown3RowStyle: {
+    backgroundColor: "slategray",
+    borderBottomColor: "#444",
+    height: 50,
   },
   icon: {
     marginRight: 5,
@@ -110,36 +129,3 @@ const styles = StyleSheet.create({
   },
 });
 // dropdown link: https://reactnativeexample.com/a-highly-customized-dropdown-select-picker-menu-for-react-native/
-/*
-      <MultiSelect
-        style={styles.dropdown}
-        data={data}
-        labelField="label"
-        valueField="value"
-        label="Multi Select"
-        placeholder="Select item"
-        search
-        searchPlaceholder="Search"
-        value={selected}
-        onChange={(item) => {
-          setSelected(item);
-          console.log("selected", item);
-        }}
-        renderItem={(item) => _renderItem(item)}
-      />*/
-
-/*useEffect(() => {
-    async function fetchUserCarts() {
-      const docSnap = await getDoc(usersRef);
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-      }
-      try {
-        const cartsList = docSnap.get("carts");
-        setCarts(cartsList);
-      } catch (error) {
-        console.log("Error in finding profile", error);
-      }
-    }
-    fetchUserCarts();
-  });*/
