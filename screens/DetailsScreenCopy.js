@@ -3,48 +3,11 @@ import React from 'react';
 import {View, Image, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../consts/colors';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-//import products from '../consts/products';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const DetailsScreen = ({navigation, route}) => {
-    //const navigation = useNavigation();
-    //const route = useRoute();
+const DetailsScreen = () => {
+    const navigation = useNavigation();
     const product = route.params;
-    //add to cart function using async
-    const addToCart = async id => {
-    let itemArray = await AsyncStorage.getItem('cartItems');
-    itemArray = JSON.parse(itemArray);
-    if (itemArray) {
-      let array = itemArray;
-      array.push(id);
-
-      try {
-        await AsyncStorage.setItem('cartItems', JSON.stringify(array));
-        ToastAndroid.show(
-          'Item Added Successfully to cart',
-          ToastAndroid.SHORT,
-        );
-        navigation.navigate('Quickshop');
-      } catch (error) {
-        return error;
-      }
-    } else {
-      let array = [];
-      array.push(id);
-      try {
-        await AsyncStorage.setItem('cartItems', JSON.stringify(array));
-        ToastAndroid.show(
-          'Item Added Successfully to cart',
-          ToastAndroid.SHORT,
-        );
-        navigation.navigate('Quickshop');
-      } catch (error) {
-        return error;
-      } 
-    }
-  };
     return ( 
     <View
     style={{
@@ -53,7 +16,7 @@ const DetailsScreen = ({navigation, route}) => {
       }}>
       <View style={styles.header}>
         <Icon name="arrow-back" size={28} onPress={() => navigation.goBack()} />
-        <Icon name="shopping-cart" size={28} onPress= {() => navigation.navigate('Cart')}/>
+        <Icon name="shopping-cart" size={28} />
       </View>
       <View style={styles.imageContainer}>
         <Image source={product.img} style={{resizeMode: 'contain', flex: 1}} />
@@ -128,17 +91,15 @@ const DetailsScreen = ({navigation, route}) => {
             </View>
 
             <View style={styles.buyBtn}>
-              <TouchableOpacity
-              onPress={() => addToCart(product.id)} // to test if navigation working
-              style={styles.buyBtn}
-              >
-                <Text style={{fontSize: 20, color: 'white'}}>add to cart</Text>
-                </TouchableOpacity>
+              <Text
+                style={{color: COLORS.white, fontSize: 18, fontWeight: 'bold'}}>
+                Buy
+              </Text>
             </View>
           </View>
         </View>
       </View>
-    </View>
+    </View> 
   );
 };
 

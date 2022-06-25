@@ -9,6 +9,7 @@ import HomeScreen from './screens/HomeScreen';
 import RetailersScreen from './screens/RetailersScreen';
 import ShoppingScreen from './screens/ShoppingScreen';
 import DetailsScreen from './screens/DetailsScreen';
+import CartScreen from './screens/CartScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App() {
         <Stack.Screen name="Retailers" component={RetailersScreen} />
         <Stack.Screen name="Quickshop" component={ShoppingScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen name="Cart" component={CartScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

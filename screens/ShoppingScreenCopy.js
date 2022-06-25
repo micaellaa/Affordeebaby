@@ -1,4 +1,16 @@
-/*const ShoppingScreen = () => {
+import { useNavigation } from '@react-navigation/core'
+//import { signOut } from 'firebase/auth';
+import React from 'react'
+import { StyleSheet, Text, View, Image, SafeAreaView, FlatList, Dimensions } from 'react-native';
+//import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
+//import { authentication } from "../firebase/firebase-config";
+import COLORS from '../consts/colors';
+import products from '../consts/products';
+/*import { ScrollView } from 'react-native-gesture-handler';*/
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+const ShoppingScreen = () => {
 
   const navigation = useNavigation()
 
@@ -24,14 +36,14 @@
         ))}
       </View>
     );
-  };
+  }; 
 
  const Card = ({product}) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => navigation.navigate('Details', product)}>
-        <View style={style.card}>
+        <View style={styles.card}>
           <View style={{alignItems: 'flex-end'}}>
             <View
               style={{
@@ -95,9 +107,9 @@
     );
   }; 
   return (
-    <SafeAreaView
+    <View
       style={{flex: 1, paddingHorizontal: 20, backgroundColor: COLORS.white}}>
-      <View style={style.header}>
+      <View style={styles.header}>
         <View>
           <Text style={{fontSize: 25, fontWeight: 'bold', paddingHorizontal: 20}}>Welcome to</Text>
           <Text style={{fontSize: 38, color: COLORS.green, fontWeight: 'bold', paddingHorizontal: 20}}>
@@ -108,11 +120,11 @@
         <Icon name="settings" size={28} />
       </View>
       <View style={{marginTop: 30, flexDirection: 'row', paddingHorizontal: 20}}>
-        <View style={style.searchContainer}>
+        <View style={styles.searchContainer}>
           <Icon name="search" size={25} style={{marginLeft: 20}} />
-          <TextInput placeholder="Search" style={style.input} />
+          <TextInput placeholder="Search" style={styles.input} />
         </View>
-        <View style={style.sortBtn}>
+        <View style={styles.sortBtn}>
           <Icon name="sort" size={30} color={COLORS.white} />
         </View>
       </View>
@@ -130,7 +142,7 @@
           return <Card product={item} />;
         }}
       />
-    </SafeAreaView>
+    </View>
   );
   
 }
@@ -211,4 +223,4 @@ const styles = StyleSheet.create({
   
 
   
-})*/
+})
