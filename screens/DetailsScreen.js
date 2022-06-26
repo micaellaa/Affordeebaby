@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation } from '@react-navigation/core';
 import React from 'react';
-import {View, Image, Text, StyleSheet} from 'react-native';
+import {View, Image, Text, StyleSheet, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../consts/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -8,8 +8,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const DetailsScreen = ({navigation, route}) => {
-    //const navigation = useNavigation();
+const DetailsScreen = ({route}) => {
+    const navigation = useNavigation();
     //const route = useRoute();
     const product = route.params;
     //add to cart function using async
@@ -129,7 +129,7 @@ const DetailsScreen = ({navigation, route}) => {
 
             <View style={styles.buyBtn}>
               <TouchableOpacity
-              onPress={() => addToCart(product.id)} // to test if navigation working
+              onPress={() => addToCart} 
               style={styles.buyBtn}
               >
                 <Text style={{fontSize: 20, color: 'white'}}>add to cart</Text>
@@ -185,13 +185,13 @@ const styles = StyleSheet.create({
   buyBtn: {
     width: 130,
     height: 50,
-    backgroundColor: COLORS.green,
+    backgroundColor: COLORS.indigo,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 30,
   },
   priceTag: {
-    backgroundColor: COLORS.green,
+    backgroundColor: COLORS.indigo,
     width: 80,
     height: 40,
     justifyContent: 'center',

@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/core";
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -14,7 +15,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 //import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CartScreen = () => {
-    const navigation = useNavigation()
+    const navigation = useNavigation();
     const [product, setProduct] = useState();
     const [total, setTotal] = useState(null);
     useEffect(() => {
@@ -30,9 +31,9 @@ const CartScreen = () => {
     items = JSON.parse(items);
     let productData = [];
     if (items) {
-      items.forEach(data => {
-        if (items.includes(data.id)) {
-          productData.push(data);
+      items.forEach(product => {
+        if (items.includes(product.id)) {
+          productData.push(product);
           return;
         }
       });
@@ -86,11 +87,11 @@ const CartScreen = () => {
     navigation.navigate('Home');
   };
 
-  const renderProducts = (data, index) => {
+  const renderProducts = (product, index) => {
     return (
       <TouchableOpacity
-        key={data.key}
-        onPress={() => navigation.navigate('DetailsScreen', {productID: data.id})}
+        key={product.key}
+        onPress={() => navigation.navigate('DetailsScreen', {productID: product.id})}
         style={{
           width: '100%',
           height: 100,
@@ -105,12 +106,12 @@ const CartScreen = () => {
             padding: 14,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: COLOURS.backgroundLight,
+            backgroundColor: COLORS.light,
             borderRadius: 10,
             marginRight: 22,
           }}>
           <Image
-            source={data.productImage}
+            source={product.img}
             style={{
               width: '100%',
               height: '100%',
@@ -129,11 +130,11 @@ const CartScreen = () => {
               style={{
                 fontSize: 14,
                 maxWidth: '100%',
-                color: COLOURS.black,
+                color: COLORS.dark,
                 fontWeight: '600',
                 letterSpacing: 1,
               }}>
-              {data.productName}
+              {product.name}
             </Text>
             <View
               style={{
@@ -149,11 +150,11 @@ const CartScreen = () => {
                   maxWidth: '85%',
                   marginRight: 4,
                 }}>
-                &#8377;{data.productPrice}
+                &#8377;{product.price}
               </Text>
               <Text>
                 (~&#8377;
-                {data.productPrice + data.productPrice / 20})
+                {product.price + product.price / 20})
               </Text>
             </View>
           </View>
@@ -174,14 +175,14 @@ const CartScreen = () => {
                   marginRight: 20,
                   padding: 4,
                   borderWidth: 1,
-                  borderColor: COLOURS.backgroundMedium,
+                  borderColor: COLORS.light,
                   opacity: 0.5,
                 }}>
                 <Icon
                   name="minus"
                   style={{
                     fontSize: 16,
-                    color: COLOURS.backgroundDark,
+                    color: COLORS.dark,
                   }}
                 />
               </View>
@@ -192,25 +193,25 @@ const CartScreen = () => {
                   marginLeft: 20,
                   padding: 4,
                   borderWidth: 1,
-                  borderColor: COLOURS.backgroundMedium,
+                  borderColor: COLORS.light,
                   opacity: 0.5,
                 }}>
                 <Icon
                   name="plus"
                   style={{
                     fontSize: 16,
-                    color: COLOURS.backgroundDark,
+                    color: COLORS.dark,
                   }}
                 />
               </View>
             </View>
-            <TouchableOpacity onPress={() => removeItemFromCart(data.id)}>
+            <TouchableOpacity onPress={() => removeItemFromCart(product.id)}>
               <Icon
                 name="delete-outline"
                 style={{
                   fontSize: 16,
-                  color: COLOURS.backgroundDark,
-                  backgroundColor: COLOURS.backgroundLight,
+                  color: COLORS.dark,
+                  backgroundColor: COLORS.light,
                   padding: 8,
                   borderRadius: 100,
                 }}
@@ -227,7 +228,7 @@ const CartScreen = () => {
       style={{
         width: '100%',
         height: '100%',
-        backgroundColor: COLOURS.white,
+        backgroundColor: COLORS.white,
         position: 'relative',
       }}>
       <ScrollView>
@@ -245,9 +246,9 @@ const CartScreen = () => {
               name="chevron-left"
               style={{
                 fontSize: 18,
-                color: COLOURS.backgroundDark,
+                color: COLORS.dark,
                 padding: 12,
-                backgroundColor: COLOURS.backgroundLight,
+                backgroundColor: COLORS.light,
                 borderRadius: 12,
               }}
             />
@@ -255,7 +256,7 @@ const CartScreen = () => {
           <Text
             style={{
               fontSize: 14,
-              color: COLOURS.black,
+              color: COLORS.dark,
               fontWeight: '400',
             }}>
             Order Details
@@ -265,7 +266,7 @@ const CartScreen = () => {
         <Text
           style={{
             fontSize: 20,
-            color: COLOURS.black,
+            color: COLORS.dark,
             fontWeight: '500',
             letterSpacing: 1,
             paddingTop: 20,
@@ -286,7 +287,7 @@ const CartScreen = () => {
             <Text
               style={{
                 fontSize: 16,
-                color: COLOURS.black,
+                color: COLORS.darkk,
                 fontWeight: '500',
                 letterSpacing: 1,
                 marginBottom: 20,
@@ -307,8 +308,8 @@ const CartScreen = () => {
                 }}>
                 <View
                   style={{
-                    color: COLOURS.blue,
-                    backgroundColor: COLOURS.backgroundLight,
+                    color: COLORS.indigo,
+                    backgroundColor: COLORS.light,
                     alignItems: 'center',
                     justifyContent: 'center',
                     padding: 12,
@@ -319,7 +320,7 @@ const CartScreen = () => {
                     name="truck-delivery-outline"
                     style={{
                       fontSize: 18,
-                      color: COLOURS.blue,
+                      color: COLORS.indigo,
                     }}
                   />
                 </View>
@@ -327,7 +328,7 @@ const CartScreen = () => {
                   <Text
                     style={{
                       fontSize: 14,
-                      color: COLOURS.black,
+                      color: COLORS.dark,
                       fontWeight: '500',
                     }}>
                     2 Petre Melikishvili St.
@@ -335,7 +336,7 @@ const CartScreen = () => {
                   <Text
                     style={{
                       fontSize: 12,
-                      color: COLOURS.black,
+                      color: COLORS.dark,
                       fontWeight: '400',
                       lineHeight: 20,
                       opacity: 0.5,
@@ -346,7 +347,7 @@ const CartScreen = () => {
               </View>
               <Icon
                 name="chevron-right"
-                style={{fontSize: 22, color: COLOURS.black}}
+                style={{fontSize: 22, color: COLORS.dark}}
               />
             </View>
           </View>
@@ -358,7 +359,7 @@ const CartScreen = () => {
             <Text
               style={{
                 fontSize: 16,
-                color: COLOURS.black,
+                color: COLORS.dark,
                 fontWeight: '500',
                 letterSpacing: 1,
                 marginBottom: 20,
@@ -379,8 +380,8 @@ const CartScreen = () => {
                 }}>
                 <View
                   style={{
-                    color: COLOURS.blue,
-                    backgroundColor: COLOURS.backgroundLight,
+                    color: COLORS.indigo,
+                    backgroundColor: COLORS.light,
                     alignItems: 'center',
                     justifyContent: 'center',
                     padding: 12,
@@ -391,7 +392,7 @@ const CartScreen = () => {
                     style={{
                       fontSize: 10,
                       fontWeight: '900',
-                      color: COLOURS.blue,
+                      color: COLORS.indigo,
                       letterSpacing: 1,
                     }}>
                     VISA
@@ -401,7 +402,7 @@ const CartScreen = () => {
                   <Text
                     style={{
                       fontSize: 14,
-                      color: COLOURS.black,
+                      color: COLORS.dark,
                       fontWeight: '500',
                     }}>
                     Visa Classic
@@ -409,7 +410,7 @@ const CartScreen = () => {
                   <Text
                     style={{
                       fontSize: 12,
-                      color: COLOURS.black,
+                      color: COLORS.dark,
                       fontWeight: '400',
                       lineHeight: 20,
                       opacity: 0.5,
@@ -420,7 +421,7 @@ const CartScreen = () => {
               </View>
               <Icon
                 name="chevron-right"
-                style={{fontSize: 22, color: COLOURS.black}}
+                style={{fontSize: 22, color: COLORS.dark}}
               />
             </View>
           </View>
@@ -433,7 +434,7 @@ const CartScreen = () => {
             <Text
               style={{
                 fontSize: 16,
-                color: COLOURS.black,
+                color: COLORS.dark,
                 fontWeight: '500',
                 letterSpacing: 1,
                 marginBottom: 20,
@@ -452,7 +453,7 @@ const CartScreen = () => {
                   fontSize: 12,
                   fontWeight: '400',
                   maxWidth: '80%',
-                  color: COLOURS.black,
+                  color: COLORS.dark,
                   opacity: 0.5,
                 }}>
                 Subtotal
@@ -461,7 +462,7 @@ const CartScreen = () => {
                 style={{
                   fontSize: 12,
                   fontWeight: '400',
-                  color: COLOURS.black,
+                  color: COLORS.dark,
                   opacity: 0.8,
                 }}>
                 &#8377;{total}.00
@@ -479,7 +480,7 @@ const CartScreen = () => {
                   fontSize: 12,
                   fontWeight: '400',
                   maxWidth: '80%',
-                  color: COLOURS.black,
+                  color: COLORS.dark,
                   opacity: 0.5,
                 }}>
                 Shipping Tax
@@ -488,7 +489,7 @@ const CartScreen = () => {
                 style={{
                   fontSize: 12,
                   fontWeight: '400',
-                  color: COLOURS.black,
+                  color: COLORS.dark,
                   opacity: 0.8,
                 }}>
                 &#8377;{total / 20}
@@ -505,7 +506,7 @@ const CartScreen = () => {
                   fontSize: 12,
                   fontWeight: '400',
                   maxWidth: '80%',
-                  color: COLOURS.black,
+                  color: COLORS.dark,
                   opacity: 0.5,
                 }}>
                 Total
@@ -514,7 +515,7 @@ const CartScreen = () => {
                 style={{
                   fontSize: 18,
                   fontWeight: '500',
-                  color: COLOURS.black,
+                  color: COLORS.dark,
                 }}>
                 &#8377;{total + total / 20}
               </Text>
@@ -537,7 +538,7 @@ const CartScreen = () => {
           style={{
             width: '86%',
             height: '90%',
-            backgroundColor: COLOURS.blue,
+            backgroundColor: COLORS.indigo,
             borderRadius: 20,
             justifyContent: 'center',
             alignItems: 'center',
@@ -547,7 +548,7 @@ const CartScreen = () => {
               fontSize: 12,
               fontWeight: '500',
               letterSpacing: 1,
-              color: COLOURS.white,
+              color: COLORS.white,
               textTransform: 'uppercase',
             }}>
             CHECKOUT (&#8377;{total + total / 20} )
