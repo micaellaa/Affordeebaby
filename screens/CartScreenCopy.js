@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/core";
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -10,19 +11,19 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import COLORS from '../consts/colors';
 import products from '../consts/products';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+//import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const MyCart = ({navigation}) => {
-  const [item, setProduct] = useState();
-  const [total, setTotal] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      getDataFromDB();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
+const CartScreen = () => {
+    const navigation = useNavigation();
+    const [product, setProduct] = useState();
+    const [total, setTotal] = useState(null);
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            getDataFromDB();
+        });
+        return unsubscribe;
+    }, [navigation]);
 
   //get data from local DB by ID
   const getDataFromDB = async () => {
@@ -30,9 +31,9 @@ const MyCart = ({navigation}) => {
     items = JSON.parse(items);
     let productData = [];
     if (items) {
-      products.forEach(data => {
-        if (items.includes(data.id)) {
-          productData.push(data);
+      items.forEach(product => {
+        if (items.includes(product.id)) {
+          productData.push(product);
           return;
         }
       });
@@ -48,8 +49,8 @@ const MyCart = ({navigation}) => {
   const getTotal = productData => {
     let total = 0;
     for (let index = 0; index < productData.length; index++) {
-      let price = productData[index].price;
-      total = total + price;
+      let productPrice = productData[index].price;
+      total = total + productPrice;
     }
     setTotal(total);
   };
@@ -86,11 +87,11 @@ const MyCart = ({navigation}) => {
     navigation.navigate('Home');
   };
 
-  const renderProducts = (data, index) => {
+  const renderProducts = (product, index) => {
     return (
       <TouchableOpacity
-        key={data.key}
-        onPress={() => navigation.navigate('ProductInfo', {productID: data.id})}
+        key={product.key}
+        onPress={() => navigation.navigate('DetailsScreen', {productID: product.id})}
         style={{
           width: '100%',
           height: 100,
@@ -105,12 +106,12 @@ const MyCart = ({navigation}) => {
             padding: 14,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: COLORS.backgroundLight,
+            backgroundColor: COLORS.light,
             borderRadius: 10,
             marginRight: 22,
           }}>
           <Image
-            source={data.img}
+            source={product.img}
             style={{
               width: '100%',
               height: '100%',
@@ -129,11 +130,11 @@ const MyCart = ({navigation}) => {
               style={{
                 fontSize: 14,
                 maxWidth: '100%',
-                color: COLORS.black,
+                color: COLORS.dark,
                 fontWeight: '600',
                 letterSpacing: 1,
               }}>
-              {data.name}
+              {product.name}
             </Text>
             <View
               style={{
@@ -149,11 +150,11 @@ const MyCart = ({navigation}) => {
                   maxWidth: '85%',
                   marginRight: 4,
                 }}>
-                $;{data.price}
+                &#8377;{product.price}
               </Text>
               <Text>
-                (~$;
-                {data.price + data.price / 20})
+                (~&#8377;
+                {product.price + product.price / 20})
               </Text>
             </View>
           </View>
@@ -174,14 +175,14 @@ const MyCart = ({navigation}) => {
                   marginRight: 20,
                   padding: 4,
                   borderWidth: 1,
-                  borderColor: COLORS.backgroundMedium,
+                  borderColor: COLORS.light,
                   opacity: 0.5,
                 }}>
-                <MaterialCommunityIcons
+                <Icon
                   name="minus"
                   style={{
                     fontSize: 16,
-                    color: COLORS.backgroundDark,
+                    color: COLORS.dark,
                   }}
                 />
               </View>
@@ -192,25 +193,25 @@ const MyCart = ({navigation}) => {
                   marginLeft: 20,
                   padding: 4,
                   borderWidth: 1,
-                  borderColor: COLORS.backgroundMedium,
+                  borderColor: COLORS.light,
                   opacity: 0.5,
                 }}>
-                <MaterialCommunityIcons
+                <Icon
                   name="plus"
                   style={{
                     fontSize: 16,
-                    color: COLORS.backgroundDark,
+                    color: COLORS.dark,
                   }}
                 />
               </View>
             </View>
-            <TouchableOpacity onPress={() => removeItemFromCart(data.id)}>
-              <MaterialCommunityIcons
+            <TouchableOpacity onPress={() => removeItemFromCart(product.id)}>
+              <Icon
                 name="delete-outline"
                 style={{
                   fontSize: 16,
-                  color: COLORS.backgroundDark,
-                  backgroundColor: COLORS.backgroundLight,
+                  color: COLORS.dark,
+                  backgroundColor: COLORS.light,
                   padding: 8,
                   borderRadius: 100,
                 }}
@@ -241,13 +242,13 @@ const MyCart = ({navigation}) => {
             alignItems: 'center',
           }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <MaterialCommunityIcons
+            <Icon
               name="chevron-left"
               style={{
                 fontSize: 18,
-                color: COLORS.backgroundDark,
+                color: COLORS.dark,
                 padding: 12,
-                backgroundColor: COLORS.backgroundLight,
+                backgroundColor: COLORS.light,
                 borderRadius: 12,
               }}
             />
@@ -255,7 +256,7 @@ const MyCart = ({navigation}) => {
           <Text
             style={{
               fontSize: 14,
-              color: COLORS.black,
+              color: COLORS.dark,
               fontWeight: '400',
             }}>
             Order Details
@@ -265,7 +266,7 @@ const MyCart = ({navigation}) => {
         <Text
           style={{
             fontSize: 20,
-            color: COLORS.black,
+            color: COLORS.dark,
             fontWeight: '500',
             letterSpacing: 1,
             paddingTop: 20,
@@ -275,7 +276,7 @@ const MyCart = ({navigation}) => {
           My Cart
         </Text>
         <View style={{paddingHorizontal: 16}}>
-          {item ? item.map(renderProducts) : null}
+          {product ? product.map(renderProducts) : null}
         </View>
         <View>
           <View
@@ -286,7 +287,7 @@ const MyCart = ({navigation}) => {
             <Text
               style={{
                 fontSize: 16,
-                color: COLORS.black,
+                color: COLORS.darkk,
                 fontWeight: '500',
                 letterSpacing: 1,
                 marginBottom: 20,
@@ -307,19 +308,19 @@ const MyCart = ({navigation}) => {
                 }}>
                 <View
                   style={{
-                    color: COLORS.blue,
-                    backgroundColor: COLORS.backgroundLight,
+                    color: COLORS.indigo,
+                    backgroundColor: COLORS.light,
                     alignItems: 'center',
                     justifyContent: 'center',
                     padding: 12,
                     borderRadius: 10,
                     marginRight: 18,
                   }}>
-                  <MaterialCommunityIcons
+                  <Icon
                     name="truck-delivery-outline"
                     style={{
                       fontSize: 18,
-                      color: COLORS.blue,
+                      color: COLORS.indigo,
                     }}
                   />
                 </View>
@@ -327,7 +328,7 @@ const MyCart = ({navigation}) => {
                   <Text
                     style={{
                       fontSize: 14,
-                      color: COLORS.black,
+                      color: COLORS.dark,
                       fontWeight: '500',
                     }}>
                     2 Petre Melikishvili St.
@@ -335,7 +336,7 @@ const MyCart = ({navigation}) => {
                   <Text
                     style={{
                       fontSize: 12,
-                      color: COLORS.black,
+                      color: COLORS.dark,
                       fontWeight: '400',
                       lineHeight: 20,
                       opacity: 0.5,
@@ -344,9 +345,9 @@ const MyCart = ({navigation}) => {
                   </Text>
                 </View>
               </View>
-              <MaterialCommunityIcons
+              <Icon
                 name="chevron-right"
-                style={{fontSize: 22, color: COLORS.black}}
+                style={{fontSize: 22, color: COLORS.dark}}
               />
             </View>
           </View>
@@ -358,7 +359,7 @@ const MyCart = ({navigation}) => {
             <Text
               style={{
                 fontSize: 16,
-                color: COLORS.black,
+                color: COLORS.dark,
                 fontWeight: '500',
                 letterSpacing: 1,
                 marginBottom: 20,
@@ -379,8 +380,8 @@ const MyCart = ({navigation}) => {
                 }}>
                 <View
                   style={{
-                    color: COLORS.blue,
-                    backgroundColor: COLORS.backgroundLight,
+                    color: COLORS.indigo,
+                    backgroundColor: COLORS.light,
                     alignItems: 'center',
                     justifyContent: 'center',
                     padding: 12,
@@ -391,7 +392,7 @@ const MyCart = ({navigation}) => {
                     style={{
                       fontSize: 10,
                       fontWeight: '900',
-                      color: COLORS.blue,
+                      color: COLORS.indigo,
                       letterSpacing: 1,
                     }}>
                     VISA
@@ -401,7 +402,7 @@ const MyCart = ({navigation}) => {
                   <Text
                     style={{
                       fontSize: 14,
-                      color: COLORS.black,
+                      color: COLORS.dark,
                       fontWeight: '500',
                     }}>
                     Visa Classic
@@ -409,7 +410,7 @@ const MyCart = ({navigation}) => {
                   <Text
                     style={{
                       fontSize: 12,
-                      color: COLORS.black,
+                      color: COLORS.dark,
                       fontWeight: '400',
                       lineHeight: 20,
                       opacity: 0.5,
@@ -418,9 +419,9 @@ const MyCart = ({navigation}) => {
                   </Text>
                 </View>
               </View>
-              <MaterialCommunityIcons
+              <Icon
                 name="chevron-right"
-                style={{fontSize: 22, color: COLORS.black}}
+                style={{fontSize: 22, color: COLORS.dark}}
               />
             </View>
           </View>
@@ -433,7 +434,7 @@ const MyCart = ({navigation}) => {
             <Text
               style={{
                 fontSize: 16,
-                color: COLORS.black,
+                color: COLORS.dark,
                 fontWeight: '500',
                 letterSpacing: 1,
                 marginBottom: 20,
@@ -452,7 +453,7 @@ const MyCart = ({navigation}) => {
                   fontSize: 12,
                   fontWeight: '400',
                   maxWidth: '80%',
-                  color: COLORS.black,
+                  color: COLORS.dark,
                   opacity: 0.5,
                 }}>
                 Subtotal
@@ -461,10 +462,10 @@ const MyCart = ({navigation}) => {
                 style={{
                   fontSize: 12,
                   fontWeight: '400',
-                  color: COLORS.black,
+                  color: COLORS.dark,
                   opacity: 0.8,
                 }}>
-                ${total}.00
+                &#8377;{total}.00
               </Text>
             </View>
             <View
@@ -479,7 +480,7 @@ const MyCart = ({navigation}) => {
                   fontSize: 12,
                   fontWeight: '400',
                   maxWidth: '80%',
-                  color: COLORS.black,
+                  color: COLORS.dark,
                   opacity: 0.5,
                 }}>
                 Shipping Tax
@@ -488,10 +489,10 @@ const MyCart = ({navigation}) => {
                 style={{
                   fontSize: 12,
                   fontWeight: '400',
-                  color: COLORS.black,
+                  color: COLORS.dark,
                   opacity: 0.8,
                 }}>
-                ${total / 20}
+                &#8377;{total / 20}
               </Text>
             </View>
             <View
@@ -505,7 +506,7 @@ const MyCart = ({navigation}) => {
                   fontSize: 12,
                   fontWeight: '400',
                   maxWidth: '80%',
-                  color: COLORS.black,
+                  color: COLORS.dark,
                   opacity: 0.5,
                 }}>
                 Total
@@ -514,9 +515,9 @@ const MyCart = ({navigation}) => {
                 style={{
                   fontSize: 18,
                   fontWeight: '500',
-                  color: COLORS.black,
+                  color: COLORS.dark,
                 }}>
-                ${total + total / 20}
+                &#8377;{total + total / 20}
               </Text>
             </View>
           </View>
@@ -537,7 +538,7 @@ const MyCart = ({navigation}) => {
           style={{
             width: '86%',
             height: '90%',
-            backgroundColor: COLORS.blue,
+            backgroundColor: COLORS.indigo,
             borderRadius: 20,
             justifyContent: 'center',
             alignItems: 'center',
@@ -550,7 +551,7 @@ const MyCart = ({navigation}) => {
               color: COLORS.white,
               textTransform: 'uppercase',
             }}>
-            CHECKOUT (${total + total / 20} )
+            CHECKOUT (&#8377;{total + total / 20} )
           </Text>
         </TouchableOpacity>
       </View>
@@ -558,4 +559,4 @@ const MyCart = ({navigation}) => {
   );
 };
 
-export default MyCart;
+export default CartScreen;

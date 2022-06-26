@@ -1,27 +1,44 @@
-import { useNavigation } from '@react-navigation/core';
 import React, {useState, useEffect} from 'react';
-import {View, Image, Text, StyleSheet, ToastAndroid} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {
+  View,
+  Text,
+  StatusBar,
+  ScrollView,
+  TouchableOpacity,
+  FlatList,
+  Image,
+  Dimensions,
+  Animated,
+  ToastAndroid,
+} from 'react-native';
 import COLORS from '../consts/colors';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import products from '../consts/products';
+import Entypo from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const DetailsScreen = ({route, navigation}) => {
+  const {productID} = route.params;
 
-const DetailsScreen = ({route}) => {
-    const navigation = useNavigation();
-    //const route = useRoute();
-    const productID = route.params;
-    
-    const [product, setProduct] = useState({});
-    useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-            getDataFromDB();
-        });
-        return unsubscribe;
-    }, [navigation]);
+  const [item, setProduct] = useState({});
 
-    const getDataFromDB = async () => {
+  const width = Dimensions.get('window').width;
+
+  const scrollX = new Animated.Value(0);
+
+  let position = Animated.divide(scrollX, width);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getDataFromDB();
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  //get product data by productID
+
+  const getDataFromDB = async () => {
     for (let index = 0; index < products.length; index++) {
       if (products[index].id == productID) {
         await setProduct(products[index]);
@@ -30,13 +47,14 @@ const DetailsScreen = ({route}) => {
     }
   };
 
-    const addToCart = async id => {
+  //add to cart
+
+  const addToCart = async id => {
     let itemArray = await AsyncStorage.getItem('cartItems');
     itemArray = JSON.parse(itemArray);
     if (itemArray) {
       let array = itemArray;
       array.push(id);
-      //itemArray = array;
 
       try {
         await AsyncStorage.setItem('cartItems', JSON.stringify(array));
@@ -60,162 +78,291 @@ const DetailsScreen = ({route}) => {
         navigation.navigate('Quickshop');
       } catch (error) {
         return error;
-      } 
+      }
     }
   };
-    return ( 
+
+  //product horizontal scroll product card
+  const renderProduct = ({item, index}) => {
+    return (
+      <View
+        style={{
+          width: width,
+          height: 240,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Image
+          source={item}
+          style={{
+            width: '100%',
+            height: '100%',
+            resizeMode: 'contain',
+          }}
+        />
+      </View>
+    );
+  };
+
+  return (
     <View
-    style={{
-        flex: 1,
+      style={{
+        width: '100%',
+        height: '100%',
         backgroundColor: COLORS.white,
+        position: 'relative',
       }}>
-      <View style={styles.header}>
-        <Icon name="arrow-back" size={28} onPress={() => navigation.goBack()} />
-        <Icon name="shopping-cart" size={28} onPress= {() => navigation.navigate('ShoppingCart')}/>
-      </View>
-      <View style={styles.imageContainer}>
-        <Image source={product.img} style={ {width: 400, height: 400, resizeMode: 'contain', flex: 1}} />
-      </View>
-      <View style={styles.detailsContainer}>
+      <StatusBar
+        backgroundColor={COLORS.backgroundLight}
+        barStyle="dark-content"
+      />
+      <ScrollView>
         <View
           style={{
-            marginLeft: 20,
-            flexDirection: 'row',
-            alignItems: 'flex-end',
-          }}>
-          <View style={styles.line} />
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>Best choice</Text>
-        </View>
-        <View
-          style={{
-            marginLeft: 20,
-            marginTop: 20,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+            width: '100%',
+            backgroundColor: COLORS.backgroundLight,
+            borderBottomRightRadius: 20,
+            borderBottomLeftRadius: 20,
+            position: 'relative',
+            justifyContent: 'center',
             alignItems: 'center',
+            marginBottom: 4,
           }}>
-          <Text style={{fontSize: 22, fontWeight: 'bold'}}>{product.name}</Text>
-          <View style={styles.priceTag}>
-            <Text
-              style={{
-                marginLeft: 15,
-                color: COLORS.white,
-                fontWeight: 'bold',
-                fontSize: 16,
-              }}>
-              ${product.price}
-            </Text>
+          <View
+            style={{
+              width: '100%',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingTop: 16,
+              paddingLeft: 16,
+            }}>
+            <TouchableOpacity onPress={() => navigation.goBack('Home')}>
+              <Entypo
+                name="chevron-left"
+                style={{
+                  fontSize: 18,
+                  color: COLORS.backgroundDark,
+                  padding: 12,
+                  backgroundColor: COLORS.white,
+                  borderRadius: 10,
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={item.productImageList ? item.productImageList : null}
+            horizontal
+            renderItem={renderProduct}
+            showsHorizontalScrollIndicator={false}
+            decelerationRate={0.8}
+            snapToInterval={width}
+            bounces={false}
+            onScroll={Animated.event(
+              [{nativeEvent: {contentOffset: {x: scrollX}}}],
+              {useNativeDriver: false},
+            )}
+          />
+          <View
+            style={{
+              width: '100%',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 16,
+              marginTop: 32,
+            }}>
+            {item.productImageList
+              ? item.productImageList.map((data, index) => {
+                  let opacity = position.interpolate({
+                    inputRange: [index - 1, index, index + 1],
+                    outputRange: [0.2, 1, 0.2],
+                    extrapolate: 'clamp',
+                  });
+                  return (
+                    <Animated.View
+                      key={index}
+                      style={{
+                        width: '16%',
+                        height: 2.4,
+                        backgroundColor: COLORS.black,
+                        opacity,
+                        marginHorizontal: 4,
+                        borderRadius: 100,
+                      }}></Animated.View>
+                  );
+                })
+              : null}
           </View>
         </View>
-        <View style={{paddingHorizontal: 20, marginTop: 10}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>About</Text>
+        <View
+          style={{
+            paddingHorizontal: 16,
+            marginTop: 6,
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 14,
+            }}>
+            <Entypo
+              name="shopping-cart"
+              style={{
+                fontSize: 18,
+                color: COLORS.blue,
+                marginRight: 6,
+              }}
+            />
+            <Text
+              style={{
+                fontSize: 12,
+                color: COLORS.black,
+              }}>
+              Shopping
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginVertical: 4,
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text
+              style={{
+                fontSize: 24,
+                fontWeight: '600',
+                letterSpacing: 0.5,
+                marginVertical: 4,
+                color: COLORS.black,
+                maxWidth: '84%',
+              }}>
+              {item.name}
+            </Text>
+            <Ionicons
+              name="link-outline"
+              style={{
+                fontSize: 24,
+                color: COLORS.blue,
+                backgroundColor: COLORS.blue + 10,
+                padding: 8,
+                borderRadius: 100,
+              }}
+            />
+          </View>
           <Text
             style={{
-              color: 'grey',
-              fontSize: 16,
-              lineHeight: 22,
-              marginTop: 10,
+              fontSize: 12,
+              color: COLORS.black,
+              fontWeight: '400',
+              letterSpacing: 1,
+              opacity: 0.5,
+              lineHeight: 20,
+              maxWidth: '85%',
+              maxHeight: 44,
+              marginBottom: 18,
             }}>
-            {product.about}
+            {item.about}
           </Text>
           <View
             style={{
-              marginTop: 20,
               flexDirection: 'row',
+              alignItems: 'center',
               justifyContent: 'space-between',
+              marginVertical: 14,
+              borderBottomColor: COLORS.backgroundLight,
+              borderBottomWidth: 1,
+              paddingBottom: 20,
             }}>
             <View
               style={{
                 flexDirection: 'row',
+                width: '80%',
                 alignItems: 'center',
               }}>
-              <View style={styles.borderBtn}>
-                <Text style={styles.borderBtnText}>-</Text>
-              </View>
-              <Text
+              <View
                 style={{
-                  fontSize: 20,
-                  marginHorizontal: 10,
-                  fontWeight: 'bold',
+                  color: COLORS.blue,
+                  backgroundColor: COLORS.backgroundLight,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: 12,
+                  borderRadius: 100,
+                  marginRight: 10,
                 }}>
-                1
-              </Text>
-              <View style={styles.borderBtn}>
-                <Text style={styles.borderBtnText}>+</Text>
+                <Entypo
+                  name="location-pin"
+                  style={{
+                    fontSize: 16,
+                    color: COLORS.blue,
+                  }}
+                />
               </View>
+              <Text> Rustaveli Ave 57,{'\n'}17-001, Batume</Text>
             </View>
-
-            <View style={styles.buyBtn}>
-              <TouchableOpacity
-              onPress={() => addToCart(product.id)} 
-              style={styles.buyBtn}
-              >
-                <Text style={{fontSize: 20, color: 'white'}}>add to cart</Text>
-                </TouchableOpacity>
-            </View>
+            <Entypo
+              name="chevron-right"
+              style={{
+                fontSize: 22,
+                color: COLORS.backgroundDark,
+              }}
+            />
+          </View>
+          <View
+            style={{
+              paddingHorizontal: 16,
+            }}>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: '500',
+                maxWidth: '85%',
+                color: COLORS.black,
+                marginBottom: 4,
+              }}>
+              &#8377; {item.price}.00
+            </Text>
+            <Text>
+              Tax Rate 2%~ &#8377;{item.price / 20} (&#8377;
+              {item.price + item.price / 20})
+            </Text>
           </View>
         </View>
+      </ScrollView>
+
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 10,
+          height: '8%',
+          width: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity
+          onPress={() => (item.isAvailable ? addToCart(item.id) : null)}
+          style={{
+            width: '86%',
+            height: '90%',
+            backgroundColor: COLORS.blue,
+            borderRadius: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontSize: 12,
+              fontWeight: '500',
+              letterSpacing: 1,
+              color: COLORS.white,
+              textTransform: 'uppercase',
+            }}>
+            {item.isAvailable ? 'Add to cart' : 'Not Avialable'}
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
 
-
-const styles = StyleSheet.create({
-    header: {
-        paddingHorizontal: 20,
-        marginTop: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    imageContainer: {
-        flex: 0.45,
-        marginTop: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    detailsContainer: {
-        flex: 0.55,
-        backgroundColor: COLORS.light,
-        marginHorizontal: 7,
-        marginBottom: 7,
-    borderRadius: 20,
-    marginTop: 30,
-    paddingTop: 30,
-  },
-  line: {
-    width: 25,
-    height: 2,
-    backgroundColor: COLORS.dark,
-    marginBottom: 5,
-    marginRight: 3,
-  },
-  borderBtn: {
-    borderColor: 'grey',
-    borderWidth: 1,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 60,
-    height: 40,
-  },
-  borderBtnText: {fontWeight: 'bold', fontSize: 28},
-  buyBtn: {
-    width: 130,
-    height: 50,
-    backgroundColor: COLORS.indigo,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 30,
-  },
-  priceTag: {
-    backgroundColor: COLORS.indigo,
-    width: 80,
-    height: 40,
-    justifyContent: 'center',
-    borderTopLeftRadius: 25,
-    borderBottomLeftRadius: 25,
-  },
-}); 
-
-export default DetailsScreen; 
+export default DetailsScreen;
