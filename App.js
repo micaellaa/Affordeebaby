@@ -8,6 +8,8 @@ import RegisterScreen from './screens/RegisterScreen';
 import HomeScreen from './screens/HomeScreen';
 import RetailersScreen from './screens/RetailersScreen';
 import ShoppingScreen from './screens/ShoppingScreen';
+import DetailsScreen from './screens/DetailsScreen';
+import CartScreen from './screens/CartScreen';
 import FindFriendsScreen from './screens/FindFriendsScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
@@ -22,6 +24,8 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Retailers" component={RetailersScreen} />
         <Stack.Screen name="Quickshop" component={ShoppingScreen} />
+        <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen name="ShoppingCart" component={CartScreen} />
         <Stack.Screen name="FindFriends" component={FindFriendsScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
       </Stack.Navigator>

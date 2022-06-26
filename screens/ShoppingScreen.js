@@ -117,7 +117,7 @@ const ShoppingScreen = () => {
           Product Shop
           </Text>
           </View>
-          <Icon name="shopping-cart" size={28} onPress={() => navigation.navigate('Cart')} />
+          <Icon name="shopping-cart" size={28} onPress={() => navigation.navigate('ShoppingCart')} />
           <Icon name="settings" size={28} />
           </View>
           <View style={{marginTop: 30, flexDirection: 'row', paddingHorizontal: 50}}>
