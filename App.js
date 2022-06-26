@@ -30,10 +30,8 @@ export default function App() {
         <Stack.Screen name="Retailers" component={RetailersScreen} />
         <Stack.Screen name="Quickshop" component={ShoppingScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
-        <Stack.Screen name="ShoppingCart" component={CartScreen} />
         <Stack.Screen name="FindFriends" component={FindFriendsScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
         <Stack.Screen name="Cart" component={CartScreen} />
         <Stack.Screen
           name="OtherUserProfile"
@@ -52,3 +50,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+/*deleted
+<Stack.Screen name="ShoppingCart" component={CartScreen} />*/
