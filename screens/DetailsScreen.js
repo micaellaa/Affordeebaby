@@ -53,7 +53,7 @@ const DetailsScreen = ({navigation, route}) => {
       }}>
       <View style={styles.header}>
         <Icon name="arrow-back" size={28} onPress={() => navigation.goBack()} />
-        <Icon name="shopping-cart" size={28} onPress= {() => navigation.navigate('Cart')}/>
+        <Icon name="shopping-cart" size={28} onPress= {() => navigation.navigate('ShoppingCart')}/>
       </View>
       <View style={styles.imageContainer}>
         <Image source={product.img} style={{resizeMode: 'contain', flex: 1}} />
