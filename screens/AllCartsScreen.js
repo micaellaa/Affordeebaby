@@ -1,9 +1,11 @@
 import { useNavigation } from "@react-navigation/core";
 //import { signOut } from 'firebase/auth';
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { KeyboardAvoidingView, TextInput, View } from "react-native";
 //import { TouchableOpacity } from "react-native";
 import { authentication } from "../firebase/firebase-config";
+import { doc, getDoc } from "firebase/firestore";
+import { firestore } from "../firebase/firebase-config";
 import {
   StyleSheet,
   Text,
@@ -14,83 +16,73 @@ import {
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
-//import { authentication } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
 import products from "../consts/products";
-/*import { ScrollView } from 'react-native-gesture-handler';*/
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
-const ShoppingScreen = () => {
+const AllCartsScreen = () => {
   const navigation = useNavigation();
-  const [catergoryIndex, setCategoryIndex] = React.useState(0);
-  const categories = ["POPULAR", "TOPS", "BOTTOMS", "DRESSES"];
-  const CategoryList = () => {
-    return (
-      <View style={styles.categoryContainer}>
-        {categories.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            activeOpacity={0.8}
-            onPress={() => setCategoryIndex(index)}
-          >
-            <Text
-              style={[
-                styles.categoryText,
-                catergoryIndex === index && styles.categoryTextSelected,
-              ]}
-            >
-              {item}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-    );
-  };
 
-  const Card = ({ product }) => {
+  //get array of cart ids
+  const [carts1, setCarts1] = useState("");
+
+  const user = authentication.currentUser;
+  const userUID = user.uid;
+  const usersRef = doc(firestore, "users", userUID);
+
+  useEffect(() => {
+    async function fetchCarts() {
+      const docSnap = await getDoc(usersRef);
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+      }
+      try {
+        console.log("try entered");
+        const carts = docSnap.get("carts");
+        console.log("carts: ", carts);
+        setCarts1(carts);
+      } catch (error) {
+        console.log("Error in finding carts", error);
+      }
+    }
+    fetchCarts();
+  }, []);
+
+  console.log("carts1: ", carts1);
+
+  const Card = ({ cartID }) => {
+    const [name, setName] = useState("");
+    console.log("cartID into Card:", cartID);
+    //get cart name
+    const cartsRef = doc(firestore, "carts", cartID);
+
+    useEffect(() => {
+      async function fetchCart() {
+        const docSnap = await getDoc(cartsRef);
+        if (docSnap.exists()) {
+          console.log("Document data:", docSnap.data());
+        }
+        try {
+          console.log("try entered");
+          const cN = docSnap.get("cartname");
+          setName(cN);
+        } catch (error) {
+          console.log("Error in finding carts", error);
+        }
+      }
+      fetchCart();
+    }, []);
+
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => navigation.navigate("Details", product)}
+        onPress={() => navigation.navigate("Cart", cartID)}
       >
         <View style={styles.card}>
-          <View style={{ alignItems: "flex-end" }}>
-            <View
-              style={{
-                width: 30,
-                height: 30,
-                borderRadius: 20,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: product.like
-                  ? "rgba(245, 42, 42,0.2)"
-                  : "rgba(0,0,0,0.2) ",
-              }}
-            >
-              <Icon
-                name="favorite"
-                size={18}
-                color={product.like ? COLORS.red : COLORS.black}
-              />
-            </View>
-          </View>
-
-          <View
-            style={{
-              height: 100,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              source={product.img}
-              style={{ flex: 1, resizeMode: "contain" }}
-            />
-          </View>
-
           <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
-            {product.name}
+            {name}
           </Text>
           <View
             style={{
@@ -99,13 +91,10 @@ const ShoppingScreen = () => {
               marginTop: 5,
             }}
           >
-            <Text style={{ fontSize: 19, fontWeight: "bold" }}>
-              ${product.price}
-            </Text>
             <View
               style={{
                 height: 25,
-                width: 25,
+                width: 50,
                 backgroundColor: COLORS.indigo,
                 borderRadius: 5,
                 justifyContent: "center",
@@ -114,12 +103,12 @@ const ShoppingScreen = () => {
             >
               <Text
                 style={{
-                  fontSize: 22,
+                  fontSize: 18,
                   color: COLORS.white,
                   fontWeight: "bold",
                 }}
               >
-                +
+                Edit
               </Text>
             </View>
           </View>
@@ -141,7 +130,7 @@ const ShoppingScreen = () => {
           <Text
             style={{ fontSize: 25, fontWeight: "bold", paddingHorizontal: 50 }}
           >
-            Welcome to
+            My
           </Text>
           <Text
             style={{
@@ -151,15 +140,9 @@ const ShoppingScreen = () => {
               paddingHorizontal: 50,
             }}
           >
-            Product Shop
+            Carts
           </Text>
         </View>
-        <Icon
-          name="shopping-cart"
-          size={28}
-          onPress={() => navigation.navigate("AllCarts")}
-        />
-        <Icon name="settings" size={28} />
       </View>
       <View
         style={{ marginTop: 30, flexDirection: "row", paddingHorizontal: 50 }}
@@ -172,7 +155,6 @@ const ShoppingScreen = () => {
           <Icon name="sort" size={30} color={COLORS.white} />
         </View>
       </View>
-      <CategoryList />
       <FlatList
         columnWrapperStyle={{ justifyContent: "space-between" }}
         showsVerticalScrollIndicator={false}
@@ -181,16 +163,16 @@ const ShoppingScreen = () => {
           paddingBottom: 50,
         }}
         numColumns={2}
-        data={products}
+        data={carts1}
         renderItem={({ item }) => {
-          return <Card product={item} />;
+          return <Card cartID={item} />;
         }}
       />
     </View>
   );
 };
 
-export default ShoppingScreen;
+export default AllCartsScreen;
 
 const styles = StyleSheet.create({
   categoryContainer: {
@@ -264,3 +246,60 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+/* fions card
+const Card = ({ product }) => {
+    return (
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate("Details", product)}
+      >
+        <View style={styles.card}>
+          <View
+            style={{
+              height: 100,
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={product.img}
+              style={{ flex: 1, resizeMode: "contain" }}
+            />
+          </View>
+
+          <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
+            {product.name}
+          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 5,
+            }}
+          >
+            <View
+              style={{
+                height: 25,
+                width: 50,
+                backgroundColor: COLORS.indigo,
+                borderRadius: 5,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: COLORS.white,
+                  fontWeight: "bold",
+                }}
+              >
+                Edit
+              </Text>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+  */

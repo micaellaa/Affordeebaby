@@ -14,10 +14,11 @@ import products from "../consts/products";
 import Icon from "react-native-vector-icons/MaterialIcons";
 //import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const CartScreen = () => {
+const CartScreen = (cartID) => {
   const navigation = useNavigation();
   const [product, setProduct] = useState();
   const [total, setTotal] = useState(null);
+
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       getDataFromDB();
@@ -25,7 +26,7 @@ const CartScreen = () => {
     return unsubscribe;
   }, [navigation]);
 
-  //get data from local DB by ID
+  //get data here
   const getDataFromDB = async () => {
     let items = await AsyncStorage.getItem("cartItems");
     items = JSON.parse(items);
@@ -235,6 +236,7 @@ const CartScreen = () => {
     );
   };
 
+  //final return
   return (
     <View
       style={{
@@ -605,3 +607,24 @@ const CartScreen = () => {
 };
 
 export default CartScreen;
+
+/* fions getData
+const getDataFromDB = async () => {
+    let items = await AsyncStorage.getItem("cartItems");
+    items = JSON.parse(items);
+    let productData = [];
+    if (items) {
+      items.forEach((product) => {
+        if (items.includes(product.id)) {
+          productData.push(product);
+          return;
+        }
+      });
+      setProduct(productData);
+      getTotal(productData);
+    } else {
+      setProduct(false);
+      getTotal(false);
+    }
+  };
+  */

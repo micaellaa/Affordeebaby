@@ -13,6 +13,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import DetailsScreen from "./screens/DetailsScreen";
 import CartScreen from "./screens/CartScreen";
 import OtherUserProfileScreen from "./screens/OtherUserProfileScreen";
+import AllCartsScreen from "./screens/AllCartsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +38,7 @@ export default function App() {
           name="OtherUserProfile"
           component={OtherUserProfileScreen}
         />
+        <Stack.Screen name="AllCarts" component={AllCartsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
