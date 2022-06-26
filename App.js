@@ -12,6 +12,7 @@ import FindFriendsScreen from "./screens/FindFriendsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import DetailsScreen from "./screens/DetailsScreen";
 import CartScreen from "./screens/CartScreen";
+import OtherUserProfileScreen from "./screens/OtherUserProfileScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,10 @@ export default function App() {
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
         <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen
+          name="OtherUserProfile"
+          component={OtherUserProfileScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

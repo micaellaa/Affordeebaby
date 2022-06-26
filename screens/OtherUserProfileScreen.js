@@ -3,15 +3,11 @@ import React, { useState, useEffect } from "react";
 import { authentication, firebase } from "../firebase/firebase-config";
 import "firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
+import { ImageBackground, TouchableOpacity } from "react-native";
 import { firestore } from "../firebase/firebase-config";
 
-const FetchProfile = () => {
+const OtherUserProfileScreen = (userUID) => {
   const [users1, setUsers1] = useState("");
-
-  const user = authentication.currentUser;
-  const userUID = user.uid;
-
-  if (!user) return;
 
   const usersRef = doc(firestore, "users", userUID);
 
@@ -33,39 +29,25 @@ const FetchProfile = () => {
     }
     fetchProfileData();
   }, []);
-  /*useEffect(async () => {
-    usersRef.onSnapshot((querySnapshot) => {
-      const users1 = [];
-      querySnapshot.forEach((doc) => {
-        const { heading, text } = doc.data();
-        users1.push({
-          id: doc.id,
-          heading,
-          text,
-        });
-      });
-      setUsers1(users1);
-    });
-  }, []);*/
-
-  /*
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-    uN = docSnap.get(firstName);
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("No such document!");
-    uN = "User Not Found";
-  }*/
 
   return (
-    <View style={{ flex: 1, marginTop: 100 }}>
-      <Text style={StyleSheet.itemHeading}>{users1}'s Profile</Text>
-    </View>
+    <ImageBackground
+      source={require("../assets/palmshadow-bg.png")} //stub image
+      style={styles.container}
+    >
+      <View style={{ flex: 1, marginTop: 100 }}>
+        <Text style={StyleSheet.itemHeading}>{users1}'s Profile</Text>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity onPress={quickShop} style={styles.button}>
+          <Text style={styles.buttonText}>Send friend request!</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
-export default FetchProfile;
+export default OtherUserProfileScreen;
 
 const styles = StyleSheet.create({
   containerFetch: {

@@ -28,10 +28,11 @@ import { authentication } from "../firebase/firebase-config";
 //import FetchUsers from "./FetchUsers";
 
 export default function Searchbar({ value, style }) {
+  const navigation = useNavigation();
   const [queryInput, setQueryInput] = useState("");
 
   //fetchUsers
-  const [users1, setUsers1] = useState([]);
+  const [users1, setUsers1] = useState("");
   //const [usernameInput, setUsernameInput] = useState("");
 
   /*
@@ -94,13 +95,44 @@ export default function Searchbar({ value, style }) {
       where("username", "==", queryInput)
     );
     const querySnapshot = await getDocs(q);
+    const details = [];
     querySnapshot.forEach((doc) => {
       // doc.data() is never undefined for query doc snapshots
       console.log(doc.id, " => ", doc.data());
       const fN = doc.get("firstName");
       const uN = doc.get("username");
-      setUsers1([fN, uN]);
+      details.push(doc.id); //id is users1[2]
     });
+    setUsers1(details);
+  };
+
+  /*
+  const handleSearch = (queryInput) => {
+    const [value, setValue] = useState(""); //fix infinite loop
+    useEffect(() => {
+      async function fetchUserCarts() {
+        const usersRef = doc(firestore, "users", userUID);
+        const q = query(
+          collection(firestore, "users"),
+          where("username", "==", queryInput)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+          const fN = doc.get("firstName");
+          const uN = doc.get("username");
+          setUsers1([fN, uN]);
+        });
+      }
+      fetchUserCarts();
+    }, [value]);
+  };*/
+
+  const handleUserSelected = (userUID) => {
+    //if (!userUID) return;
+    //navigation.navigate("OtherUserProfile", userUID);
+    console.log("handle");
   };
 
   return (
@@ -110,7 +142,7 @@ export default function Searchbar({ value, style }) {
           //resizeMode='center'
           style={styles.searchIcon}
           source={require("../assets/blue-search-icon.png")}
-          onPress={handleSearch(queryInput)}
+          //onPress={handleSearch(queryInput)}
         />
         <TextInput
           value={queryInput}
@@ -128,6 +160,7 @@ export default function Searchbar({ value, style }) {
                         }
                         else setError("Please only enter alphabets")*/
             setQueryInput(text);
+            handleSearch(text);
             //updateSearch(text);
           }}
         />
@@ -144,6 +177,14 @@ export default function Searchbar({ value, style }) {
         ) : (
           <View style={styles.vwClear} />
         )}
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={handleUserSelected(users1)}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>{users1}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

@@ -61,7 +61,6 @@ const FindFriendsScreen = () => {
         ))}
       </View>
       <Searchbar/>
-      <FetchUsers/>
     
     </ImageBackground>
   );
