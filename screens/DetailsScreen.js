@@ -50,6 +50,7 @@ const DetailsScreen = ({ navigation, route }) => {
     if (itemArray) {
       let array = itemArray;
       array.push(id);
+      //itemArray = array;
 
       try {
         await AsyncStorage.setItem("cartItems", JSON.stringify(array));
@@ -169,16 +170,15 @@ const DetailsScreen = ({ navigation, route }) => {
             </Text>
           </View>
         </View>
-        <View style={{ paddingHorizontal: 20, marginTop: 10 }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>About</Text>
+        <View style={{paddingHorizontal: 20, marginTop: 10}}>
+          <Text style={{fontSize: 20, fontWeight: 'bold'}}>About</Text>
           <Text
             style={{
-              color: "grey",
+              color: 'grey',
               fontSize: 16,
               lineHeight: 22,
               marginTop: 10,
-            }}
-          >
+            }}>
             {product.about}
           </Text>
           <View
