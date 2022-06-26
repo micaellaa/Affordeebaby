@@ -36,6 +36,7 @@ const DetailsScreen = ({route}) => {
     if (itemArray) {
       let array = itemArray;
       array.push(id);
+      //itemArray = array;
 
       try {
         await AsyncStorage.setItem('cartItems', JSON.stringify(array));

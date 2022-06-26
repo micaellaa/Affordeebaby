@@ -31,9 +31,9 @@ const CartScreen = () => {
     items = JSON.parse(items);
     let productData = [];
     if (items) {
-      items.forEach(data => {
-        if (items.includes(data?.id)) {
-          productData.push(data);
+      items.forEach(product => {
+        if (items.includes(product.id)) {
+          productData.push(product);
           return;
         }
       });
@@ -49,7 +49,7 @@ const CartScreen = () => {
   const getTotal = productData => {
     let total = 0;
     for (let index = 0; index < productData.length; index++) {
-      let productPrice = productData[index].productPrice;
+      let productPrice = productData[index].price;
       total = total + productPrice;
     }
     setTotal(total);
