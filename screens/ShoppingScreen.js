@@ -43,7 +43,7 @@ const ShoppingScreen = () => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => navigation.navigate('Details', product)}>
+        onPress={() => navigation.navigate('Details', product.id)}>
         <View style={styles.card}>
           <View style={{alignItems: 'flex-end'}}>
             <View
@@ -72,7 +72,7 @@ const ShoppingScreen = () => {
             }}>
             <Image
               source={product.img}
-              style={{flex: 1, resizeMode: 'contain'}}
+              style={{width: 120, height: 120, flex: 1, resizeMode: 'contain'}}
             />
           </View>
 

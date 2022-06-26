@@ -31,9 +31,9 @@ const CartScreen = () => {
     items = JSON.parse(items);
     let productData = [];
     if (items) {
-      items.forEach(product => {
-        if (items.includes(product.id)) {
-          productData.push(product);
+      items.forEach(data => {
+        if (items.includes(data?.id)) {
+          productData.push(data);
           return;
         }
       });

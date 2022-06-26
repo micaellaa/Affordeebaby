@@ -1,18 +1,35 @@
 import { useNavigation } from '@react-navigation/core';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Image, Text, StyleSheet, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../consts/colors';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-//import products from '../consts/products';
+import products from '../consts/products';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const DetailsScreen = ({route}) => {
     const navigation = useNavigation();
     //const route = useRoute();
-    const product = route.params;
-    //add to cart function using async
+    const productID = route.params;
+    
+    const [product, setProduct] = useState({});
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            getDataFromDB();
+        });
+        return unsubscribe;
+    }, [navigation]);
+
+    const getDataFromDB = async () => {
+    for (let index = 0; index < products.length; index++) {
+      if (products[index].id == productID) {
+        await setProduct(products[index]);
+        return;
+      }
+    }
+  };
+
     const addToCart = async id => {
     let itemArray = await AsyncStorage.getItem('cartItems');
     itemArray = JSON.parse(itemArray);
@@ -56,7 +73,7 @@ const DetailsScreen = ({route}) => {
         <Icon name="shopping-cart" size={28} onPress= {() => navigation.navigate('ShoppingCart')}/>
       </View>
       <View style={styles.imageContainer}>
-        <Image source={product.img} style={{resizeMode: 'contain', flex: 1}} />
+        <Image source={product.img} style={ {width: 400, height: 400, resizeMode: 'contain', flex: 1}} />
       </View>
       <View style={styles.detailsContainer}>
         <View
@@ -129,7 +146,7 @@ const DetailsScreen = ({route}) => {
 
             <View style={styles.buyBtn}>
               <TouchableOpacity
-              onPress={() => addToCart} 
+              onPress={() => addToCart(product.id)} 
               style={styles.buyBtn}
               >
                 <Text style={{fontSize: 20, color: 'white'}}>add to cart</Text>
