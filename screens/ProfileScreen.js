@@ -108,6 +108,12 @@ const ProfileScreen = () => {
           <Text style={styles.buttonText}>View Carts</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={() => navigation.navigate("AllCarts")}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Organise Past Orders</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           //onPress={() => navigation.navigate("AllCarts")}
           style={styles.button}
         >
