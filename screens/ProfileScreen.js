@@ -102,13 +102,13 @@ const ProfileScreen = () => {
     <FetchProfile/>
     <View style={styles.buttonContainer}>
         <TouchableOpacity
-          //onPress={quickShop}
+          onPress={() => navigation.navigate("AllCarts")}
           style={styles.button}
         >
-          <Text style={styles.buttonText}>View Cart</Text>
+          <Text style={styles.buttonText}>View Carts</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          //onPress={quickShop}
+          //onPress={() => navigation.navigate("AllCarts")}
           style={styles.button}
         >
           <Text style={styles.buttonText}>Friend Requests</Text>

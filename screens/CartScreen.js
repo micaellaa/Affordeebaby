@@ -74,18 +74,48 @@ const CartScreen = ({ navig, route }) => {
       console.log("product is null");
       return null;
     }
-    const [name, setName] = useState("");
-    //get cart name
 
-    setName(product.name);
     return (
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => navigation.navigate("Details", product)}
       >
         <View style={styles.card}>
+          <View style={{ alignItems: "flex-end" }}>
+            <View
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: 20,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: product.like
+                  ? "rgba(245, 42, 42,0.2)"
+                  : "rgba(0,0,0,0.2) ",
+              }}
+            >
+              <Icon
+                name="favorite"
+                size={18}
+                color={product.like ? COLORS.red : COLORS.black}
+              />
+            </View>
+          </View>
+
+          <View
+            style={{
+              height: 100,
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={product.img}
+              style={{ flex: 1, resizeMode: "contain" }}
+            />
+          </View>
+
           <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
-            {name}
+            {product.name}
           </Text>
           <View
             style={{
@@ -94,10 +124,13 @@ const CartScreen = ({ navig, route }) => {
               marginTop: 5,
             }}
           >
+            <Text style={{ fontSize: 19, fontWeight: "bold" }}>
+              ${product.price}
+            </Text>
             <View
               style={{
                 height: 25,
-                width: 50,
+                width: 25,
                 backgroundColor: COLORS.indigo,
                 borderRadius: 5,
                 justifyContent: "center",
@@ -106,12 +139,12 @@ const CartScreen = ({ navig, route }) => {
             >
               <Text
                 style={{
-                  fontSize: 18,
+                  fontSize: 22,
                   color: COLORS.white,
                   fontWeight: "bold",
                 }}
               >
-                Edit
+                +
               </Text>
             </View>
           </View>
