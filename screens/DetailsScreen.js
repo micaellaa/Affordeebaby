@@ -36,6 +36,26 @@ const DetailsScreen = ({route, navigation}) => {
 
 
   //product horizontal scroll product card
+   const renderProduct = ({item}) => {
+    return (
+      <View
+        style={{
+          width: width,
+          height: 240,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Image
+          source={item}
+          style={{
+            width: 50,
+            height: 50,
+            resizeMode: 'contain',
+          }}
+        />
+      </View>
+    );
+  };
 
   return (
     <View
