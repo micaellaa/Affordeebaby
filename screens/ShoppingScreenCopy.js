@@ -1,22 +1,24 @@
-/*import { useNavigation } from '@react-navigation/core'
-//import { signOut } from 'firebase/auth';
-import React from 'react'
-import { StyleSheet, Text, View, Image, SafeAreaView, FlatList, Dimensions } from 'react-native';
-//import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
-//import { authentication } from "../firebase/firebase-config";
+//import { useNavigation } from '@react-navigation/core';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  StatusBar,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import COLORS from '../consts/colors';
 import products from '../consts/products';
-/*import { ScrollView } from 'react-native-gesture-handler';*/
-/*import Icon from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useNavigation } from '@react-navigation/native';
 
 const ShoppingScreen = () => {
-
-  const navigation = useNavigation()
-
+  const navigation = useNavigation();
   const [catergoryIndex, setCategoryIndex] = React.useState(0);
-  const categories = ['POPULAR', 'TOPS', 'BOTTOMS', 'DRESSES']; 
-  
+  const categories = ["POPULAR", "TOPS", "BOTTOMS", "DRESSES"];
   const CategoryList = () => {
     return (
       <View style={styles.categoryContainer}>
@@ -24,113 +26,291 @@ const ShoppingScreen = () => {
           <TouchableOpacity
             key={index}
             activeOpacity={0.8}
-            onPress={() => setCategoryIndex(index)}>
+            onPress={() => setCategoryIndex(index)}
+          >
             <Text
               style={[
                 styles.categoryText,
                 catergoryIndex === index && styles.categoryTextSelected,
-              ]}>
+              ]}
+            >
               {item}
             </Text>
           </TouchableOpacity>
         ))}
       </View>
     );
-  }; 
-
- const Card = ({product}) => {
-    return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => navigation.navigate('Details', product)}>
-        <View style={styles.card}>
-          <View style={{alignItems: 'flex-end'}}>
+  };
+    
+    //create an product reusable card
+    const ProductCard = ({data}) => {
+        return (
+        <TouchableOpacity
+        onPress={() => navigation.navigate('Details', {productID: data.id})}
+        style={{
+          width: '48%',
+          marginVertical: 14,
+        }}>
+        <View
+          style={{
+            width: '100%',
+            height: 100,
+            borderRadius: 10,
+            backgroundColor: COLORS.backgroundLight,
+            position: 'relative',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginBottom: 8,
+          }}>
+          {data.isOff ? (
             <View
               style={{
-                width: 30,
-                height: 30,
-                borderRadius: 20,
-                justifyContent: 'center',
+                position: 'absolute',
+                width: '20%',
+                height: '24%',
+                backgroundColor: COLORS.green,
+                top: 0,
+                left: 0,
+                borderTopLeftRadius: 10,
+                borderBottomRightRadius: 10,
                 alignItems: 'center',
-                backgroundColor: product.like
-                  ? 'rgba(245, 42, 42,0.2)'
-                  : 'rgba(0,0,0,0.2) ',
+                justifyContent: 'center',
               }}>
-              <Icon
-                name="favorite"
-                size={18}
-                color={product.like ? COLORS.red : COLORS.black}
-              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: COLORS.white,
+                  fontWeight: 'bold',
+                  letterSpacing: 1,
+                }}>
+                {data.offPercentage}%
+              </Text>
             </View>
-          </View>
-
-          <View
+          ) : null}
+          <Image
+            source={data.img}
             style={{
-              height: 100,
-              alignItems: 'center',
-            }}>
-            <Image
-              source={product.img}
-              style={{flex: 1, resizeMode: 'contain'}}
-            />
-          </View>
+              width: '80%',
+              height: '80%',
+              resizeMode: 'contain',
+            }}
+          />
+        </View>
+        <Text
+          style={{
+            fontSize: 12,
+            color: COLORS.black,
+            fontWeight: '600',
+            marginBottom: 2,
+          }}>
+          {data.name}
+        </Text>
+        {data.category == 'accessory' ? (
+          data.isAvailable ? (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <FontAwesome
+                name="circle"
+                style={{
+                  fontSize: 12,
+                  marginRight: 6,
+                  color: COLORS.green,
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: COLORS.green,
+                }}>
+                Available
+              </Text>
+            </View>
+          ) : (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <FontAwesome
+                name="circle"
+                style={{
+                  fontSize: 12,
+                  marginRight: 6,
+                  color: COLORS.red,
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: COLORS.red,
+                }}>
+                Unavailable
+              </Text>
+            </View>
+          )
+        ) : null}
+        <Text>$ {data.price}</Text>
+      </TouchableOpacity>
+    );
+  };
 
-          <Text style={{fontWeight: 'bold', fontSize: 17, marginTop: 10}}>
-            {product.name}
+  return (
+    <View
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: COLORS.white,
+      }}>
+      <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View
+          style={{
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: 16,
+          }}>
+          <TouchableOpacity>
+            <Entypo
+              name="shopping-bag"
+              style={{
+                fontSize: 18,
+                color: COLORS.backgroundMedium,
+                padding: 12,
+                borderRadius: 10,
+                backgroundColor: COLORS.backgroundLight,
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('ShoppingCart')}>
+            <MaterialCommunityIcons
+              name="cart"
+              style={{
+                fontSize: 18,
+                color: COLORS.backgroundMedium,
+                padding: 12,
+                borderRadius: 10,
+                borderWidth: 1,
+                borderColor: COLORS.backgroundLight,
+              }}
+            />
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            marginBottom: 10,
+            padding: 16,
+          }}>
+          <Text
+            style={{
+              fontSize: 26,
+              color: COLORS.black,
+              fontWeight: '500',
+              letterSpacing: 1,
+              marginBottom: 10,
+            }}>
+            WELCOME
           </Text>
+          <Text
+            style={{
+              fontSize: 14,
+              color: COLORS.black,
+              fontWeight: '400',
+              letterSpacing: 1,
+              lineHeight: 24,
+            }}>
+            Here to give you maximum savings
+            {'\n'}and an enjoyable shopping experience.
+          </Text>
+        </View>
+        <View
+          style={{
+            padding: 16,
+          }}>
           <View
             style={{
               flexDirection: 'row',
+              alignItems: 'center',
               justifyContent: 'space-between',
-              marginTop: 5,
             }}>
-            <Text style={{fontSize: 19, fontWeight: 'bold'}}>
-              ${product.price}
-            </Text>
             <View
               style={{
-                height: 25,
-                width: 25,
-                backgroundColor: COLORS.green,
-                borderRadius: 5,
-                justifyContent: 'center',
+                flexDirection: 'row',
                 alignItems: 'center',
               }}>
               <Text
-                style={{fontSize: 22, color: COLORS.white, fontWeight: 'bold'}}>
-                +
+                style={{
+                  fontSize: 18,
+                  color: COLORS.black,
+                  fontWeight: '500',
+                  letterSpacing: 1,
+                }}>
+                Products
               </Text>
+              <CategoryList/>
             </View>
           </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+            }}>
+            {items.map(data => {
+              return <ProductCard data={data} key={data.id} />;
+            })}
+          </View>
         </View>
-      </TouchableOpacity>
-    );
-  }; 
-  return (
-    <View
-      style={{flex: 1, paddingHorizontal: 20, backgroundColor: COLORS.white}}>
-      <View style={styles.header}>
-        <View>
-          <Text style={{fontSize: 25, fontWeight: 'bold', paddingHorizontal: 20}}>Welcome to</Text>
-          <Text style={{fontSize: 38, color: COLORS.green, fontWeight: 'bold', paddingHorizontal: 20}}>
-            Product Shop
-          </Text>
-        </View>
-        <Icon name="shopping-cart" size={28} />
-        <Icon name="settings" size={28} />
-      </View>
-      <View style={{marginTop: 30, flexDirection: 'row', paddingHorizontal: 20}}>
-        <View style={styles.searchContainer}>
-          <Icon name="search" size={25} style={{marginLeft: 20}} />
-          <TextInput placeholder="Search" style={styles.input} />
-        </View>
-        <View style={styles.sortBtn}>
-          <Icon name="sort" size={30} color={COLORS.white} />
-        </View>
-      </View>
-      <CategoryList />
-      <FlatList
-        columnWrapperStyle={{justifyContent: 'space-between'}}
+
+        <View
+          style={{
+            padding: 16,
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: COLORS.black,
+                  fontWeight: '500',
+                  letterSpacing: 1,
+                }}>
+                Accessories
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: COLORS.black,
+                  fontWeight: '400',
+                  opacity: 0.5,
+                  marginLeft: 10,
+                }}>
+                78
+              </Text>
+            </View>
+            <Text
+              style={{
+                fontSize: 14,
+                color: COLORS.blue,
+                fontWeight: '400',
+              }}>
+              SeeAll
+            </Text>
+          </View>
+          <FlatList
+        columnWrapperStyle={{ justifyContent: "space-between" }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           marginTop: 10,
@@ -138,89 +318,17 @@ const ShoppingScreen = () => {
         }}
         numColumns={2}
         data={products}
-        renderItem={({item}) => {
-          return <Card product={item} />;
+        renderItem={({ item }) => {
+          if (item.categoryno == catergoryIndex || catergoryIndex == 0) {
+            return <Card product={item} />;
+          }
+          
         }}
       />
+        </View>
+      </ScrollView>
     </View>
   );
-  
-}
-  
+};
+
 export default ShoppingScreen;
-
-const styles = StyleSheet.create({
-  categoryContainer: {
-    flexDirection: 'row',
-    marginTop: 30,
-    marginBottom: 20,
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-  },
-  categoryText: {fontSize: 16, color: 'grey', fontWeight: 'bold'},
-  categoryTextSelected: {
-    color: COLORS.green,
-    paddingBottom: 5,
-    borderBottomWidth: 2,
-    borderColor: COLORS.green,
-  },
-  card: {
-    height: 225,
-    backgroundColor: COLORS.light,
-    width,
-    marginHorizontal: 2,
-    borderRadius: 10,
-    marginBottom: 20,
-    paddingHorizontal: 15,
-  },
-  header: {
-    marginTop: 30,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  searchContainer: {
-    height: 50,
-    backgroundColor: COLORS.light,
-    borderRadius: 10,
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  input: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    flex: 1,
-    color: COLORS.dark,
-  },
-  sortBtn: {
-    marginLeft: 10,
-    height: 50,
-    width: 50,
-    borderRadius: 10,
-    backgroundColor: COLORS.green,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-   button: {
-    backgroundColor: '#0782F9',
-    width: '60%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 40,
-  },
-  buttonText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  
-
-  
-})*/
