@@ -1,11 +1,3 @@
-Your level of achievement, project scope (one sentence version and a longer descriptive version), as well as
-
-Milestone 1 (Ideation): include problem motivation, proposed core features / user stories, design and plan
-
-Milestone 2 (Prototype): include core features developed, problems encountered
-
-Milestone 3 (Extension): include bugs squashed, edge features developed, problems encountered, and user testing
-
 # Affordeebaby
 
 Affordeebaby is an online shopping tool that allows for a more seamless cross-retailer shopping experience with a focus on consumer cost-saving measures. This is possible with the following features:
@@ -33,10 +25,31 @@ An in-depth paragraph about your project and overview of use.
 - ReactNative 17.0.2
 - Firebase 9 and above
 
-### Installing
+### Installing for testing
 
-- How/where to download your program
-- Any modifications needed to be made to files/folders
+#####On a Mac
+1. Download XCode on your device from the App Store. 
+From our public Github repository: https://github.com/micaellaa/Affordeebaby/settings download the code or open it on GitHub desktop OR clone the repository. Proceed to open the folder on your terminal.
+
+2. Type `npm install`
+
+3. Open XCode in the background. Type `npm start`. Type ‘i’ to view the IOS simulation ran by XCode.
+
+#####On an Android/IOS mobile device
+1. Download Expo Go from the App Store/Google Play
+
+2. From our public Github repository: https://github.com/micaellaa/Affordeebaby/settings download the code or open it on GitHub desktop OR clone the repository. Proceed to open the folder on your terminal.
+
+3. Type `npm install`
+
+4. Type `npm start`. Scan the QR code to view the IOS simulation on Expo.
+
+#####On a Windows (or any) device
+1. From our public Github repository: https://github.com/micaellaa/Affordeebaby/settings download the code or open it on GitHub desktop OR clone the repository. Proceed to open the folder on your terminal.
+
+2. Type `npm install`
+
+3. Type `npm start`. Type ‘w’ to view the IOS simulation on a web browser. Do note that some features may behave differently on a web browser.
 
 ### Executing program
 
