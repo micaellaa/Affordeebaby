@@ -16,7 +16,7 @@ import products, {getProduct} from '../consts/products';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CartContext from "../CartContext.js";
+//import CartContext from "../CartContext.js";
 import { render } from 'react-dom';
 
 const DetailsScreen = ({route, navigation}) => {
@@ -55,6 +55,7 @@ const DetailsScreen = ({route, navigation}) => {
 
   const addToCart = async id => {
     let itemArray = await AsyncStorage.getItem('cartItems');
+    console.log(typeof(itemArray));
     itemArray = JSON.parse(itemArray);
     if (itemArray.length > 0) {
         itemArray = JSON.parse(itemArray);
