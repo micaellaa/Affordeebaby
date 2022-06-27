@@ -77,15 +77,27 @@ const CartScreen = ({ navig, route }) => {
     const [name, setName] = useState("");
     //get cart name
 
-    setName(product.name);
+    //setName(product.name);
     return (
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => navigation.navigate("Details", product)}
       >
         <View style={styles.card}>
+            <View
+            style={{
+              height: 100,
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={product.img}
+              style={{ width: 150, height: 150, flex: 1, resizeMode: "contain" }}
+            />
+          </View>
+          
           <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
-            {name}
+            {product.name}
           </Text>
           <View
             style={{
@@ -94,6 +106,9 @@ const CartScreen = ({ navig, route }) => {
               marginTop: 5,
             }}
           >
+            <Text style={{ fontSize: 19, fontWeight: "bold" }}>
+              ${product.price}
+            </Text>
             <View
               style={{
                 height: 25,
@@ -168,7 +183,8 @@ const CartScreen = ({ navig, route }) => {
         numColumns={2}
         data={productData}
         renderItem={(item) => {
-          return <Card product={item} />;
+            console.log(item);
+          return <Card product={item.item} />;
         }}
       />
     </View>

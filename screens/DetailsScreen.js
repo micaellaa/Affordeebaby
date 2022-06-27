@@ -131,7 +131,7 @@ const DetailsScreen = ({ navigation, route }) => {
       <View style={styles.imageContainer}>
         <Image
           source={product.img}
-          style={{ resizeMode: "contain", flex: 1 }}
+          style={{ width: 300, height: 300, resizeMode: "contain", flex: 1 }}
         />
       </View>
       <View style={styles.detailsContainer}>

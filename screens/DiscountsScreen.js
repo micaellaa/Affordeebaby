@@ -16,16 +16,16 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
 //import { authentication } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
-import products from "../consts/products";
+import discounts from "../consts/discounts";
 /*import { ScrollView } from 'react-native-gesture-handler';*/
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
-const ShoppingScreen = () => {
+const DiscountsScreen = () => {
   const navigation = useNavigation();
   const [catergoryIndex, setCategoryIndex] = React.useState(0);
-  const categories = ["POPULAR", "TOPS", "BOTTOMS", "DRESSES"];
+  const categories = ["ALL", "ZARA", "ASOS", "SHEIN"];
   const CategoryList = () => {
     return (
       <View style={styles.categoryContainer}>
@@ -33,7 +33,9 @@ const ShoppingScreen = () => {
           <TouchableOpacity
             key={index}
             activeOpacity={0.8}
-            onPress={() => setCategoryIndex(index)}
+            onPress={() => 
+                setCategoryIndex(index)
+            }
           >
             <Text
               style={[
@@ -49,31 +51,23 @@ const ShoppingScreen = () => {
     );
   };
 
-  const Card = ({ product }) => {
+  const Card = ({ discount }) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => navigation.navigate("Details", product)}
+        onPress={() => navigation.navigate("Quickshop")}
       >
         <View style={styles.card}>
           <View style={{ alignItems: "flex-end" }}>
             <View
               style={{
-                width: 30,
+                width: 60,
                 height: 30,
                 borderRadius: 20,
                 justifyContent: "center",
                 alignItems: "center",
-                backgroundColor: product.like
-                  ? "rgba(245, 42, 42,0.2)"
-                  : "rgba(0,0,0,0.2) ",
               }}
             >
-              <Icon
-                name="favorite"
-                size={18}
-                color={product.like ? COLORS.red : COLORS.black}
-              />
             </View>
           </View>
 
@@ -84,13 +78,13 @@ const ShoppingScreen = () => {
             }}
           >
             <Image
-              source={product.img}
-              style={{ width: 150, height: 150, flex: 1, resizeMode: "contain" }}
+              source={discount.img}
+              style={{ width: 300, height: 100, flex: 1, resizeMode: "contain" }}
             />
           </View>
 
           <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
-            {product.name}
+            {discount.name}
           </Text>
           <View
             style={{
@@ -100,27 +94,19 @@ const ShoppingScreen = () => {
             }}
           >
             <Text style={{ fontSize: 19, fontWeight: "bold" }}>
-              ${product.price}
+              Minimum Spend: ${discount.minspend}
             </Text>
             <View
               style={{
                 height: 25,
-                width: 25,
+                width: 50,
                 backgroundColor: COLORS.indigo,
                 borderRadius: 5,
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <Text
-                style={{
-                  fontSize: 22,
-                  color: COLORS.white,
-                  fontWeight: "bold",
-                }}
-              >
-                +
-              </Text>
+                <Text style = {{color: COLORS.white, fontWeight: "bold"}}> APPLY </Text>
             </View>
           </View>
         </View>
@@ -141,25 +127,9 @@ const ShoppingScreen = () => {
           <Text
             style={{ fontSize: 25, fontWeight: "bold", paddingHorizontal: 50 }}
           >
-            Welcome to
-          </Text>
-          <Text
-            style={{
-              fontSize: 38,
-              color: COLORS.indigo,
-              fontWeight: "bold",
-              paddingHorizontal: 50,
-            }}
-          >
-            Product Shop
+            DISCOUNTS
           </Text>
         </View>
-        <Icon
-          name="shopping-cart"
-          size={28}
-          onPress={() => navigation.navigate("AllCarts")}
-        />
-        <Icon name="settings" size={28} />
       </View>
       <View
         style={{ marginTop: 30, flexDirection: "row", paddingHorizontal: 50 }}
@@ -181,19 +151,20 @@ const ShoppingScreen = () => {
           paddingBottom: 50,
         }}
         numColumns={2}
-        data={products}
+        data={discounts}
         renderItem={({ item }) => {
-          if (item.categoryno == catergoryIndex || catergoryIndex == 0) {
-            return <Card product={item} />;
-          }
-          
+            if (item.brand == catergoryIndex || catergoryIndex == 0) {
+                return <Card discount={item} />;
+            } else {
+                return null;
+            }
         }}
       />
     </View>
   );
 };
 
-export default ShoppingScreen;
+export default DiscountsScreen;
 
 const styles = StyleSheet.create({
   categoryContainer: {

@@ -2,6 +2,7 @@ const products = [
   {
     id: 1,
     name: 'Lettuce Top',
+    categoryno : 1,
     price: '9.99',
     like: true,
     img: require('../assets/lettucetop.png'),
@@ -10,6 +11,7 @@ const products = [
   {
     id: 2,
     name: 'Checkered Crop Top',
+    categoryno : 1,
     price: '9.99',
     like: true,
     img: require('../assets/checkeredtop.png'),
