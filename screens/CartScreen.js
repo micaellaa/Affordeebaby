@@ -89,8 +89,8 @@ const MyCart = ({navigation}) => {
   const renderProducts = (data, index) => {
     return (
       <TouchableOpacity
-        key={data.key}
-        onPress={() => navigation.navigate('ProductInfo', {productID: data.id})}
+        key={data.id}
+        onPress={() => navigation.navigate('Details', {productID: data.id})}
         style={{
           width: '100%',
           height: 100,

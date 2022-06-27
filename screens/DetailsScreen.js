@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   View,
   Text,
@@ -12,10 +12,12 @@ import {
   ToastAndroid,
 } from 'react-native';
 import COLORS from '../consts/colors';
-import products from '../consts/products';
+import products, {getProduct} from '../consts/products';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CartContext from "../CartContext.js";
+import { render } from 'react-dom';
 
 const DetailsScreen = ({route, navigation}) => {
   const {productID} = route.params;
@@ -28,13 +30,15 @@ const DetailsScreen = ({route, navigation}) => {
 
   let position = Animated.divide(scrollX, width);
 
+  //const {items, addItemToCart, getTotalPrice} = useContext(CartContext);
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       getDataFromDB();
     });
 
     return unsubscribe;
-  }, [navigation]);
+  }, [navigation]); 
 
   //get product data by productID
 
@@ -45,42 +49,53 @@ const DetailsScreen = ({route, navigation}) => {
         return;
       }
     }
-  };
+  }; 
 
-  //add to cart
+  //add to cart using async
 
   const addToCart = async id => {
     let itemArray = await AsyncStorage.getItem('cartItems');
     itemArray = JSON.parse(itemArray);
-    if (itemArray) {
-      let array = itemArray;
-      array.push(id);
-
-      try {
-        await AsyncStorage.setItem('cartItems', JSON.stringify(array));
-        ToastAndroid.show(
-          'Item Added Successfully to cart',
-          ToastAndroid.SHORT,
-        );
-        navigation.navigate('Quickshop');
-      } catch (error) {
-        return error;
-      }
+    if (itemArray.length > 0) {
+        itemArray = JSON.parse(itemArray);
+        let array = itemArray;
+        array.push(id);
+        try {
+            await AsyncStorage.setItem('cartItems', JSON.stringify(array));
+            ToastAndroid.show(
+                'Item Added Successfully to cart',
+                ToastAndroid.SHORT,
+                );
+                navigation.navigate('Quickshop');
+            } catch (error) {
+                return error;
+            }
     } else {
-      let array = [];
-      array.push(id);
-      try {
-        await AsyncStorage.setItem('cartItems', JSON.stringify(array));
-        ToastAndroid.show(
-          'Item Added Successfully to cart',
-          ToastAndroid.SHORT,
-        );
-        navigation.navigate('Quickshop');
-      } catch (error) {
-        return error;
-      }
-    }
-  };
+        let array = [];
+        array.push(id);
+        try {
+            await AsyncStorage.setItem('cartItems', JSON.stringify(array));
+            ToastAndroid.show(
+                'Item Added Successfully to cart',
+                ToastAndroid.SHORT,
+                );
+                navigation.navigate('Quickshop');
+            } catch (error) {
+                return error;
+            }
+        }
+    }; 
+     
+   /* useEffect(() => {
+        setProduct(getProduct(productID))
+    })
+
+    
+
+    function onAddToCart() {
+        addItemToCart(item.id);
+    } */
+
 
   //product horizontal scroll product card
   const renderProduct = ({item, index}) => {
@@ -357,7 +372,7 @@ const DetailsScreen = ({route, navigation}) => {
               color: COLORS.white,
               textTransform: 'uppercase',
             }}>
-            {item.isAvailable ? 'Add to cart' : 'Not Avialable'}
+            {item.isAvailable ? 'Add to cart' : 'Not Available'}
           </Text>
         </TouchableOpacity>
       </View>
