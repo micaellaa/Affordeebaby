@@ -79,7 +79,7 @@ const DiscountsScreen = () => {
           >
             <Image
               source={discount.img}
-              style={{ width: 300, height: 100, flex: 1, resizeMode: "contain" }}
+              style={{ width: 500, height: 100, flex: 1, justifyContent: "center"}}
             />
           </View>
 
@@ -144,13 +144,12 @@ const DiscountsScreen = () => {
       </View>
       <CategoryList />
       <FlatList
-        columnWrapperStyle={{ justifyContent: "space-between" }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           marginTop: 10,
           paddingBottom: 50,
         }}
-        numColumns={2}
+        numColumns={1}
         data={discounts}
         renderItem={({ item }) => {
             if (item.brand == catergoryIndex || catergoryIndex == 0) {
@@ -184,7 +183,7 @@ const styles = StyleSheet.create({
   card: {
     height: 225,
     backgroundColor: COLORS.white,
-    width,
+    width: Dimensions.get("window").width,
     marginHorizontal: 2,
     borderRadius: 10,
     marginBottom: 20,

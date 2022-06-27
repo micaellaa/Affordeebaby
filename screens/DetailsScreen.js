@@ -36,7 +36,7 @@ const DetailsScreen = ({route, navigation}) => {
 
 
   //product horizontal scroll product card
-   const renderProduct = ({item}) => {
+   const renderProduct = ({product}) => {
     return (
       <View
         style={{
@@ -46,7 +46,7 @@ const DetailsScreen = ({route, navigation}) => {
           justifyContent: 'center',
         }}>
         <Image
-          source={item}
+          source={product}
           style={{
             width: 50,
             height: 50,
