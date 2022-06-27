@@ -14,6 +14,7 @@ import DetailsScreen from "./screens/DetailsScreen";
 import CartScreen from "./screens/CartScreen";
 import OtherUserProfileScreen from "./screens/OtherUserProfileScreen";
 import AllCartsScreen from "./screens/AllCartsScreen";
+import DiscountsScreen from "./screens/DiscountsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +29,7 @@ export default function App() {
         />
         <Stack.Screen name="Register" component={RegisterScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Discounts" component={DiscountsScreen}/>
         <Stack.Screen name="Retailers" component={RetailersScreen} />
         <Stack.Screen name="Quickshop" component={ShoppingScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />

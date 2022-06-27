@@ -38,10 +38,10 @@ const HomeScreen = () => {
 
   /*const manageOrders = () => {
     navigation.navigate("Quickshop")
-
-  const discounts = () => {
+*/
+  const goToDiscounts = () => {
     navigation.navigate("Discounts")
-  }*/
+  }
 
   const menuOptions = ["Shop", "Profile", "Find Friends"];
   const [menuOptionsIndex, setMenuOptionsIndex] = useState(0);
@@ -95,7 +95,7 @@ const HomeScreen = () => {
           <Text style={styles.buttonText}>Manage My Orders</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          //onPress={manageOrders}
+          onPress={goToDiscounts}
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonText}>Discounts</Text>

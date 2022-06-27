@@ -44,7 +44,7 @@ const DetailsScreen = ({ navigation, route }) => {
   };*/
 
   //add to cart function using async
-  const addToCart = async (id) => {
+  /*const addToCart = async (id) => {
     let itemArray = await AsyncStorage.getItem("cartItems");
     itemArray = JSON.parse(itemArray);
     if (itemArray) {
@@ -76,7 +76,7 @@ const DetailsScreen = ({ navigation, route }) => {
         return error;
       }
     }
-  };
+  }; */
 
   /*
   const addToCart = async (id) => {
@@ -131,7 +131,7 @@ const DetailsScreen = ({ navigation, route }) => {
       <View style={styles.imageContainer}>
         <Image
           source={product.img}
-          style={{ resizeMode: "contain", flex: 1 }}
+          style={{ width: 300, height: 300, resizeMode: "contain", flex: 1 }}
         />
       </View>
       <View style={styles.detailsContainer}>
