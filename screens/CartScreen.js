@@ -95,7 +95,7 @@ const CartScreen = ({ navig, route }) => {
               style={{ width: 150, height: 150, flex: 1, resizeMode: "contain" }}
             />
           </View>
-          
+
           <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
             {product.name}
           </Text>
