@@ -29,38 +29,30 @@ An in-depth paragraph about your project and overview of use.
 
 #####On a Mac
 1. Download XCode on your device from the App Store. 
-From our public Github repository: https://github.com/micaellaa/Affordeebaby/settings download the code or open it on GitHub desktop OR clone the repository. Proceed to open the folder on your terminal.
 
-2. Type `npm install`
+2. Open your terminal and then type `git clone {https://github.com/micaellaa/Affordeebaby}` to clone the repository.
 
-3. Open XCode in the background. Type `npm start`. Type ‘i’ to view the IOS simulation ran by XCode.
+3. Type `npm install` to install the required dependencies.
+
+4. Open XCode in the background. Type `npm start`. Type ‘i’ to view the IOS simulation ran by XCode.
 
 #####On an Android/IOS mobile device
 1. Download Expo Go from the App Store/Google Play
 
-2. From our public Github repository: https://github.com/micaellaa/Affordeebaby/settings download the code or open it on GitHub desktop OR clone the repository. Proceed to open the folder on your terminal.
+2. Open your terminal and then type `git clone {https://github.com/micaellaa/Affordeebaby}` to clone the repository.
 
-3. Type `npm install`
+3. Type `npm install` to install the required dependencies.
 
 4. Type `npm start`. Scan the QR code to view the IOS simulation on Expo.
 
 #####On a Windows (or any) device
-1. From our public Github repository: https://github.com/micaellaa/Affordeebaby/settings download the code or open it on GitHub desktop OR clone the repository. Proceed to open the folder on your terminal.
+1. Open your terminal and then type `git clone {https://github.com/micaellaa/Affordeebaby}` to clone the repository.
 
-2. Type `npm install`
+2. Type `npm install` to install the required dependencies.
 
 3. Type `npm start`. Type ‘w’ to view the IOS simulation on a web browser. Do note that some features may behave differently on a web browser.
 
-### Executing program
 
-- How to run the program
-- Step-by-step bullets
-
-```
-code blocks for commands
-```
-
-## Help
 
 ## Authors
 
@@ -68,4 +60,3 @@ Micaella Ilagan
 
 Fion Lim
 
-## License
