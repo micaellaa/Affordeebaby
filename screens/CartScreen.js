@@ -12,12 +12,35 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import COLORS from "../consts/colors";
 import products from "../consts/products";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { doc, getDoc } from "firebase/firestore";
+import { firestore } from "../firebase/firebase-config";
 //import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const CartScreen = (cartID) => {
   const navigation = useNavigation();
   const [product, setProduct] = useState();
   const [total, setTotal] = useState(null);
+
+  /*obtain data from firestore
+  const cartsRef = doc(firestore, "carts", cartID);
+
+  useEffect(() => {
+    async function fetchCartData() {
+      const docSnap = await getDoc(cartsRef);
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+      }
+      try {
+        console.log("try entered");
+        const productList = docSnap.get("productsID");
+        setProduct(productList);
+      } catch (error) {
+        console.log("Error in finding products", error);
+      }
+    }
+    fetchCartData();
+  }, []);
+*/
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
@@ -28,15 +51,36 @@ const CartScreen = (cartID) => {
 
   //get data here
   const getDataFromDB = async () => {
-    let items = await AsyncStorage.getItem("cartItems");
-    items = JSON.parse(items);
-    let productData = [];
-    if (items) {
-      items.forEach((product) => {
-        if (items.includes(product.id)) {
-          productData.push(product);
-          return;
+    //let items = await AsyncStorage.getItem("cartItems");
+    //items = JSON.parse(items);
+
+    const [products1, setProducts1] = useState([]);
+    const cartsRef = doc(firestore, "carts", cartID);
+
+    useEffect(() => {
+      async function fetchCartData() {
+        const docSnap = await getDoc(cartsRef);
+        if (docSnap.exists()) {
+          console.log("Document data:", docSnap.data());
         }
+        try {
+          console.log("try entered");
+          const productList = docSnap.get("productsID");
+          setProducts1(productList);
+        } catch (error) {
+          console.log("Error in finding products", error);
+        }
+      }
+      fetchCartData();
+    }, []);
+
+    let productData = [];
+
+    if (products1) {
+      products1.forEach((product) => {
+        //if (items.includes(product.id)) {
+        productData.push(product);
+        //return;
       });
       setProduct(productData);
       getTotal(productData);
@@ -57,7 +101,7 @@ const CartScreen = (cartID) => {
   };
 
   //remove data from Cart
-
+  /*
   const removeItemFromCart = async (id) => {
     let itemArray = await AsyncStorage.getItem("cartItems");
     itemArray = JSON.parse(itemArray);
@@ -73,7 +117,7 @@ const CartScreen = (cartID) => {
       }
     }
   };
-
+*/
   //checkout
 
   const checkOut = async () => {
@@ -88,10 +132,48 @@ const CartScreen = (cartID) => {
     navigation.navigate("Home");
   };
 
+  /*
+  const renderProducts = (productID) => {
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("DetailsScreen", { productID: product })
+        }
+        style={{
+          width: "100%",
+          height: 100,
+          marginVertical: 6,
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            height: "100%",
+            justifyContent: "space-around",
+          }}
+        >
+          <View style={{}}>
+            <Text
+              style={{
+                fontSize: 14,
+                maxWidth: "100%",
+                color: COLORS.dark,
+                fontWeight: "600",
+                letterSpacing: 1,
+              }}
+            >
+              {product.name}
+
+      </TouchableOpacity>
+  }
+  */
+
   const renderProducts = (product, index) => {
     return (
       <TouchableOpacity
-        key={product.key}
+        //key={product.key}
         onPress={() =>
           navigation.navigate("DetailsScreen", { productID: product.id })
         }

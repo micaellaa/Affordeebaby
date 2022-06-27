@@ -21,7 +21,7 @@ const DetailsScreen = ({ navigation, route }) => {
   //const navigation = useNavigation();
   //const route = useRoute();
   const product = route.params;
-
+  console.log(product.id);
   /*
   const addNewOrder = async (cartID, productID) => {
     const cartsRef = doc(firestore, "carts", cartID);
@@ -212,7 +212,7 @@ const DetailsScreen = ({ navigation, route }) => {
             </View>
 
             <View style={styles.buyBtn}>
-            <CartsDropdown productID = {1}/> 
+            <CartsDropdown productID = {product.id}/> 
               
             </View>
           </View>
