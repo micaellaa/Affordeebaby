@@ -55,20 +55,9 @@ const ShoppingScreen = () => {
         activeOpacity={0.8}
         onPress={() => navigation.navigate("Details", product)}
       >
-        <View style={styles.card}>
+        <View style={styles.cardContainer}>
           <View style={{ alignItems: "flex-end" }}>
-            <View
-              style={{
-                width: 30,
-                height: 30,
-                borderRadius: 20,
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: product.like
-                  ? "rgba(245, 42, 42,0.2)"
-                  : "rgba(0,0,0,0.2) ",
-              }}
-            >
+            <View style={styles.likeButton}>
               <Icon
                 name="favorite"
                 size={18}
@@ -77,50 +66,16 @@ const ShoppingScreen = () => {
             </View>
           </View>
 
-          <View
-            style={{
-              height: 100,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              source={product.img}
-              style={{ width: 150, height: 150, flex: 1, resizeMode: "contain" }}
-            />
+          <View style={styles.productDetailsContainer}>
+            <Image source={product.img} style={styles.productImg} />
           </View>
 
-          <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
-            {product.name}
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 5,
-            }}
-          >
-            <Text style={{ fontSize: 19, fontWeight: "bold" }}>
-              ${product.price}
-            </Text>
-            <View
-              style={{
-                height: 25,
-                width: 25,
-                backgroundColor: COLORS.indigo,
-                borderRadius: 5,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 22,
-                  color: COLORS.white,
-                  fontWeight: "bold",
-                }}
-              >
-                +
-              </Text>
+          <Text style={styles.productDetailsText}>{product.name}</Text>
+
+          <View style={styles.productDetailsPriceContainer}>
+            <Text style={styles.productDetailsPriceText}>${product.price}</Text>
+            <View style={styles.addButton}>
+              <Text style={styles.addText}>+</Text>
             </View>
           </View>
         </View>
@@ -130,29 +85,10 @@ const ShoppingScreen = () => {
 
   return (
     <View>
-      <View
-        style={{
-          flex: 3,
-          paddingHorizontal: 50,
-          backgroundColor: COLORS.white,
-        }}
-      >
+      <View style={styles.containerShoppingScreen}>
         <View>
-          <Text
-            style={{ fontSize: 25, fontWeight: "bold", paddingHorizontal: 50 }}
-          >
-            Welcome to
-          </Text>
-          <Text
-            style={{
-              fontSize: 38,
-              color: COLORS.indigo,
-              fontWeight: "bold",
-              paddingHorizontal: 50,
-            }}
-          >
-            Product Shop
-          </Text>
+          <Text style={styles.headerText1}>Welcome to</Text>
+          <Text style={styles.headerText2}>Product Shop</Text>
         </View>
         <Icon
           name="shopping-cart"
@@ -186,7 +122,6 @@ const ShoppingScreen = () => {
           if (item.categoryno == catergoryIndex || catergoryIndex == 0) {
             return <Card product={item} />;
           }
-          
         }}
       />
     </View>
@@ -196,6 +131,37 @@ const ShoppingScreen = () => {
 export default ShoppingScreen;
 
 const styles = StyleSheet.create({
+  likeButton: {
+    width: 30,
+    height: 30,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: product.like
+      ? "rgba(245, 42, 42,0.2)"
+      : "rgba(0,0,0,0.2) ",
+  },
+  productImg: {
+    width: 150,
+    height: 150,
+    flex: 1,
+    resizeMode: "contain",
+  },
+  productDetailsContainer: {
+    height: 100,
+    alignItems: "center",
+  },
+  productDetailsText: {
+    fontWeight: "bold",
+    fontSize: 17,
+    marginTop: 10,
+  },
+  productDetailsPriceContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+  },
+  productDetailsPriceText: { fontSize: 19, fontWeight: "bold" },
   categoryContainer: {
     flexDirection: "row",
     marginTop: 30,
@@ -203,14 +169,32 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
   },
-  categoryText: { fontSize: 16, color: "grey", fontWeight: "bold" },
+  addButton: {
+    height: 25,
+    width: 25,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  addText: {
+    fontSize: 22,
+    color: COLORS.white,
+    fontWeight: "bold",
+  },
+
+  categoryText: {
+    fontSize: 16,
+    color: "grey",
+    fontWeight: "bold",
+  },
   categoryTextSelected: {
     color: COLORS.indigo,
     paddingBottom: 5,
     borderBottomWidth: 5,
     borderColor: COLORS.indigo,
   },
-  card: {
+  cardContainer: {
     height: 225,
     backgroundColor: COLORS.white,
     width,
@@ -265,5 +249,17 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "700",
     fontSize: 16,
+  },
+  headerText1: { fontSize: 25, fontWeight: "bold", paddingHorizontal: 50 },
+  headerText2: {
+    fontSize: 38,
+    color: COLORS.indigo,
+    fontWeight: "bold",
+    paddingHorizontal: 50,
+  },
+  containerShoppingScreen: {
+    flex: 3,
+    paddingHorizontal: 50,
+    backgroundColor: COLORS.white,
   },
 });
