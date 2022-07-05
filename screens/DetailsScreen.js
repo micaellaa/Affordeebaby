@@ -48,8 +48,8 @@ const DetailsScreen = ({route, navigation}) => {
         <Image
           source={product}
           style={{
-            width: 50,
-            height: 50,
+            width: 150,
+            height: 150,
             resizeMode: 'contain',
           }}
         />
@@ -273,7 +273,7 @@ const DetailsScreen = ({route, navigation}) => {
                 color: COLORS.black,
                 marginBottom: 4,
               }}>
-              ${product.price}.00
+              ${product.price}
             </Text>
             <Text>
               ${product.price / 20} (&#8377;
