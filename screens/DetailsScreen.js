@@ -23,7 +23,7 @@ import CartsDropdown from "../components/CartsDropdown";
 const DetailsScreen = ({route, navigation}) => {
   const product = route.params;
 
-  const [item, setProduct] = useState({});
+  //const [item, setProduct] = useState({});
 
   const width = Dimensions.get('window').width;
 
@@ -36,7 +36,7 @@ const DetailsScreen = ({route, navigation}) => {
 
 
   //product horizontal scroll product card
-   const renderProduct = ({product}) => {
+   const renderProduct = ({item, index}) => {
     return (
       <View
         style={{
@@ -46,10 +46,10 @@ const DetailsScreen = ({route, navigation}) => {
           justifyContent: 'center',
         }}>
         <Image
-          source={product}
+          source={item}
           style={{
-            width: 150,
-            height: 150,
+            width: 300,
+            height: 300,
             resizeMode: 'contain',
           }}
         />
