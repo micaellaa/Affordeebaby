@@ -52,6 +52,7 @@ const CartScreen = ({ navig, route }) => {
   console.log("productsID: ", productsID);
 
   let productData = [];
+  let total = 0;
 
   //productsID contains list of product ID's inside the cart
   if (productsID) {
@@ -62,6 +63,7 @@ const CartScreen = ({ navig, route }) => {
         (element) => element.id == productID.productID
       );
       productData.push(product);
+      total += product.price;
     });
     //setProduct(productData);
     //getTotal(productData);
@@ -187,6 +189,14 @@ const CartScreen = ({ navig, route }) => {
           return <Card product={item.item} />;
         }}
       />
+      <Text style={{
+                fontSize: 30,
+                fontWeight: '500',
+                maxWidth: '85%',
+                color: COLORS.black,
+                backgroundColor: COLORS.white,
+                marginBottom: 4,
+              }}>Total: ${total}</Text>
     </View>
   );
 };
