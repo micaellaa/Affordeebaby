@@ -143,66 +143,39 @@ const DetailsScreen = ({ navigation, route }) => {
           }}
         >
           <View style={styles.line} />
-          <Text style={{ fontSize: 18, fontWeight: "bold" }}>Best choice</Text>
+          <Text style={styles.reviewFont}>Best choice</Text>
         </View>
         <View
-          style={{
-            marginLeft: 20,
-            marginTop: 20,
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+          style={styles.price}
         >
-          <Text style={{ fontSize: 22, fontWeight: "bold" }}>
+          <Text style={styles.nameFont}>
             {product.name}
           </Text>
           <View style={styles.priceTag}>
             <Text
-              style={{
-                marginLeft: 15,
-                color: COLORS.white,
-                fontWeight: "bold",
-                fontSize: 16,
-              }}
+              style={styles.priceFont}
             >
               ${product.price}
             </Text>
           </View>
         </View>
-        <View style={{paddingHorizontal: 20, marginTop: 10}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>About</Text>
+        <View style={styles.aboutContainer}>
+          <Text style={styles.aboutFont1}>About</Text>
           <Text
-            style={{
-              color: 'grey',
-              fontSize: 16,
-              lineHeight: 22,
-              marginTop: 10,
-            }}>
+            style={styles.aboutFont2}>
             {product.about}
           </Text>
           <View
-            style={{
-              marginTop: 20,
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
+            style={styles.quantityContainer}
           >
             <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
+              style={styles.quantityContainer2}
             >
               <View style={styles.borderBtn}>
                 <Text style={styles.borderBtnText}>-</Text>
               </View>
               <Text
-                style={{
-                  fontSize: 20,
-                  marginHorizontal: 10,
-                  fontWeight: "bold",
-                }}
+                style={styles.quantityText}
               >
                 1
               </Text>
@@ -227,6 +200,12 @@ const DetailsScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  priceFont: {
+    marginLeft: 15,
+    color: COLORS.white,
+    fontWeight: "bold",
+    fontSize: 16,
   },
   header: {
     paddingHorizontal: 20,
@@ -287,6 +266,37 @@ const styles = StyleSheet.create({
     borderBottomColor: "gray",
     borderBottomWidth: 0.5,
     marginTop: 20,
+  },
+  price: {
+    marginLeft: 20,
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  reviewFont: { fontSize: 18, fontWeight: "bold" },
+  nameFont: { fontSize: 22, fontWeight: "bold" },
+  aboutFont1: { fontSize: 20, fontWeight: "bold" },
+  aboutFont2: {
+    color: "grey",
+    fontSize: 16,
+    lineHeight: 22,
+    marginTop: 10,
+  },
+  aboutContainer: { paddingHorizontal: 20, marginTop: 10 },
+  quantityContainer: {
+    marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  quantityContainer2: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  quantityText: {
+    fontSize: 20,
+    marginHorizontal: 10,
+    fontWeight: "bold",
   },
 });
 

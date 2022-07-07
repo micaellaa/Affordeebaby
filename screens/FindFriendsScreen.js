@@ -15,7 +15,6 @@ import {
 } from "react-native";
 import COLORS from "../consts/colors";
 import Searchbar from "../components/Searchbar";
-import FetchUsers from "../components/FetchUsers";
 
 const FindFriendsScreen = () => {
   const navigation = useNavigation();
@@ -26,7 +25,7 @@ const FindFriendsScreen = () => {
 
   //searchbar constants
   const [value, setValue] = useState();
-  //function updateSearch(value) {}
+  // function updateSearch(value) {}
 
   // prettier-ignore
   return (

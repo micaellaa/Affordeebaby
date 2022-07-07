@@ -33,9 +33,7 @@ const DiscountsScreen = () => {
           <TouchableOpacity
             key={index}
             activeOpacity={0.8}
-            onPress={() => 
-                setCategoryIndex(index)
-            }
+            onPress={() => setCategoryIndex(index)}
           >
             <Text
               style={[
@@ -59,54 +57,20 @@ const DiscountsScreen = () => {
       >
         <View style={styles.card}>
           <View style={{ alignItems: "flex-end" }}>
-            <View
-              style={{
-                width: 60,
-                height: 30,
-                borderRadius: 20,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-            </View>
+            <View style={styles.space1}></View>
           </View>
 
-          <View
-            style={{
-              height: 100,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              source={discount.img}
-              style={{ width: 300, height: 100, flex: 1, resizeMode: "contain" }}
-            />
+          <View style={styles.discountContainer}>
+            <Image source={discount.img} style={styles.discImage} />
           </View>
 
-          <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
-            {discount.name}
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 5,
-            }}
-          >
-            <Text style={{ fontSize: 19, fontWeight: "bold" }}>
+          <Text style={styles.discountNameText}>{discount.name}</Text>
+          <View style={styles.discountDetailsCont}>
+            <Text style={styles.discMinSpendText}>
               Minimum Spend: ${discount.minspend}
             </Text>
-            <View
-              style={{
-                height: 25,
-                width: 50,
-                backgroundColor: COLORS.indigo,
-                borderRadius: 5,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-                <Text style = {{color: COLORS.white, fontWeight: "bold"}}> APPLY </Text>
+            <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> APPLY </Text>
             </View>
           </View>
         </View>
@@ -116,24 +80,12 @@ const DiscountsScreen = () => {
 
   return (
     <View>
-      <View
-        style={{
-          flex: 3,
-          paddingHorizontal: 50,
-          backgroundColor: COLORS.white,
-        }}
-      >
+      <View style={styles.container}>
         <View>
-          <Text
-            style={{ fontSize: 25, fontWeight: "bold", paddingHorizontal: 50 }}
-          >
-            DISCOUNTS
-          </Text>
+          <Text style={styles.headerText}>DISCOUNTS</Text>
         </View>
       </View>
-      <View
-        style={{ marginTop: 30, flexDirection: "row", paddingHorizontal: 50 }}
-      >
+      <View style={styles.sortContainer}>
         <View style={styles.searchContainer}>
           <Icon name="search" size={25} style={{ marginLeft: 20 }} />
           <TextInput placeholder="Search" style={styles.input} />
@@ -153,11 +105,11 @@ const DiscountsScreen = () => {
         numColumns={2}
         data={discounts}
         renderItem={({ item }) => {
-            if (item.brand == catergoryIndex || catergoryIndex == 0) {
-                return <Card discount={item} />;
-            } else {
-                return null;
-            }
+          if (item.brand == catergoryIndex || catergoryIndex == 0) {
+            return <Card discount={item} />;
+          } else {
+            return null;
+          }
         }}
       />
     </View>
@@ -218,11 +170,25 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  sortContainer: { marginTop: 30, flexDirection: "row", paddingHorizontal: 50 },
 
-  container: {
-    flex: 1,
+  space1: {
+    width: 60,
+    height: 30,
+    borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
+  },
+  discountContainer: {
+    height: 100,
+    alignItems: "center",
+  },
+  headerText: { fontSize: 25, fontWeight: "bold", paddingHorizontal: 50 },
+
+  container: {
+    flex: 3,
+    paddingHorizontal: 50,
+    backgroundColor: COLORS.white,
   },
   button: {
     backgroundColor: "#0782F9",
@@ -236,5 +202,27 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "700",
     fontSize: 16,
+  },
+  discountNameText: { fontWeight: "bold", fontSize: 17, marginTop: 10 },
+  discountDetailsCont: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+  },
+  discMinSpendText: { fontSize: 19, fontWeight: "bold" },
+  discApplyButton: {
+    height: 25,
+    width: 50,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discApplyText: { color: COLORS.white, fontWeight: "bold" },
+  discImage: {
+    width: 300,
+    height: 100,
+    flex: 1,
+    resizeMode: "contain",
   },
 });

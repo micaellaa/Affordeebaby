@@ -85,11 +85,11 @@ export default function Searchbar({ value, style }) {
   }, [value]);
 */
 
-  const user = authentication.currentUser;
-  const userUID = user.uid;
+  //const user = authentication.currentUser;
+  //const userUID = user.uid;
 
   const handleSearch = async (queryInput) => {
-    const usersRef = doc(firestore, "users", userUID);
+    //const usersRef = doc(firestore, "users", userUID);
     const q = query(
       collection(firestore, "users"),
       where("username", "==", queryInput)

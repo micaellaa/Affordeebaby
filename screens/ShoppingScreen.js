@@ -14,10 +14,8 @@ import {
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
-//import { authentication } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
 import products from "../consts/products";
-/*import { ScrollView } from 'react-native-gesture-handler';*/
 import Icon from "react-native-vector-icons/MaterialIcons";
 
 const width = Dimensions.get("window").width / 2 - 30;
