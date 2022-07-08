@@ -72,7 +72,8 @@ export const createUserDocument = async (user, additionalData) => {
       firstName: firstName,
       mobileNum: mobileNumber,
       username: username,
-      carts: [QRHaLdTnnjTmqbG3GkJV],
+      carts: ["QRHaLdTnnjTmqbG3GkJV"],
+      uid: user.uid,
     });
     console.log("user data added");
   } catch (error) {

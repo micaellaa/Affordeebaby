@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/core";
 import React, { Component } from "react";
 import {
   ActivityIndicator,
@@ -7,6 +8,7 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } from "react-native";
 import { firestore } from "../firebase/firebase-config";
 import {
@@ -17,10 +19,13 @@ import {
   limit,
   getDocs,
 } from "firebase/firestore";
+import COLORS from "../consts/colors";
+
 // Screen Dimensions
 const { height, width } = Dimensions.get("window");
+
 // Screen: Infinite Scroll
-export default class InfiniteScroll extends React.Component {
+class InfiniteScroll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -156,7 +161,7 @@ export default class InfiniteScroll extends React.Component {
   // Render Header
   renderHeader = () => {
     try {
-      return <Text style={styles.headerText}>Items</Text>;
+      return <Text style={styles.headerText}>Users</Text>;
     } catch (error) {
       console.log(error);
     }
@@ -183,11 +188,18 @@ export default class InfiniteScroll extends React.Component {
           // Data
           data={this.state.documentData}
           // Render Items
+          //onPress={() => navigation.navigate("OtherUserProfile", item.)}
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
-              <Text>
-                (ID: {item.uid}) {item.firstName} {item.username}
-              </Text>
+              <TouchableOpacity
+                style={styles.userButton}
+                onPress={() =>
+                  this.props.navigation.navigate("OtherUserProfile", item.uid)
+                }
+              >
+                <Text style={styles.firstNameText}>{item.firstName}</Text>
+                <Text style={styles.usernameText}>@{item.username}</Text>
+              </TouchableOpacity>
             </View>
           )}
           // Item Key
@@ -208,11 +220,26 @@ export default class InfiniteScroll extends React.Component {
   }
 }
 
+// Wrap and export
+export default function RootFunction() {
+  const navigation = useNavigation();
+
+  return <InfiniteScroll navigation={navigation} />;
+}
+
 // Styles
 const styles = StyleSheet.create({
   container: {
     height: height,
     width: width,
+  },
+  userButton: {
+    backgroundColor: COLORS.indigo,
+    width: "90%",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 40,
   },
   headerText: {
     fontFamily: "System",
@@ -235,5 +262,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "400",
     color: "#000",
+  },
+  firstNameText: {
+    fontsize: 20,
+    color: "white",
+    fontWeight: "bold",
+  },
+  usernameText: {
+    fontsize: 16,
+    color: "white",
   },
 });
