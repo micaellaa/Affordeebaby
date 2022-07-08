@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import COLORS from "../consts/colors";
 import Searchbar from "../components/Searchbar";
+import InfiniteScroll from "../components/InfiniteScroll";
 
 const FindFriendsScreen = () => {
   const navigation = useNavigation();
@@ -59,7 +60,7 @@ const FindFriendsScreen = () => {
           </TouchableOpacity>
         ))}
       </View>
-      <Searchbar/>
+      <InfiniteScroll/>
     
     </ImageBackground>
   );

@@ -55,7 +55,18 @@ const ShoppingScreen = () => {
       >
         <View style={styles.cardContainer}>
           <View style={{ alignItems: "flex-end" }}>
-            <View style={styles.likeButton}>
+            <View
+              style={{
+                width: 30,
+                height: 30,
+                borderRadius: 20,
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: product.like
+                  ? "rgba(245, 42, 42,0.2)"
+                  : "rgba(0,0,0,0.2) ",
+              }}
+            >
               <Icon
                 name="favorite"
                 size={18}
@@ -129,16 +140,6 @@ const ShoppingScreen = () => {
 export default ShoppingScreen;
 
 const styles = StyleSheet.create({
-  likeButton: {
-    width: 30,
-    height: 30,
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: product.like
-      ? "rgba(245, 42, 42,0.2)"
-      : "rgba(0,0,0,0.2) ",
-  },
   productImg: {
     width: 150,
     height: 150,

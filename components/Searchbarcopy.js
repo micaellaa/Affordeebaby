@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/core";
+/*import { useNavigation } from "@react-navigation/core";
 import React, { useState, useEffect } from "react";
 import {
   ImageBackground,
@@ -33,8 +33,62 @@ export default function Searchbar({ value, style }) {
 
   //fetchUsers
   const [users1, setUsers1] = useState("");
+  //const [usernameInput, setUsernameInput] = useState("");
 
-  const handleSearch = async (queryInput) => {
+  /*
+  function updateSearch(value) {
+    console.log("updateSearch() entered");
+    const q = query(
+      collection(firestore, "users"),
+      where("username", "==", queryInput)
+    );
+
+    //useEffect(() => {
+    async function fetchUsers() {
+      console.log("fetchUsers() entered");
+      const querySnapshot = await getDocs(q);
+      console.log(querySnapshot);
+      const users1 = [];
+      querySnapshot.forEach((doc) => {
+        console.log("data", doc.id, " => ", doc.data());
+        const { email, firstName, mobileNum, username } = doc.data();
+        users1.push({
+          email,
+          firstName,
+          mobileNum,
+          username,
+        });
+      });
+      setUsers1(users1);
+    }
+
+    fetchUsers();
+    //});
+  }
+  */
+
+/*useEffect(() => {
+    async function fetchUsers() {
+      const docSnap = await getDoc(usersRef);
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+      }
+      try {
+        console.log("try entered");
+        const fN = docSnap.get("carts");
+        setCarts(cartsList);
+      } catch (error) {
+        console.log("Error in finding carts", error);
+      }
+    }
+    fetchUsers();
+  }, [value]);
+*/
+
+//const user = authentication.currentUser;
+//const userUID = user.uid;
+
+/*const handleSearch = async (queryInput) => {
     //const usersRef = doc(firestore, "users", userUID);
     const q = query(
       collection(firestore, "users"),
@@ -52,7 +106,30 @@ export default function Searchbar({ value, style }) {
     setUsers1(details);
   };
 
-  const handleUserSelected = (userUID) => {
+  /*
+  const handleSearch = (queryInput) => {
+    const [value, setValue] = useState(""); //fix infinite loop
+    useEffect(() => {
+      async function fetchUserCarts() {
+        const usersRef = doc(firestore, "users", userUID);
+        const q = query(
+          collection(firestore, "users"),
+          where("username", "==", queryInput)
+        );
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+          const fN = doc.get("firstName");
+          const uN = doc.get("username");
+          setUsers1([fN, uN]);
+        });
+      }
+      fetchUserCarts();
+    }, [value]);
+  };*/
+
+/* const handleUserSelected = (userUID) => {
     //if (!userUID) return;
     //navigation.navigate("OtherUserProfile", userUID);
     console.log("handle");
@@ -82,7 +159,7 @@ export default function Searchbar({ value, style }) {
                                 setError(false)
                         }
                         else setError("Please only enter alphabets")*/
-            setQueryInput(text);
+/*setQueryInput(text);
             handleSearch(text);
             //updateSearch(text);
           }}
@@ -203,18 +280,8 @@ const styles = StyleSheet.create({
   itemHeading: {
     fontWeight: 300,
   },
-  item: {
-    backgroundColor: "orange",
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 3, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-  },
 });
+
 
 /*
 flatlist that didn't work
