@@ -16,9 +16,19 @@ export const acceptFriendRequest = async (senderUID) => {
     await updateDoc(receiverRef, {
       friendships: arrayUnion(senderUID),
     });
+  } catch (error) {
+    console.log("Error in accepting friend request", error);
+  }
+
+  try {
     await updateDoc(senderRef, {
       friendships: arrayUnion(receiverUID),
     });
+  } catch (error) {
+    console.log("Error in accepting friend request", error);
+  }
+
+  try {
     await updateDoc(receiverRef, {
       friendRequests: arrayRemove(senderUID),
     });

@@ -12,10 +12,9 @@ import { sendFriendRequest } from "../functions/sendFriendRequest";
 const OtherUserProfileScreen = ({ navig, route }) => {
   const navigation = useNavigation();
 
-  const userUID = route.params;
-
   const [users1, setUsers1] = useState("");
 
+  const userUID = route.params;
   const usersRef = doc(firestore, "users", userUID);
 
   useEffect(() => {

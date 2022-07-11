@@ -1,8 +1,6 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { authentication } from "./firebase/firebase-config";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -16,6 +14,7 @@ import OtherUserProfileScreen from "./screens/OtherUserProfileScreen";
 import AllCartsScreen from "./screens/AllCartsScreen";
 import DiscountsScreen from "./screens/DiscountsScreen";
 import NotificationScreen from "./screens/NotificationScreen";
+import FriendsScreen from "./screens/FriendsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +42,7 @@ export default function App() {
         />
         <Stack.Screen name="AllCarts" component={AllCartsScreen} />
         <Stack.Screen name="Notifications" component={NotificationScreen} />
+        <Stack.Screen name="Friends" component={FriendsScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

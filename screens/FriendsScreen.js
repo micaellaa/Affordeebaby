@@ -22,43 +22,43 @@ import { acceptFriendRequest } from "../functions/acceptFriendRequest";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
-const NotificationScreen = () => {
+const FriendsScreen = () => {
   const navigation = useNavigation();
 
   //get array of cart ids
-  const [friendReqs1, setFriendReqs1] = useState("");
+  const [friends1, setFriends1] = useState("");
 
   const user = authentication.currentUser;
   const userUID = user.uid;
   const userRef = doc(firestore, "users", userUID);
 
   useEffect(() => {
-    async function fetchFriendRequests() {
+    async function fetchFriends() {
       const docSnap = await getDoc(userRef);
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
       }
       try {
-        const fq = docSnap.get("friendRequests");
-        setFriendReqs1(fq);
+        const fq = docSnap.get("friendships");
+        setFriends1(fq);
       } catch (error) {
-        console.log("Error in finding friend requests", error);
+        console.log("Error in finding friends", error);
       }
     }
-    fetchFriendRequests();
+    fetchFriends();
   }, []);
 
-  console.log("FriendReqs1: ", friendReqs1);
+  console.log("friends1: ", friends1);
 
-  const Card = ({ senderID }) => {
-    if (senderID == "") return null;
+  const Card = ({ friendID }) => {
+    if (friendID == "") return null;
     const [name, setName] = useState("");
-    console.log("senderID into Card:", senderID);
-    const senderRef = doc(firestore, "users", senderID);
+    console.log("friendID into Card:", friendID);
+    const friendRef = doc(firestore, "users", friendID);
 
     useEffect(() => {
       async function fetchUser() {
-        const docSnap = await getDoc(senderRef);
+        const docSnap = await getDoc(friendRef);
         if (docSnap.exists()) {
           console.log("Document data:", docSnap.data());
         }
@@ -74,40 +74,23 @@ const NotificationScreen = () => {
     }, []);
 
     return (
-      <View style={styles.card}>
-        <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
-          {name}
-        </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginTop: 5,
-          }}
-        >
-          <TouchableOpacity
+      <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate("OtherUserProfile", friendID)}
+      >
+        <View style={styles.card}>
+          <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
+            {name}
+          </Text>
+          <View
             style={{
-              height: 10,
-              width: 70,
-              backgroundColor: COLORS.indigo,
-              borderRadius: 5,
-              justifyContent: "center",
-              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginTop: 5,
             }}
-            onPress={() => acceptFriendRequest(senderID)}
-          >
-            <Text
-              style={{
-                fontSize: 18,
-                color: COLORS.white,
-                fontWeight: "bold",
-              }}
-            >
-              Accept
-            </Text>
-          </TouchableOpacity>
+          ></View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -117,7 +100,7 @@ const NotificationScreen = () => {
       style={styles.container}
     >
       <View style={styles.header1}>
-        <Text style={styles.header1Font}>Friend Requests</Text>
+        <Text style={styles.header1Font}>Friends</Text>
       </View>
       <FlatList
         columnWrapperStyle={{ justifyContent: "space-between" }}
@@ -127,16 +110,16 @@ const NotificationScreen = () => {
           paddingBottom: 50,
         }}
         numColumns={2}
-        data={friendReqs1}
+        data={friends1}
         renderItem={({ item }) => {
-          return <Card senderID={item} />;
+          return <Card friendID={item} />;
         }}
       />
     </ImageBackground>
   );
 };
 
-export default NotificationScreen;
+export default FriendsScreen;
 
 const styles = StyleSheet.create({
   searchbarContainer: {

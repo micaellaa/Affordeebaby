@@ -25,7 +25,7 @@ import COLORS from "../consts/colors";
 const { height, width } = Dimensions.get("window");
 
 // Screen: Infinite Scroll
-class InfiniteScroll extends React.Component {
+class UsersInfiniteScroll extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -224,7 +224,7 @@ class InfiniteScroll extends React.Component {
 export default function RootFunction() {
   const navigation = useNavigation();
 
-  return <InfiniteScroll navigation={navigation} />;
+  return <UsersInfiniteScroll navigation={navigation} />;
 }
 
 // Styles
