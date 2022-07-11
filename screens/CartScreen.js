@@ -166,6 +166,14 @@ const CartScreen = ({ navig, route }) => {
           </Text>
         </View>
       </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("CartContributors", cartID)}
+        >
+          <Text style={styles.buttonText}>Edit Contributors</Text>
+        </TouchableOpacity>
+      </View>
       <View
         style={{ marginTop: 30, flexDirection: "row", paddingHorizontal: 50 }}
       >
@@ -220,6 +228,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     paddingHorizontal: 15,
+  },
+  buttonContainer: {
+    flex: 1,
+    width: "60%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 16,
   },
 });
 

@@ -15,6 +15,7 @@ import AllCartsScreen from "./screens/AllCartsScreen";
 import DiscountsScreen from "./screens/DiscountsScreen";
 import NotificationScreen from "./screens/NotificationScreen";
 import FriendsScreen from "./screens/FriendsScreen";
+import CartContributorsScreen from "./screens/CartContributorsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +44,10 @@ export default function App() {
         <Stack.Screen name="AllCarts" component={AllCartsScreen} />
         <Stack.Screen name="Notifications" component={NotificationScreen} />
         <Stack.Screen name="Friends" component={FriendsScreen} />
+        <Stack.Screen
+          name="CartContributors"
+          component={CartContributorsScreen}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
