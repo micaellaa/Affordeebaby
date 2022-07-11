@@ -48,7 +48,6 @@ export const createUserDocument = async (user, additionalData) => {
   const userRef = doc(firestore, "users", user.uid);
   //const snapshot = await getDoc(userRef);
 
-  //if (user) {
   const email = user.email;
   const firstName = additionalData[0];
   const mobileNumber = additionalData[2];
@@ -74,6 +73,8 @@ export const createUserDocument = async (user, additionalData) => {
       username: username,
       carts: ["QRHaLdTnnjTmqbG3GkJV"],
       uid: user.uid,
+      friendships: [""],
+      friendRequests: [""],
     });
     console.log("user data added");
   } catch (error) {

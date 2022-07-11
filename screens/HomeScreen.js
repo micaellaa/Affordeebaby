@@ -40,8 +40,8 @@ const HomeScreen = () => {
     navigation.navigate("Quickshop")
 */
   const goToDiscounts = () => {
-    navigation.navigate("Discounts")
-  }
+    navigation.navigate("Discounts");
+  };
 
   const menuOptions = ["Shop", "Profile", "Find Friends"];
   const [menuOptionsIndex, setMenuOptionsIndex] = useState(0);
@@ -51,7 +51,7 @@ const HomeScreen = () => {
       source={require("../assets/palmshadow-bg.png")} //stub image
       style={styles.container}
     >
-      <View style={styles.menuContainer}>
+      <View style={styles.barContainer}>
         {menuOptions.map((item, index) => (
           <TouchableOpacity
             key={index}
@@ -78,6 +78,20 @@ const HomeScreen = () => {
         ))}
       </View>
 
+      <View style={styles.barContainer2}>
+        <Icon
+          name="shopping-cart"
+          size={40}
+          onPress={() => navigation.navigate("AllCarts")}
+        />
+        <TouchableOpacity onPress={() => navigation.navigate("Notifications")}>
+          <Image
+            style={styles.notifDimensions}
+            source={require("../assets/notifications-icon.png")}
+          />
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={quickShop} style={styles.button}>
           <Text style={styles.buttonText}>Quick Shop</Text>
@@ -87,12 +101,6 @@ const HomeScreen = () => {
           style={[styles.button, styles.buttonOutline]}
         >
           <Text style={styles.buttonText}>Shop by Retailer</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          //onPress={manageOrders}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonText}>Manage My Orders</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={goToDiscounts}
@@ -139,12 +147,23 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
-  menuContainer: {
+  barContainer: {
     flexDirection: "row",
     width: "80%",
     marginTop: 30,
     marginBottom: 40,
     justifyContent: "space-between",
+  },
+  barContainer2: {
+    flexDirection: "row",
+    width: "80%",
+    marginTop: 30,
+    marginBottom: 40,
+    justifyContent: "space-between",
+  },
+  notifDimensions: {
+    width: 40,
+    height: 40,
   },
   menuOptionsText: {
     fontsize: 16,

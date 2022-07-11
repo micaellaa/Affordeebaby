@@ -7,6 +7,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { ImageBackground, TouchableOpacity } from "react-native";
 import { firestore } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
+import { sendFriendRequest } from "../functions/sendFriendRequest";
 
 const OtherUserProfileScreen = ({ navig, route }) => {
   const navigation = useNavigation();
@@ -45,7 +46,10 @@ const OtherUserProfileScreen = ({ navig, route }) => {
         <Text style={StyleSheet.itemHeading}>{users1}'s Profile</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={sendFriendRequest(userUID)}
+        >
           <Text style={styles.buttonText}>Send friend request!</Text>
         </TouchableOpacity>
       </View>

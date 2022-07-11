@@ -19,7 +19,6 @@ import products from "../consts/products";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
-//import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const width = Dimensions.get("window").width / 2 - 30;
 
@@ -84,7 +83,7 @@ const CartScreen = ({ navig, route }) => {
         onPress={() => navigation.navigate("Details", product)}
       >
         <View style={styles.card}>
-            <View
+          <View
             style={{
               height: 100,
               alignItems: "center",
@@ -92,7 +91,12 @@ const CartScreen = ({ navig, route }) => {
           >
             <Image
               source={product.img}
-              style={{ width: 150, height: 150, flex: 1, resizeMode: "contain" }}
+              style={{
+                width: 150,
+                height: 150,
+                flex: 1,
+                resizeMode: "contain",
+              }}
             />
           </View>
 
@@ -183,7 +187,7 @@ const CartScreen = ({ navig, route }) => {
         numColumns={2}
         data={productData}
         renderItem={(item) => {
-            console.log(item);
+          console.log(item);
           return <Card product={item.item} />;
         }}
       />
