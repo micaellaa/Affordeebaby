@@ -196,7 +196,8 @@ const CartScreen = ({ navig, route }) => {
                 color: COLORS.black,
                 backgroundColor: COLORS.white,
                 marginBottom: 4,
-              }}>Total: ${total}</Text>
+              }}>Total: ${total}
+              </Text>
     </View>
   );
 };
