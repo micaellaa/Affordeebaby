@@ -204,6 +204,10 @@ const AllCartsScreen = () => {
           <Text>X</Text>
           </View>
           </TouchableOpacity>
+          <View style = {{justifyContent: 'center', alignItems: 'center'}}>
+            <Text>CREATE A NEW CART</Text>
+          </View>
+          
           <View style={styles.inputContainer}>
             <TextInput
             placeholder="Cart Name"
@@ -211,14 +215,12 @@ const AllCartsScreen = () => {
             onChangeText={(text) => setCartName(text)} //a lambda
             style={styles.input}
             />
-            <TextInput
-            placeholder="Password"
-            value={password}
-            onChangeText={(text) => setPassword(text)} //why is it set to password
-            style={styles.input}
-            secureTextEntry
+            <Button title="Add Contributors" color={COLORS.indigo} onPress={() => navigation.navigate('Friends')} //navigate to friends page for now
+            />
+            <Button title="Create New Cart" color={COLORS.green} onPress={() => handleCreateNewCart} 
             />
             </View>
+            
         </CartPopUp>
         <Button title = "New Cart" onPress={() => setVisible(true)}/>
         </View>
