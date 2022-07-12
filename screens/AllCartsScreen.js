@@ -13,20 +13,48 @@ import {
   SafeAreaView,
   FlatList,
   Dimensions,
+  Button,
+  Modal
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
 import COLORS from "../consts/colors";
 import products from "../consts/products";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import { MenuProvider } from 'react-native-popup-menu'
 
 const width = Dimensions.get("window").width / 2 - 30;
+
+const CartPopUp = ({visible, children}) => {
+  const [showModal, setShowModal] = useState(visible);
+  useEffect(() => {
+    toggleModal();
+  }, [visible]);
+  const toggleModal = () => {
+    if (visible) {
+      setShowModal(true);
+    } else {
+      setShowModal(false);
+    }
+  }
+  return (
+    <Modal transparent visible = {showModal}>
+      <View style = {styles.modalBackground}>
+        <View style = {styles.modalContainer}>{children}</View>
+      </View>
+
+    </Modal>
+  )
+};
 
 const AllCartsScreen = () => {
   const navigation = useNavigation();
 
   //get array of cart ids
   const [carts1, setCarts1] = useState("");
+
+  const [CartName, setCartName] = useState("");
+  const [password, setPassword] = useState(""); //useState()
 
   const user = authentication.currentUser;
   const userUID = user.uid;
@@ -116,6 +144,7 @@ const AllCartsScreen = () => {
       </TouchableOpacity>
     );
   };
+  const [visible, setVisible] = useState(false);
 
   return (
     <View>
@@ -168,6 +197,31 @@ const AllCartsScreen = () => {
           return <Card cartID={item} />;
         }}
       />
+      <View style = {{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <CartPopUp visible = {visible}>
+          <TouchableOpacity onPress={() => setVisible(false)}>
+            <View style = {{paddingHorizontal: 800}}>
+          <Text>X</Text>
+          </View>
+          </TouchableOpacity>
+          <View style={styles.inputContainer}>
+            <TextInput
+            placeholder="Cart Name"
+            value={CartName}
+            onChangeText={(text) => setCartName(text)} //a lambda
+            style={styles.input}
+            />
+            <TextInput
+            placeholder="Password"
+            value={password}
+            onChangeText={(text) => setPassword(text)} //why is it set to password
+            style={styles.input}
+            secureTextEntry
+            />
+            </View>
+        </CartPopUp>
+        <Button title = "New Cart" onPress={() => setVisible(true)}/>
+        </View>
     </View>
   );
 };
@@ -244,6 +298,34 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "700",
     fontSize: 16,
+  },
+
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  modalContainer: {
+    width: '80%',
+    backgroundColor: COLORS.white,
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    borderRadius: 20,
+    elevation: 20,
+  },
+
+  inputContainer: {
+    width: "80%",
+  },
+  
+  input: {
+    backgroundColor: "white", //grey
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 5,
   },
 });
 
