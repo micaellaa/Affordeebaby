@@ -20,8 +20,9 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
-const ShoppingScreen = () => {
+const ShoppingScreen = ({route}) => {
   const navigation = useNavigation();
+  const discount = route.params;
   const [catergoryIndex, setCategoryIndex] = React.useState(0);
   const categories = ["POPULAR", "TOPS", "BOTTOMS", "DRESSES"];
   const CategoryList = () => {
@@ -133,6 +134,9 @@ const ShoppingScreen = () => {
           }
         }}
       />
+      <View>
+        <Image source={discount ? discount.img : null} style={styles.productImg} />
+      </View>
     </View>
   );
 };

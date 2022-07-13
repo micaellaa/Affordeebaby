@@ -33,7 +33,7 @@ const HomeScreen = () => {
   };
 
   const quickShop = () => {
-    navigation.navigate("Quickshop");
+    navigation.navigate("Quickshop", null);
   };
 
   /*const manageOrders = () => {
