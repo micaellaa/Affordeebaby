@@ -18,7 +18,6 @@ import { authentication } from "../firebase/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
-import { acceptFriendRequest } from "../functions/acceptFriendRequest";
 
 const width = Dimensions.get("window").width / 2 - 30;
 

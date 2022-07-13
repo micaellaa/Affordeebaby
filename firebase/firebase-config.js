@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { useState } from "react";
 import {
   initializeFirestore,
   getFirestore,
@@ -83,19 +84,33 @@ export const createCartDocument = async (user, additionalData) => {
   if (!user) return;
   console.log("is user");
 
+  //const [newCartID, setnewCartID] = useState("");
+
   const adminid = user.uid;
   const cartname = additionalData[0];
   const usersid = additionalData[1];
+  let docRef;
 
   try {
     console.log("try entered with: " + user.uid);
-    await addDoc(collection(firestore, "carts"), {
+    docRef = await addDoc(collection(firestore, "carts"), {
       adminid: adminid,
       cartname: cartname,
       productsID: [""],
       usersid: usersid,
     });
+    //setnewCartID(docRef.id);
     console.log("cart added");
+  } catch (error) {
+    console.log("Error in creating cart", error);
+  }
+
+  const adminRef = doc(firestore, "users", adminid);
+
+  try {
+    await updateDoc(adminRef, {
+      carts: arrayUnion(docRef.id),
+    });
   } catch (error) {
     console.log("Error in creating cart", error);
   }
