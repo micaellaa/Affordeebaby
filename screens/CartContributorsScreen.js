@@ -18,7 +18,7 @@ import { authentication } from "../firebase/firebase-config";
 import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
-import { InviteFriendsDropdown } from "../components/InviteFriendsDropdown";
+import { removeContributor } from "../functions/removeContributor";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
@@ -78,16 +78,6 @@ const CartContributorsScreen = ({ navig, route }) => {
   console.log("friends1: ", friends1);
 
   const K_OPTIONS = friends1;*/
-  // functions
-  const removeContributor = async (contributorUID) => {
-    try {
-      await updateDoc(cartRef, {
-        usersid: arrayRemove(contributorUID),
-      });
-    } catch (error) {
-      console.log("Error in removing contributor", error);
-    }
-  };
 
   const Card = ({ friendID }) => {
     if (friendID == "") return null;
@@ -130,7 +120,11 @@ const CartContributorsScreen = ({ navig, route }) => {
           }}
         ></View>
         <View style={styles.productDetailsPriceContainer}>
-          <TouchableOpacity activeOpacity={0.8} style={styles.addButton}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.addButton}
+            onPress={() => removeContributor(cartID, friendID)}
+          >
             <Text style={styles.addText}>-</Text>
           </TouchableOpacity>
         </View>

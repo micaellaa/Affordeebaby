@@ -5,9 +5,8 @@ import {
   initializeFirestore,
   getFirestore,
   collection,
-  getDocs,
   doc,
-  getDoc,
+  addDoc,
   setDoc,
   updateDoc,
   arrayUnion,
@@ -45,8 +44,6 @@ export const firestore = getFirestore(app); // CHANGED THIS FROM NO EXPORT OKAY
 export const createUserDocument = async (user, additionalData) => {
   if (!user) return;
   console.log("is user");
-  const userRef = doc(firestore, "users", user.uid);
-  //const snapshot = await getDoc(userRef);
 
   const email = user.email;
   const firstName = additionalData[0];
@@ -79,6 +76,28 @@ export const createUserDocument = async (user, additionalData) => {
     console.log("user data added");
   } catch (error) {
     console.log("Error in creating user", error);
+  }
+};
+
+export const createCartDocument = async (user, additionalData) => {
+  if (!user) return;
+  console.log("is user");
+
+  const adminid = user.uid;
+  const cartname = additionalData[0];
+  const usersid = additionalData[1];
+
+  try {
+    console.log("try entered with: " + user.uid);
+    await addDoc(collection(firestore, "carts"), {
+      adminid: adminid,
+      cartname: cartname,
+      productsID: [""],
+      usersid: usersid,
+    });
+    console.log("cart added");
+  } catch (error) {
+    console.log("Error in creating cart", error);
   }
 };
 

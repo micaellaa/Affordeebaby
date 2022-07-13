@@ -14,18 +14,18 @@ import {
   FlatList,
   Dimensions,
   Button,
-  Modal
+  Modal,
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
 import COLORS from "../consts/colors";
-import products from "../consts/products";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { MenuProvider } from 'react-native-popup-menu'
+import { MenuProvider } from "react-native-popup-menu";
+import { createCartDocument } from "../firebase/firebase-config";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
-const CartPopUp = ({visible, children}) => {
+const CartPopUp = ({ visible, children }) => {
   const [showModal, setShowModal] = useState(visible);
   useEffect(() => {
     toggleModal();
@@ -36,15 +36,14 @@ const CartPopUp = ({visible, children}) => {
     } else {
       setShowModal(false);
     }
-  }
+  };
   return (
-    <Modal transparent visible = {showModal}>
-      <View style = {styles.modalBackground}>
-        <View style = {styles.modalContainer}>{children}</View>
+    <Modal transparent visible={showModal}>
+      <View style={styles.modalBackground}>
+        <View style={styles.modalContainer}>{children}</View>
       </View>
-
     </Modal>
-  )
+  );
 };
 
 const AllCartsScreen = () => {
@@ -54,6 +53,7 @@ const AllCartsScreen = () => {
   const [carts1, setCarts1] = useState("");
 
   const [CartName, setCartName] = useState("");
+  const [usersid, setusersid] = useState([""]);
   const [password, setPassword] = useState(""); //useState()
 
   const user = authentication.currentUser;
@@ -79,6 +79,29 @@ const AllCartsScreen = () => {
   }, []);
 
   console.log("carts1: ", carts1);
+
+  // fetch list of friends' user id's
+  const [friends1, setFriends1] = useState("");
+
+  const userRef = doc(firestore, "users", userUID);
+
+  useEffect(() => {
+    async function fetchFriends() {
+      const docSnap = await getDoc(userRef);
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+      }
+      try {
+        const fq = docSnap.get("friendships");
+        setFriends1(fq);
+      } catch (error) {
+        console.log("Error in finding friends", error);
+      }
+    }
+    fetchFriends();
+  }, []);
+
+  console.log("friends1: ", friends1);
 
   const Card = ({ cartID }) => {
     const [name, setName] = useState("");
@@ -197,33 +220,38 @@ const AllCartsScreen = () => {
           return <Card cartID={item} />;
         }}
       />
-      <View style = {{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <CartPopUp visible = {visible}>
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <CartPopUp visible={visible}>
           <TouchableOpacity onPress={() => setVisible(false)}>
-            <View style = {{paddingHorizontal: 800}}>
-          <Text>X</Text>
-          </View>
+            <View>
+              <Text>X</Text>
+            </View>
           </TouchableOpacity>
-          <View style = {{justifyContent: 'center', alignItems: 'center'}}>
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
             <Text>CREATE A NEW CART</Text>
           </View>
-          
+
           <View style={styles.inputContainer}>
             <TextInput
-            placeholder="Cart Name"
-            value={CartName}
-            onChangeText={(text) => setCartName(text)} //a lambda
-            style={styles.input}
+              placeholder="Cart Name"
+              value={CartName}
+              onChangeText={(text) => setCartName(text)} //a lambda
+              style={styles.input}
             />
-            <Button title="Add Contributors" color={COLORS.indigo} onPress={() => navigation.navigate('Friends')} //navigate to friends page for now
+            <Button
+              title="Add Contributors"
+              color={COLORS.indigo}
+              onPress={() => navigation.navigate("Friends")} //navigate to friends page for now
             />
-            <Button title="Create New Cart" color={COLORS.green} onPress={() => handleCreateNewCart} 
+            <Button
+              title="Create New Cart"
+              color={COLORS.green}
+              onPress={() => createCartDocument(user, [CartName, usersid])}
             />
-            </View>
-            
+          </View>
         </CartPopUp>
-        <Button title = "New Cart" onPress={() => setVisible(true)}/>
-        </View>
+        <Button title="New Cart" onPress={() => setVisible(true)} />
+      </View>
     </View>
   );
 };
@@ -304,13 +332,13 @@ const styles = StyleSheet.create({
 
   modalBackground: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   modalContainer: {
-    width: '80%',
+    width: "80%",
     backgroundColor: COLORS.white,
     paddingHorizontal: 20,
     paddingVertical: 30,
@@ -321,7 +349,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: "80%",
   },
-  
+
   input: {
     backgroundColor: "white", //grey
     paddingHorizontal: 15,

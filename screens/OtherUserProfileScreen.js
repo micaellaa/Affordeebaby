@@ -47,7 +47,7 @@ const OtherUserProfileScreen = ({ navig, route }) => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
-          onPress={sendFriendRequest(userUID)}
+          onPress={() => sendFriendRequest(userUID)}
         >
           <Text style={styles.buttonText}>Send friend request!</Text>
         </TouchableOpacity>
