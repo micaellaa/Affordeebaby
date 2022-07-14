@@ -18,11 +18,16 @@ import { authentication } from "../firebase/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
+import Icon from "react-native-vector-icons/MaterialIcons";
+import { removeFriend } from "../functions/removeFriend";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
 const FriendsScreen = () => {
   const navigation = useNavigation();
+  //top menu constants
+  const menuOptions = ["Shop", "Profile", "Find Friends"];
+  const [menuOptionsIndex, setMenuOptionsIndex] = useState(2);
 
   //get array of cart ids
   const [friends1, setFriends1] = useState("");
@@ -73,21 +78,33 @@ const FriendsScreen = () => {
     }, []);
 
     return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => navigation.navigate("OtherUserProfile", friendID)}
-      >
+      <TouchableOpacity>
         <View style={styles.card}>
-          <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
-            {name}
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 5,
-            }}
-          ></View>
+          <View style={styles.cardrow}>
+            <Image
+              style={styles.avatarDimensions}
+              source={require("../assets/Netguru_Avatars_Pack/Artboards_Diversity_Avatars_by_Netguru-01.png")}
+              onPress={() => navigation.navigate("OtherUserProfile", friendID)}
+            />
+            <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
+              {name}
+            </Text>
+          </View>
+          <View style={styles.cardrow2}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignItems: "flex-end",
+              }}
+            >
+              <Icon
+                name="person-remove-alt-1"
+                size={32}
+                onPress={() => removeFriend(friendID)}
+              />
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -95,9 +112,35 @@ const FriendsScreen = () => {
 
   return (
     <ImageBackground
-      source={require("../assets/palmshadow-bg.png")} //stub image
+      source={require("../assets/palmshadow-bg2.jpg")} //stub image
       style={styles.container}
     >
+      <View style={styles.menuContainer}>
+        {menuOptions.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            activeOpacity={0.8}
+            onPress={() => {
+              setMenuOptionsIndex(index);
+              if (index == 0) {
+                navigation.navigate("Home"); // stub
+              }
+              if (index == 1) {
+                navigation.navigate("Profile");
+              }
+            }}
+          >
+            <Text
+              style={[
+                styles.menuOptionsText,
+                menuOptionsIndex == index && styles.menuOptionsTextSelected,
+              ]}
+            >
+              {item}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
       <View style={styles.header1}>
         <Text style={styles.header1Font}>Friends</Text>
       </View>
@@ -143,7 +186,7 @@ const styles = StyleSheet.create({
   menuContainer: {
     flexDirection: "row",
     width: "80%",
-    marginTop: 30,
+    marginTop: 60,
     marginBottom: 40,
     justifyContent: "space-between",
   },
@@ -164,9 +207,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   header1Font: {
-    fontSize: 25,
-    fontWeight: "bold",
-    paddingHorizontal: 50,
+    fontSize: 30,
+    color: COLORS.indigo,
+    fontFamily: "HelveticaNeue-BoldItalic",
+    flexShrink: 1,
   },
   categoryContainer: {
     flexDirection: "row",
@@ -183,13 +227,17 @@ const styles = StyleSheet.create({
     borderColor: COLORS.indigo,
   },
   card: {
-    height: 225,
+    flex: 1,
+    flexDirection: "column",
     backgroundColor: COLORS.white,
+    height: 100,
     width,
+    justifyContent: "center",
+    alignItems: "flex-start",
     marginHorizontal: 2,
     borderRadius: 10,
     marginBottom: 20,
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
   },
   header: {
     marginTop: 30,
@@ -237,5 +285,19 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "700",
     fontSize: 16,
+  },
+  avatarDimensions: {
+    width: 60,
+    height: 60,
+  },
+  cardrow: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+  },
+  cardrow2: {
+    flex: 1,
+    flexDirection: "row-reverse",
+    justifyContent: "flex-start",
   },
 });

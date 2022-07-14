@@ -19,12 +19,12 @@ import FetchProfile from "../components/FetchProfile";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
-const ProfileScreen = () => {
+const ChooseAvatarScreen = () => {
   const navigation = useNavigation();
 
   //top menu constants
   const menuOptions = ["Shop", "Profile", "Find Friends"];
-  const [menuOptionsIndex, setMenuOptionsIndex] = useState(1);
+  const [menuOptionsIndex, setMenuOptionsIndex] = useState(0);
 
   //authentication for profile
   const user = authentication.currentUser;
@@ -32,69 +32,13 @@ const ProfileScreen = () => {
 
   return (
     <ImageBackground
-      source={require("../assets/palmshadow-bg2.jpg")} //stub image
+      source={require("../assets/palmshadow-bg.png")} //stub image
       style={styles.container}
-    >
-      <View style={styles.menuContainer}>
-        {menuOptions.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            activeOpacity={0.8}
-            onPress={() => {
-              setMenuOptionsIndex(index);
-              if (index == 0) {
-                navigation.navigate("Home"); // stub
-              }
-              if (index == 2) {
-                navigation.navigate("FindFriends");
-              }
-            }}
-          >
-            <Text
-              style={[
-                styles.menuOptionsText,
-                menuOptionsIndex == index && styles.menuOptionsTextSelected,
-              ]}
-            >
-              {item}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-
-      <TouchableOpacity onPress={() => navigation.navigate("ChooseAvatar")}>
-        <Image
-          style={styles.avatarDimensions}
-          source={require("../assets/Netguru_Avatars_Pack/Artboards_Diversity_Avatars_by_Netguru-01.png")}
-        />
-      </TouchableOpacity>
-      <FetchProfile />
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("AllCarts")}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>View Carts</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Friends")}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Friends</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Notifications")}
-          style={styles.button}
-        >
-          <Text style={styles.buttonText}>Friend Requests</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
+    ></ImageBackground>
   );
 };
 
-export default ProfileScreen;
+export default ChooseAvatarScreen;
 
 const styles = StyleSheet.create({
   searchbarContainer: {
@@ -146,7 +90,7 @@ const styles = StyleSheet.create({
   menuContainer: {
     flexDirection: "row",
     width: "80%",
-    marginTop: 60,
+    marginTop: 30,
     marginBottom: 40,
     justifyContent: "space-between",
   },

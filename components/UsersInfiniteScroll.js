@@ -160,15 +160,6 @@ class UsersInfiniteScroll extends React.Component {
     }
   };
 
-  // Render Header
-  renderHeader = () => {
-    try {
-      return <Text style={styles.headerText}>Users</Text>;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   // Render Footer
   renderFooter = () => {
     try {
@@ -239,8 +230,7 @@ export default function RootFunction() {
 // Styles
 const styles = StyleSheet.create({
   container: {
-    height: height,
-    width: width,
+    flex: 1,
   },
   userButton: {
     flexDirection: "row",

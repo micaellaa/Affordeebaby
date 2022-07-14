@@ -22,7 +22,7 @@ const FindFriendsScreen = () => {
 
   //top menu constants
   const menuOptions = ["Shop", "Profile", "Find Friends"];
-  const [menuOptionsIndex, setMenuOptionsIndex] = useState(0);
+  const [menuOptionsIndex, setMenuOptionsIndex] = useState(2);
 
   //searchbar constants
   const [value, setValue] = useState();
@@ -30,7 +30,7 @@ const FindFriendsScreen = () => {
 
   return (
     <ImageBackground
-      source={require("../assets/palmshadow-bg.png")} //stub image
+      source={require("../assets/palmshadow-bg2.jpg")} //stub image
       style={styles.container}
     >
       <View style={styles.menuContainer}>
@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
   barContainer: {
     flexDirection: "row",
     width: "80%",
-    marginTop: 30,
-    marginBottom: 40,
+    marginTop: 60,
+    marginBottom: 30,
     justifyContent: "space-between",
   },
   searchbarContainer: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   menuContainer: {
     flexDirection: "row",
     width: "80%",
-    marginTop: 30,
+    marginTop: 60,
     marginBottom: 40,
     justifyContent: "space-between",
   },

@@ -46,7 +46,6 @@ class FReqInfiniteScroll extends React.Component {
     }
   };
 
-  
   retrieveData = async () => {
     try {
       // Set State: Loading
@@ -128,7 +127,11 @@ class FReqInfiniteScroll extends React.Component {
   // Render Header
   renderHeader = () => {
     try {
-      return <Text style={styles.headerText}>Users</Text>;
+      return (
+        <View style={styles.headerView}>
+          <Text style={styles.headerText}>Users</Text>
+        </View>
+      );
     } catch (error) {
       console.log(error);
     }
@@ -208,6 +211,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 40,
   },
+
   headerText: {
     fontFamily: "System",
     fontSize: 36,
