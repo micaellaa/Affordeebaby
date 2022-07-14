@@ -28,7 +28,6 @@ const FindFriendsScreen = () => {
   const [value, setValue] = useState();
   // function updateSearch(value) {}
 
-  // prettier-ignore
   return (
     <ImageBackground
       source={require("../assets/palmshadow-bg.png")} //stub image
@@ -60,8 +59,7 @@ const FindFriendsScreen = () => {
           </TouchableOpacity>
         ))}
       </View>
-      <UsersInfiniteScroll/>
-    
+      <UsersInfiniteScroll />
     </ImageBackground>
   );
 };
@@ -69,6 +67,13 @@ const FindFriendsScreen = () => {
 export default FindFriendsScreen;
 
 const styles = StyleSheet.create({
+  barContainer: {
+    flexDirection: "row",
+    width: "80%",
+    marginTop: 30,
+    marginBottom: 40,
+    justifyContent: "space-between",
+  },
   searchbarContainer: {
     flexDirection: "row",
     width: "80%",
@@ -111,6 +116,11 @@ const styles = StyleSheet.create({
   menuOptionsText: {
     fontsize: 16,
     color: "grey",
+    fontWeight: "bold",
+  },
+  menuOptionsText1: {
+    fontsize: 16,
+    color: "white",
     fontWeight: "bold",
   },
   menuOptionsTextSelected: {

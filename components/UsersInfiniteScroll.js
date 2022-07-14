@@ -9,6 +9,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { firestore } from "../firebase/firebase-config";
 import {
@@ -80,6 +81,7 @@ class UsersInfiniteScroll extends React.Component {
     }
   };
   */
+
   retrieveData = async () => {
     try {
       // Set State: Loading
@@ -189,6 +191,7 @@ class UsersInfiniteScroll extends React.Component {
           data={this.state.documentData}
           // Render Items
           //onPress={() => navigation.navigate("OtherUserProfile", item.)}
+          //var RandomNumber = Math.floor(Math.random() * 59) + 1;
           renderItem={({ item }) => (
             <View style={styles.itemContainer}>
               <TouchableOpacity
@@ -197,8 +200,14 @@ class UsersInfiniteScroll extends React.Component {
                   this.props.navigation.navigate("OtherUserProfile", item.uid)
                 }
               >
-                <Text style={styles.firstNameText}>{item.firstName}</Text>
-                <Text style={styles.usernameText}>@{item.username}</Text>
+                <Image
+                  style={styles.profileDimensions}
+                  source={require("../assets/Netguru_Avatars_Pack/Artboards_Diversity_Avatars_by_Netguru-01.png")}
+                />
+                <View style={styles.names}>
+                  <Text style={styles.firstNameText}>{item.firstName}</Text>
+                  <Text style={styles.usernameText}>@{item.username}</Text>
+                </View>
               </TouchableOpacity>
             </View>
           )}
@@ -234,12 +243,18 @@ const styles = StyleSheet.create({
     width: width,
   },
   userButton: {
-    backgroundColor: COLORS.indigo,
-    width: "90%",
+    flexDirection: "row",
+    backgroundColor: "transparent",
+    width: "60%",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
     marginTop: 40,
+    justifyContent: "flex-start",
+  },
+  profileDimensions: {
+    width: 80,
+    height: 80,
   },
   headerText: {
     fontFamily: "System",
@@ -252,8 +267,6 @@ const styles = StyleSheet.create({
   itemContainer: {
     height: 80,
     width: width,
-    borderWidth: 0.2,
-    borderColor: "#000",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -263,8 +276,11 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     color: "#000",
   },
+  names: {
+    flexDirection: "column",
+  },
   firstNameText: {
-    fontsize: 20,
+    fontsize: 36,
     color: "white",
     fontWeight: "bold",
   },
