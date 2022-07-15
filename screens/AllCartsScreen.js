@@ -250,8 +250,8 @@ const AllCartsScreen = () => {
             />
           </View>
         </CartPopUp>
-        <Button title="New Cart" onPress={() => setVisible(true)} />
       </View>
+      <Button title="New Cart" onPress={() => setVisible(true)} />
     </View>
   );
 };
