@@ -31,9 +31,6 @@ const DetailsScreen = ({ route, navigation }) => {
 
   let position = Animated.divide(scrollX, width);
 
-  //const {items, addItemToCart, getTotalPrice} = useContext(CartContext);
-  //get product data by productID
-
   //product horizontal scroll product card
   const renderProduct = ({ item, index }) => {
     return (

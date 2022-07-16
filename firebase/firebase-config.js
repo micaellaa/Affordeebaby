@@ -116,30 +116,16 @@ export const createCartDocument = async (user, additionalData) => {
   }
 };
 
-export const updateCartDocument = async (user, cartID, productID) => {
+/*
+export const updateCartDocument = async (userUID, cartID, productID) => {
   if (!user) return;
-  console.log("is user");
+  console.log("updateCartDocument with: ");
   const cartsRef = doc(firestore, "carts", cartID);
   try {
-    console.log("Added to cart", productID);
     await updateDoc(cartsRef, {
       productsID: arrayUnion(productID),
     });
   } catch (error) {
     console.log("Error in creating order", error);
   }
-};
-/*
-  const handleAddToCart = (cartID) => {
-    const cartsRef = doc(firestore, "carts", cartID);
-    if (!cartsRef) return;
-    
-    try {
-        await updateDoc(cartsRef, {
-            productsID: arrayUnion(productID),
-        });
-    } catch (error) {
-      console.log("Error in creating order", error);
-    }
-  };
-*/
+};*/

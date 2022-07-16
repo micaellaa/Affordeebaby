@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
-import { firestore, updateCartDocument } from "../firebase/firebase-config";
+import { firestore } from "../firebase/firebase-config";
 import { authentication } from "../firebase/firebase-config";
 import {
   collection,
@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import SelectDropdown from "react-native-select-dropdown";
 import COLORS from "../consts/colors";
+import { updateCartDocument } from "../functions/updateCartDocument";
 
 const CartsDropdown = (productID) => {
   const [value, setValue] = useState(""); //fix infinite loop
@@ -22,6 +23,7 @@ const CartsDropdown = (productID) => {
 
   if (!user) return;
 
+  /*
   const cartConverter = {
     toFirestore: (cart) => {
       return {
@@ -34,11 +36,9 @@ const CartsDropdown = (productID) => {
       const data = snapshot.data(options);
       return data.cartname;
     },
-  };
+  };*/
 
-  const usersRef = doc(firestore, "users", userUID).withConverter(
-    cartConverter
-  );
+  const usersRef = doc(firestore, "users", userUID);
 
   useEffect(() => {
     async function fetchUserCarts() {
@@ -59,13 +59,12 @@ const CartsDropdown = (productID) => {
 
   //const cartsList = docSnap.get("carts");
   const cartsData = cartsList;
-  console.log(cartsData);
+  console.log("cartsData: ", cartsData);
 
   const handleAddToCart = (cartID) => {
-    updateCartDocument(user, cartID, productID);
+    updateCartDocument(cartID, productID);
   };
 
-  const stub = ["1", "2"];
   return (
     <SelectDropdown
       data={cartsData}

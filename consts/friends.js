@@ -22,8 +22,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { removeFriend } from "../functions/removeFriend";
 
 const allFriends = () => {
-    
-    friendsArray = [];
+  friendsArray = [];
 
   //get array of cart ids
   const [friends1, setFriends1] = useState("");
@@ -73,9 +72,9 @@ const allFriends = () => {
       fetchUser();
     }, []);
 
-    friendsArray.push({item: {name}, id: friendID})
+    //friendsArray.push({item: {name}, id: friendID})
 
-    return friendsArray;
+    return null;
   };
 
   return (

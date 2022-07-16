@@ -58,7 +58,7 @@ const CartScreen = ({ navig, route }) => {
       //if (items.includes(product.id)) {
       console.log(productID);
       const product = products.find(
-        (element) => element.id == productID.productID
+        (element) => element.id == productID.productID.productID
       );
       productData.push(product);
     });
