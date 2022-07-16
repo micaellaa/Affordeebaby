@@ -22,6 +22,9 @@ import COLORS from "../consts/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { MenuProvider } from "react-native-popup-menu";
 import { createCartDocument } from "../firebase/firebase-config";
+import SelectBox from 'react-native-multi-selectbox';
+import AddContributors from "../components/AddContributorsDropdown";
+
 
 const width = Dimensions.get("window").width / 2 - 30;
 
@@ -81,33 +84,16 @@ const AllCartsScreen = () => {
   console.log("carts1: ", carts1);
 
   // fetch list of friends' user id's
-  const [friends1, setFriends1] = useState("");
+  
 
-  const userRef = doc(firestore, "users", userUID);
-
-  useEffect(() => {
-    async function fetchFriends() {
-      const docSnap = await getDoc(userRef);
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-      }
-      try {
-        const fq = docSnap.get("friendships");
-        setFriends1(fq);
-      } catch (error) {
-        console.log("Error in finding friends", error);
-      }
-    }
-    fetchFriends();
-  }, []);
-
-  console.log("friends1: ", friends1);
+  //console.log("friends1: ", friends1);
 
   const Card = ({ cartID }) => {
     const [name, setName] = useState("");
     console.log("cartID into Card:", cartID);
     //get cart name
     const cartsRef = doc(firestore, "carts", cartID);
+
 
     useEffect(() => {
       async function fetchCart() {
@@ -241,7 +227,7 @@ const AllCartsScreen = () => {
             <Button
               title="Add Contributors"
               color={COLORS.indigo}
-              onPress={() => navigation.navigate("Friends")} //navigate to friends page for now
+              onPress={() => AddContributors()} //navigate to friends page for now
             />
             <Button
               title="Create New Cart"
