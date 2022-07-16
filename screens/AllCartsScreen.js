@@ -56,7 +56,8 @@ const AllCartsScreen = () => {
 
   const [CartName, setCartName] = useState("");
   const [usersid, setusersid] = useState([""]);
-  const [password, setPassword] = useState(""); //useState()
+
+  const [createdCart, setCreatedCart] = useState("");
 
   const user = authentication.currentUser;
   const userUID = user.uid;
@@ -66,28 +67,22 @@ const AllCartsScreen = () => {
     async function fetchCarts() {
       const docSnap = await getDoc(usersRef);
       if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
       }
       try {
-        console.log("try entered");
         const carts = docSnap.get("carts");
-        console.log("carts: ", carts);
         setCarts1(carts);
       } catch (error) {
         console.log("Error in finding carts", error);
       }
     }
     fetchCarts();
-  }, []);
+  }, [createdCart]);
 
   console.log("carts1: ", carts1);
 
-  // fetch list of friends' user id's
-
-  //console.log("friends1: ", friends1);
-
   const Card = ({ cartID }) => {
     const [name, setName] = useState("");
+
     console.log("cartID into Card:", cartID);
     //get cart name
     const cartsRef = doc(firestore, "carts", cartID);
@@ -95,11 +90,7 @@ const AllCartsScreen = () => {
     useEffect(() => {
       async function fetchCart() {
         const docSnap = await getDoc(cartsRef);
-        if (docSnap.exists()) {
-          console.log("Document data:", docSnap.data());
-        }
         try {
-          console.log("try entered");
           const cN = docSnap.get("cartname");
           setName(cN);
         } catch (error) {
@@ -229,7 +220,11 @@ const AllCartsScreen = () => {
             <Button
               title="Create New Cart"
               color={COLORS.green}
-              onPress={() => createCartDocument(user, [CartName, usersid])}
+              onPress={() => {
+                createCartDocument(user, [CartName, usersid]);
+                setVisible(false);
+                setCreatedCart(true);
+              }}
             />
           </View>
         </CartPopUp>

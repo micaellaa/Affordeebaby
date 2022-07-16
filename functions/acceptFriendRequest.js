@@ -1,6 +1,13 @@
+import React, { useState, useEffect } from "react";
 import { authentication } from "../firebase/firebase-config";
 import "firebase/firestore";
-import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  getDoc,
+} from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
 
 export const acceptFriendRequest = async (senderUID) => {

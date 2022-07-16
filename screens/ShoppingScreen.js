@@ -116,10 +116,16 @@ const ShoppingScreen = () => {
         <View style={styles.sortBtn}>
           <Icon name="sort" size={30} color={COLORS.white} />
         </View>
+        <View style={styles.sortBtn}>
+          <Image
+            style={styles.cartDimensions}
+            source={require("../assets/bell-icon2.png")}
+          />
+        </View>
       </View>
       <CategoryList />
       <FlatList
-        columnWrapperStyle={{ justifyContent: "space-between" }}
+        columnWrapperStyle={{ justifyContent: "space-evenly" }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           marginTop: 10,
@@ -260,5 +266,9 @@ const styles = StyleSheet.create({
     flex: 3,
     paddingHorizontal: 50,
     backgroundColor: COLORS.white,
+  },
+  cartDimensions: {
+    width: 40,
+    height: 40,
   },
 });

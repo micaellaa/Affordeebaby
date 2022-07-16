@@ -1,42 +1,41 @@
 const products = [
   {
     id: 1,
-    category: 'product',
-    name: 'Checkered Crop Top',
+    category: "product",
+    name: "Checkered Crop Top",
     categoryno: 1,
-    price: 9.99,
+    price: 6.99,
     about:
-      'Up to 20 hours battery life | Super powerful Bass | 40mm dynamic driver | Pressure less ear muffs | Bluetooth 5.0 | Voice control',
+      "Multicolor | Casual | Tank | Crop | Slim Fit | 90% Polyester, 4% Elastane | Machine Wash",
     isOff: true,
     offPercentage: 10,
-    img: require('../assets/checkeredtop.png'),
+    img: require("../assets/checkeredtop.png"),
     like: true,
     isAvailable: true,
     productImageList: [
-      require('../assets/checkeredtop.png'),
-      require('../assets/checkeredtop.png'),
-      require('../assets/checkeredtop.png'),
+      require("../assets/checkeredtop.png"),
+      require("../assets/checkeredtop.png"),
+      require("../assets/checkeredtop.png"),
     ],
   },
   {
     id: 2,
-    category: 'product',
-    name: 'Lettuce Crop Top',
+    category: "product",
+    name: "Lettuce Crop Top",
     categoryno: 1,
     price: 9.99,
     about:
-      'boAt Rockerz 450 M is an on-ear wireless headset that has been ergonomically designed to meet the needs of music lovers.',
+      "Green | Casual | Shirt | Crop | Slim Fit | 50% Cotton, 50% Polyester | Machine Wash",
     isOff: false,
-    img: require('../assets/lettucetop.png'),
+    img: require("../assets/lettucetop.png"),
     like: true,
     isAvailable: true,
     productImageList: [
-      require('../assets/lettucetop.png'),
-      require('../assets/lettucetop.png'),
-      require('../assets/lettucetop.png'),
+      require("../assets/lettucetop.png"),
+      require("../assets/lettucetop.png"),
+      require("../assets/lettucetop.png"),
     ],
   },
-
 ];
 
 export default products;
