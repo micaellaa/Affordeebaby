@@ -23,7 +23,8 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { MenuProvider } from "react-native-popup-menu";
 import { createCartDocument } from "../firebase/firebase-config";
 import SelectBox from "react-native-multi-selectbox";
-import AddContributors from "../components/AddContributorsDropdown";
+import onMultiChange from "../functions/onMultiSelect";
+import AddContributorsDropdown from "../components/AddContributorsDropdown";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
@@ -210,28 +211,27 @@ const AllCartsScreen = () => {
               <Text>X</Text>
             </View>
           </TouchableOpacity>
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text>Create a New Cart</Text>
+          <View style={{ justifyContent: "center", alignItems: "center"}}>
+            <Text>Create New Cart</Text>
           </View>
 
           <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Cart Name"
+              placeholder="Enter Cart Name"
               value={CartName}
               onChangeText={(text) => setCartName(text)} //a lambda
               style={styles.input}
             />
-            <Button
-              title="Add Contributors"
-              color={COLORS.indigo}
-              onPress={() => AddContributors()} //navigate to friends page for now
-            />
+            
+                </View>
+               <View>
+                <AddContributorsDropdown/>
+               </View>
             <Button
               title="Create New Cart"
               color={COLORS.green}
               onPress={() => createCartDocument(user, [CartName, usersid])}
             />
-          </View>
         </CartPopUp>
       </View>
     </View>
@@ -335,6 +335,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "80%",
+    paddingHorizontal: 10
   },
 
   input: {
@@ -406,3 +407,22 @@ const Card = ({ product }) => {
     );
   };
   */
+
+  /*<Button
+              title="Add Contributors"
+              color={COLORS.indigo}
+              onPress={() => 
+              {const [selectedTeams, setSelectedTeams] = useState([]);
+                const stub = [{item: 'mic', id: 1}, {item: 'fion', id: 2}]
+                return (
+                <View style={{ margin: 30 }}>
+                <View style={{ height: 40 }} />
+                <Text style={{ fontSize: 20, paddingBottom: 10 }}>MultiSelect Demo</Text>
+                <SelectBox
+                label="Select multiple"
+                options={stub}
+                selectedValues={selectedTeams}
+                onMultiSelect={onMultiChange()}
+                onTapClose={onMultiChange()}
+                isMulti
+                />*/
