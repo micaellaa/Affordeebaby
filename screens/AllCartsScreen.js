@@ -113,7 +113,7 @@ const AllCartsScreen = () => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => navigation.navigate("Cart", cartID)}
+        onPress={() => navigation.navigate("Cart", {cartID: cartID, discountID: null})}
       >
         <View style={styles.card}>
           <View style={styles.cartBtn}>

@@ -19,6 +19,7 @@ import COLORS from "../consts/colors";
 import discounts from "../consts/discounts";
 /*import { ScrollView } from 'react-native-gesture-handler';*/
 import Icon from "react-native-vector-icons/MaterialIcons";
+import DiscountsCartsDropdown from "../components/DiscountsCartsDropdown";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
@@ -51,10 +52,7 @@ const DiscountsScreen = () => {
 
   const Card = ({ discount }) => {
     return (
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => navigation.navigate("Quickshop", discount.id)}
-      >
+      <View>
         <View style={styles.card}>
           <View style={{ alignItems: "flex-end" }}>
             <View style={styles.space1}></View>
@@ -69,12 +67,10 @@ const DiscountsScreen = () => {
             <Text style={styles.discMinSpendText}>
               Minimum Spend: ${discount.minspend}
             </Text>
-            <View style={styles.discApplyButton}>
-              <Text style={styles.discApplyText}> APPLY </Text>
-            </View>
+            <DiscountsCartsDropdown/>
           </View>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   };
 
