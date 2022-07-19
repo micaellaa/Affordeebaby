@@ -17,10 +17,12 @@ import { TouchableOpacity } from "react-native-gesture-handler"; // took out Tex
 import COLORS from "../consts/colors";
 import products from "../consts/products";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import discounts from "../consts/discounts";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
-const ShoppingScreen = () => {
+const ShoppingScreen = ({route}) => {
+  const discountId = route.params;
   const navigation = useNavigation();
   const [catergoryIndex, setCategoryIndex] = React.useState(0);
   const categories = ["POPULAR", "TOPS", "BOTTOMS", "DRESSES"];
@@ -46,6 +48,59 @@ const ShoppingScreen = () => {
       </View>
     );
   };
+
+  const DiscountCard = ({ discountId }) => {
+    if (discountId) {
+      const appliedDisc = discounts.find(elem => elem.id == discountId);
+      return (
+        <View style={styles.discountCard}>
+          <View style={{ alignItems: "flex-end" }}>
+            <View style={styles.space1}></View>
+          </View>
+
+          <View style={styles.discountContainer}>
+            <Image source={appliedDisc.img} style={styles.discImage} />
+          </View>
+
+          <Text style={styles.discountNameText}>{appliedDisc.name}</Text>
+          <View style={styles.discountDetailsCont}>
+            <Text style={styles.discMinSpendText}>
+              Minimum Spend: ${appliedDisc.minspend}
+            </Text>
+            <TouchableOpacity
+            activeOpacity={0.8} 
+            onPress = {()=>navigation.navigate("Discounts")}>
+            <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> EDIT </Text>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity 
+          activeOpacity={0.8} 
+          onPress = {()=>navigation.navigate("Quickshop", null)}>
+          <View style={styles.discRemoveButton}>
+              <Text style={styles.discApplyText}>REMOVE</Text>
+              </View>
+            </TouchableOpacity>   
+          </View>
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.discountContainer}>
+          <Text>No Discount Applied</Text>
+          <TouchableOpacity 
+          activeOpacity={0.8} 
+          onPress = {()=>navigation.navigate("Discounts")}>
+          <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> EDIT </Text>
+              </View>
+            </TouchableOpacity>    
+          </View>
+        
+        
+      );
+    }
+  }
 
   const Card = ({ product }) => {
     return (
@@ -99,12 +154,20 @@ const ShoppingScreen = () => {
           <Text style={styles.headerText1}>Welcome to</Text>
           <Text style={styles.headerText2}>Product Shop</Text>
         </View>
-        <Icon
+        </View>
+        <View style={{paddingHorizontal: 800}}>
+          <Icon
           name="shopping-cart"
           size={28}
           onPress={() => navigation.navigate("AllCarts")}
         />
         <Icon name="settings" size={28} />
+        </View>
+      <View style = {{paddingHorizontal: 80}}>
+        <Text style = {{fontWeight:'bold'}}>Discount applied:</Text>
+      </View>
+      <View>
+        <DiscountCard discountId = {discountId}/>
       </View>
       <View
         style={{ marginTop: 30, flexDirection: "row", paddingHorizontal: 50 }}
@@ -260,5 +323,47 @@ const styles = StyleSheet.create({
     flex: 3,
     paddingHorizontal: 50,
     backgroundColor: COLORS.white,
+  },
+
+  discountContainer: {
+    height: 100,
+    alignItems: "center",
+  },
+
+  discImage: {
+    width: 600,
+    height: 200,
+    flex: 1,
+  },
+  discountNameText: { fontWeight: "bold", fontSize: 17, marginTop: 10, paddingHorizontal: 50 },
+  discountDetailsCont: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+    paddingHorizontal: 50
+  },
+  discMinSpendText: { fontSize: 19, fontWeight: "bold" },
+  discApplyButton: {
+    height: 25,
+    width: 50,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discRemoveButton: {
+    height: 25,
+    width: 70,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discApplyText: { color: COLORS.white, fontWeight: "bold" },
+  discImage: {
+    width: 300,
+    height: 100,
+    flex: 1,
+    resizeMode: "contain",
   },
 });

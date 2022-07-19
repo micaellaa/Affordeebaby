@@ -53,7 +53,7 @@ const DiscountsScreen = () => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => navigation.navigate("Quickshop")}
+        onPress={() => navigation.navigate("Quickshop", discount.id)}
       >
         <View style={styles.card}>
           <View style={{ alignItems: "flex-end" }}>
