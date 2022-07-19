@@ -51,7 +51,7 @@ const CartScreen = ({ navig, route }) => {
   console.log("productsID: ", productsID);
 
   let productData = [];
-
+  let totalPrice = 0.00;
   //productsID contains list of product ID's inside the cart
   if (productsID) {
     productsID.forEach((productID) => {
@@ -61,6 +61,7 @@ const CartScreen = ({ navig, route }) => {
         (element) => element.id == productID.productID.productID
       );
       productData.push(product);
+      totalPrice += product.price;
     });
     //setProduct(productData);
     //getTotal(productData);
@@ -192,6 +193,11 @@ const CartScreen = ({ navig, route }) => {
           return <Card product={item.item} />;
         }}
       />
+      <View>
+        <Text style = {{fontWeight: 'bold'}}>
+          Total: {totalPrice}
+        </Text>
+      </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
