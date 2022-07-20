@@ -37,7 +37,7 @@ const ShoppingScreen = ({route}) => {
 
   // product categories
   const [catergoryIndex, setCategoryIndex] = useState(0);
-  const categories = ["POPULAR", "TOPS", "BOTTOMS", "DRESSES"];
+  const categories = ["ALL", "TOPS", "BOTTOMS", "DRESSES"];
   const CategoryList = () => {
     return (
       <View style={styles.categoryContainer}>

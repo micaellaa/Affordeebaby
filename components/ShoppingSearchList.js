@@ -43,7 +43,7 @@ const ShoppingSearchList = ({ searchPhrase, setClicked, data }) => {
       return <TouchableOpacity onPress = {() => navigation.navigate('Details', item)}>
         <Item name={item.name} about={item.about} img = {item.img} id = {item.id} />
       </TouchableOpacity>;
-    }
+    } 
   };
 
   return (
@@ -58,6 +58,7 @@ const ShoppingSearchList = ({ searchPhrase, setClicked, data }) => {
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
+
       </View>
     </SafeAreaView>
   );
