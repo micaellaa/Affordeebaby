@@ -1,7 +1,6 @@
 import { useNavigation } from "@react-navigation/core";
 //import { signOut } from 'firebase/auth';
 import React, { useState, useEffect } from "react";
-import { TextInput, View } from "react-native";
 //import { TouchableOpacity } from "react-native";
 import { authentication } from "../firebase/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
@@ -15,6 +14,8 @@ import {
   Dimensions,
   Button,
   Modal,
+  TextInput,
+  View,
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
@@ -23,7 +24,21 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { MenuProvider } from "react-native-popup-menu";
 import { createCartDocument } from "../firebase/firebase-config";
 import SelectBox from "react-native-multi-selectbox";
-import AddContributors from "../components/AddContributorsDropdown";
+//import AddContributors from "../components/AddContributorsDropdown";
+const friends = [
+  {
+    item: "Juventus",
+    id: "JUVE",
+  },
+  {
+    item: "Real Madrid",
+    id: "RM",
+  },
+  {
+    item: "Barcelona",
+    id: "BR",
+  },
+];
 
 const width = Dimensions.get("window").width / 2 - 30;
 
@@ -53,9 +68,10 @@ const AllCartsScreen = () => {
 
   //get array of cart ids
   const [carts1, setCarts1] = useState("");
-
-  const [CartName, setCartName] = useState("");
-  const [usersid, setusersid] = useState([""]);
+  const [friends, setFriends] = useState("");
+  const [cartName, setCartName] = useState("");
+  //const [usersid, setusersid] = useState([""]);
+  const [selectedTeams, setSelectedTeams] = useState([""]);
 
   const [createdCart, setCreatedCart] = useState("");
 
@@ -71,14 +87,14 @@ const AllCartsScreen = () => {
       try {
         const carts = docSnap.get("carts");
         setCarts1(carts);
+        const friendsTemp = docSnap.get("friendships");
+        //setFriends(friendsTemp);
       } catch (error) {
         console.log("Error in finding carts", error);
       }
     }
     fetchCarts();
   }, [createdCart]);
-
-  console.log("carts1: ", carts1);
 
   const Card = ({ cartID }) => {
     const [name, setName] = useState("");
@@ -208,20 +224,24 @@ const AllCartsScreen = () => {
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="Cart Name"
-              value={CartName}
+              value={cartName}
               onChangeText={(text) => setCartName(text)} //a lambda
               style={styles.input}
             />
-            <Button
-              title="Add Contributors"
-              color={COLORS.indigo}
-              onPress={() => AddContributors()} //navigate to friends page for now
+
+            <SelectBox
+              label="Select multiple"
+              options={friends}
+              selectedValues={selectedTeams}
+              onMultiSelect={onMultiChange()}
+              onTapClose={onMultiChange()}
+              isMulti
             />
             <Button
               title="Create New Cart"
               color={COLORS.green}
               onPress={() => {
-                createCartDocument(user, [CartName, usersid]);
+                createCartDocument(user, [cartName, [""]]);
                 setVisible(false);
                 setCreatedCart(true);
               }}
@@ -231,6 +251,10 @@ const AllCartsScreen = () => {
       </View>
     </View>
   );
+
+  function onMultiChange() {
+    return (item) => setSelectedTeams(xorBy(selectedTeams, [item], "id"));
+  }
 };
 
 export default AllCartsScreen;

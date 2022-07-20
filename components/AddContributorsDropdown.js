@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
-import SelectBox from 'react-native-multi-selectbox';
-import { xorBy } from 'lodash';
+import React, { useState } from "react";
+import { Text, View } from "react-native";
+import SelectBox from "react-native-multi-selectbox";
+import { xorBy } from "lodash";
 import allFriends from "../consts/friends";
 //import { findDOMNode } from 'react-dom';
 
-const stub = [{item: 'mic', id: 1}, {item: 'fion', id: 2}];
-
-function AddContributors() {
+const stub = [
+  { item: "mic", id: 1 },
+  { item: "fion", id: 2 },
+];
+const AddContributors = () => {
+  const [selectedTeam, setSelectedTeam] = useState({});
   const [selectedTeams, setSelectedTeams] = useState([]);
   return (
     <View style={{ margin: 30 }}>
@@ -22,11 +25,15 @@ function AddContributors() {
         isMulti
       />
     </View>
-  )
+  );
 
   function onMultiChange() {
-    return (item) => setSelectedTeams(xorBy(selectedTeams, [item], 'id'));
+    return (item) => setSelectedTeams(xorBy(selectedTeams, [item], "id"));
   }
-}
+
+  function onChange() {
+    return (val) => setSelectedTeam(val);
+  }
+};
 
 export default AddContributors;
