@@ -13,7 +13,7 @@ import products from "../consts/products";
 import { useNavigation } from "@react-navigation/core";
 
 // definition of the Item, which will be rendered in the FlatList
-const Item = ({ name, about, img, id }) => (
+const Item = ({ name, about, img }) => (
         <View style={styles.item}>
             <Image style = {{height: 30, width: 30}} source = {img} />
             <Text style={styles.title}>{name}</Text>

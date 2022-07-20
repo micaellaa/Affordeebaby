@@ -202,7 +202,7 @@ const CartScreen = ({ navig, route }) => {
             </TouchableOpacity> 
             <View>
               <Text style = {{fontWeight: 'bold', fontSize: 30}}>
-                Total: {totalPrice.toFixed(2)}
+                Total: ${totalPrice.toFixed(2)}
                 </Text>
                 </View>   
           </View>
@@ -213,7 +213,7 @@ const CartScreen = ({ navig, route }) => {
   }
 
   return (
-    <View>
+    <ScrollView>
       <View
         style={{
           flex: 3,
@@ -276,7 +276,7 @@ const CartScreen = ({ navig, route }) => {
           <Text style={{color: COLORS.white, fontSize: 16, fontWeight: 'bold'}}>Edit Contributors</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
