@@ -16,15 +16,17 @@ import {
 } from "react-native";
 import COLORS from "../consts/colors";
 import products from "../consts/products";
+import discounts from "../consts/discounts";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, FieldValue, getDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
 const CartScreen = ({ navig, route }) => {
   const navigation = useNavigation();
-  const cartID = route.params;
+  const {cartID, discountID} = route.params;
+
   //const [product, setProduct] = useState();
   //const [total, setTotal] = useState(null);
 
@@ -140,6 +142,76 @@ const CartScreen = ({ navig, route }) => {
     );
   };
 
+  const DiscountCard = ({ discountId }) => {
+    if (discountId) {
+      const appliedDisc = discounts.find(elem => elem.id == discountId);
+      if (totalPrice >= appliedDisc.minspend) {
+        if (appliedDisc.type == "$") {
+          totalPrice = totalPrice - appliedDisc.value;
+        } else if (appliedDisc.type == "%") {
+          totalPrice = totalPrice * appliedDisc.value;
+        }
+      }
+      return (
+        <View style={styles.discountCard}>
+          <View style={{ alignItems: "flex-end" }}>
+            <View style={styles.space1}></View>
+          </View>
+
+          <View style={styles.discountContainer}>
+            <Image source={appliedDisc.img} style={styles.discImage} />
+          </View>
+
+          <Text style={styles.discountNameText}>{appliedDisc.name}</Text>
+          <View style={styles.discountDetailsCont}>
+            <Text style={styles.discMinSpendText}>
+              Minimum Spend: ${appliedDisc.minspend}
+            </Text>
+            <TouchableOpacity
+            activeOpacity={0.8} 
+            onPress = {()=>navigation.navigate("Discounts")}>
+            <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> EDIT </Text>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity 
+          activeOpacity={0.8} 
+          onPress = {()=>navigation.navigate("Cart", {cartID: cartID, discountID: null})}>
+          <View style={styles.discRemoveButton}>
+              <Text style={styles.discApplyText}>REMOVE</Text>
+              </View>
+            </TouchableOpacity>   
+          </View>
+          <View>
+        <Text style = {{fontWeight: 'bold', fontSize: 30}}>
+          Total: {totalPrice.toFixed(2)}
+        </Text>
+      </View>
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.discountContainer}>
+          <Text>No Discount Applied</Text>
+          <TouchableOpacity 
+          activeOpacity={0.8} 
+          onPress = {()=>navigation.navigate("Discounts")}>
+          <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> EDIT </Text>
+              </View>
+            </TouchableOpacity> 
+            <View>
+              <Text style = {{fontWeight: 'bold', fontSize: 30}}>
+                Total: {totalPrice.toFixed(2)}
+                </Text>
+                </View>   
+          </View>
+        
+        
+      );
+    }
+  }
+
   return (
     <View>
       <View
@@ -193,17 +265,15 @@ const CartScreen = ({ navig, route }) => {
           return <Card product={item.item} />;
         }}
       />
-      <View>
-        <Text style = {{fontWeight: 'bold'}}>
-          Total: {totalPrice}
-        </Text>
+      <View style = {{}}>
+        <DiscountCard discountId={discountID}/>
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate("CartContributors", cartID)}
         >
-          <Text style={styles.buttonText}>Edit Contributors</Text>
+          <Text style={{color: COLORS.white, fontSize: 16, fontWeight: 'bold'}}>Edit Contributors</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -253,7 +323,48 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontWeight: "700",
-    fontSize: 16,
+    fontSize: 20,
+  },
+   discountContainer: {
+    height: 100,
+    alignItems: "center",
+  },
+
+  discImage: {
+    width: 600,
+    height: 200,
+    flex: 1,
+  },
+  discountNameText: {fontSize: 17, marginTop: 10, paddingHorizontal: 50 },
+  discountDetailsCont: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+    paddingHorizontal: 50
+  },
+  discMinSpendText: { fontSize: 19},
+  discApplyButton: {
+    height: 25,
+    width: 50,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discRemoveButton: {
+    height: 25,
+    width: 70,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discApplyText: { color: COLORS.white, fontWeight: "bold" },
+  discImage: {
+    width: 300,
+    height: 100,
+    flex: 1,
+    resizeMode: "contain",
   },
 });
 

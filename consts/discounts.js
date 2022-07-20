@@ -5,6 +5,7 @@ const discounts = [
     brand: 3,
     minspend: '0',
     type: '%',
+    value: 0.5,
     img: require('../assets/SheinDiscount1.png'),
   },
 

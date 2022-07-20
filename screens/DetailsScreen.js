@@ -293,7 +293,7 @@ const DetailsScreen = ({ route, navigation }) => {
                   marginBottom: 4,
                 }}
               >
-                ${product.price}
+                ${product.price.toFixed(2)}
               </Text>
               <Text>
                 ${product.price / 20} (&#8377;

@@ -49,8 +49,9 @@ const CartPopUp = ({ visible, children }) => {
   );
 };
 
-const AllCartsScreen = () => {
+const AllCartsScreen = ({route}) => {
   const navigation = useNavigation();
+  const discountID = route.params;
 
   //get array of cart ids
   const [carts1, setCarts1] = useState("");
@@ -113,7 +114,7 @@ const AllCartsScreen = () => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => navigation.navigate("Cart", cartID)}
+        onPress={() => navigation.navigate("Cart", {cartID: cartID, discountID: discountID})}
       >
         <View style={styles.card}>
           <View style={styles.cartBtn}>

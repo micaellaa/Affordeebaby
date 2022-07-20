@@ -6,7 +6,7 @@ const products = [
     categoryno: 1,
     price: 9.99,
     about:
-      'Up to 20 hours battery life | Super powerful Bass | 40mm dynamic driver | Pressure less ear muffs | Bluetooth 5.0 | Voice control',
+      'Petite | Checkered print | Crop | Tank Top',
     isOff: true,
     offPercentage: 10,
     img: require('../assets/checkeredtop.png'),
@@ -14,8 +14,8 @@ const products = [
     isAvailable: true,
     productImageList: [
       require('../assets/checkeredtop.png'),
-      require('../assets/checkeredtop.png'),
-      require('../assets/checkeredtop.png'),
+      require('../assets/checkeredCropTop2.png'),
+      require('../assets/checkeredCropTop3.png'),
     ],
   },
   {
@@ -25,17 +25,75 @@ const products = [
     categoryno: 1,
     price: 9.99,
     about:
-      'boAt Rockerz 450 M is an on-ear wireless headset that has been ergonomically designed to meet the needs of music lovers.',
+      'Lettuce edge | Crop top | Green | Ribbed',
     isOff: false,
     img: require('../assets/lettucetop.png'),
     like: true,
     isAvailable: true,
     productImageList: [
       require('../assets/lettucetop.png'),
-      require('../assets/lettucetop.png'),
-      require('../assets/lettucetop.png'),
+      require('../assets/lettuceTop2.png'),
+      require('../assets/lettuceTop3.png'),
     ],
   },
+
+  {
+    id: 3,
+    category: 'product',
+    name: 'Floral Cami Dress',
+    categoryno: 3,
+    price: 12.00,
+    about:
+      'Floral print| Slit thigh | Cami | Front Tie',
+    isOff: false,
+    img: require('../assets/floralDress.png'),
+    like: true,
+    isAvailable: true,
+    productImageList: [
+      require('../assets/floralDress.png'),
+      require('../assets/floralDress2.png'),
+      require('../assets/floralDress3.png'),
+    ],
+  },
+
+  {
+    id: 4,
+    category: 'product',
+    name: 'Ruched Bodycon Dress',
+    categoryno: 3,
+    price: 12.00,
+    about:
+      'Ruched | Bodycon | Backless | White',
+    isOff: false,
+    img: require('../assets/ruchedDress.png'),
+    like: true,
+    isAvailable: true,
+    productImageList: [
+      require('../assets/ruchedDress.png'),
+      require('../assets/ruchedDress2.png'),
+      require('../assets/ruchedDress3.png'),
+    ],
+  },
+
+  {
+    id: 5,
+    category: 'product',
+    name: 'Wide leg shorts',
+    categoryno: 2,
+    price: 12.00,
+    about:
+      'Solid slant pocket | Wide leg | Flare shorts | Pink',
+    isOff: false,
+    img: require('../assets/wideLegShorts.png'),
+    like: true,
+    isAvailable: true,
+    productImageList: [
+      require('../assets/wideLegShorts.png'),
+      require('../assets/wideLegShorts2.png'),
+      require('../assets/wideLegShorts3.png'),
+    ],
+  },
+
 
 ];
 

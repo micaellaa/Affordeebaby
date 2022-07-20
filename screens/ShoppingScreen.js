@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 //import { signOut } from 'firebase/auth';
-import React from "react";
-import { KeyboardAvoidingView, TextInput, View } from "react-native";
+import React, { useState, useEffect }  from "react";
+import { KeyboardAvoidingView, ScrollView, TextInput, View } from "react-native";
 //import { TouchableOpacity } from "react-native";
 import { authentication } from "../firebase/firebase-config";
 import {
@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   FlatList,
   Dimensions,
+   ActivityIndicator,
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
@@ -18,13 +19,24 @@ import COLORS from "../consts/colors";
 import products from "../consts/products";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import discounts from "../consts/discounts";
+import ShoppingSearchBar from "../components/ShoppingSearchBar";
+import ShoppingSearchList from "../components/ShoppingSearchList";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
 const ShoppingScreen = ({route}) => {
   const discountId = route.params;
   const navigation = useNavigation();
-  const [catergoryIndex, setCategoryIndex] = React.useState(0);
+  // for search bar 
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const [clicked, setClicked] = useState(false);
+
+  // get data from the fake api endpoint
+  const fakeData = products;
+  
+
+  // product categories
+  const [catergoryIndex, setCategoryIndex] = useState(0);
   const categories = ["POPULAR", "TOPS", "BOTTOMS", "DRESSES"];
   const CategoryList = () => {
     return (
@@ -137,7 +149,7 @@ const ShoppingScreen = ({route}) => {
           <Text style={styles.productDetailsText}>{product.name}</Text>
 
           <View style={styles.productDetailsPriceContainer}>
-            <Text style={styles.productDetailsPriceText}>${product.price}</Text>
+            <Text style={styles.productDetailsPriceText}>${product.price.toFixed(2)}</Text>
             <View style={styles.addButton}>
               <Text style={styles.addText}>+</Text>
             </View>
@@ -148,22 +160,22 @@ const ShoppingScreen = ({route}) => {
   };
 
   return (
-    <View>
+    <ScrollView>
       <View style={styles.containerShoppingScreen}>
         <View>
           <Text style={styles.headerText1}>Welcome to</Text>
           <Text style={styles.headerText2}>Product Shop</Text>
         </View>
         </View>
-        <View style={{paddingHorizontal: 800}}>
+        <View style={{paddingHorizontal: 30, paddingVertical: 10}}>
           <Icon
           name="shopping-cart"
           size={28}
-          onPress={() => navigation.navigate("AllCarts")}
+          onPress={() => navigation.navigate("AllCarts", discountId)}
         />
         <Icon name="settings" size={28} />
         </View>
-      <View style = {{paddingHorizontal: 80}}>
+      <View style = {{paddingHorizontal: 45}}>
         <Text style = {{fontWeight:'bold'}}>Discount applied:</Text>
       </View>
       <View>
@@ -172,21 +184,24 @@ const ShoppingScreen = ({route}) => {
       <View
         style={{ marginTop: 30, flexDirection: "row", paddingHorizontal: 50 }}
       >
-        <View style={styles.searchContainer}>
-          <Icon name="search" size={25} style={{ marginLeft: 20 }} />
-          <TextInput placeholder="Search" style={styles.input} />
+        <View>
+          <ShoppingSearchBar
+        searchPhrase={searchPhrase}
+        setSearchPhrase={setSearchPhrase}
+        clicked={clicked}
+        setClicked={setClicked}/>
         </View>
-        <View style={styles.sortBtn}>
-          <Icon name="sort" size={30} color={COLORS.white} />
-        </View>
+
       </View>
       <CategoryList />
+      <View style = {{position: 'relative'}}>
       <FlatList
+      ScrollView = {styles.scrollView}
         columnWrapperStyle={{ justifyContent: "space-between" }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           marginTop: 10,
-          paddingBottom: 50,
+          paddingBottom: 500, //controls bouncing back of scrolling
         }}
         numColumns={2}
         data={products}
@@ -197,6 +212,7 @@ const ShoppingScreen = ({route}) => {
         }}
       />
     </View>
+    </ScrollView>
   );
 };
 
@@ -342,7 +358,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingHorizontal: 50
   },
-  discMinSpendText: { fontSize: 19, fontWeight: "bold" },
+  discMinSpendText: { fontSize: 15, fontWeight: "bold" },
   discApplyButton: {
     height: 25,
     width: 50,
@@ -366,4 +382,14 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "contain",
   },
+
+  scrollView: {
+        height: '20%',
+        width: '80%',
+        margin: 20,
+        alignSelf: 'center',
+        padding: 20,
+        borderWidth: 5,
+        borderRadius: 5,
+      }
 });
