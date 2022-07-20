@@ -19,12 +19,15 @@ import products from "../consts/products";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
+import discounts from "../consts/discounts"
 
 const width = Dimensions.get("window").width / 2 - 30;
 
 const CartScreen = ({ navig, route }) => {
   const navigation = useNavigation();
-  const cartID = route.params;
+  const {cartID, discountID} = route.params;
+  //console.log("cartID:", cartID);
+  //if (discountID) {console.log("discountID:",  discountID)} ;
   //const [product, setProduct] = useState();
   //const [total, setTotal] = useState(null);
 
@@ -51,7 +54,7 @@ const CartScreen = ({ navig, route }) => {
   console.log("productsID: ", productsID);
 
   let productData = [];
-
+  let totalPrice = 0.00;
   //productsID contains list of product ID's inside the cart
   if (productsID) {
     productsID.forEach((productID) => {
@@ -61,6 +64,7 @@ const CartScreen = ({ navig, route }) => {
         (element) => element.id == productID.productID.productID
       );
       productData.push(product);
+      totalPrice += product.price;
     });
     //setProduct(productData);
     //getTotal(productData);
@@ -139,6 +143,59 @@ const CartScreen = ({ navig, route }) => {
     );
   };
 
+  const DiscountCard = ({ discountId }) => {
+    if (discountId) {
+      const appliedDisc = discounts.find(elem => elem.id == discountId);
+      return (
+        <View style={styles.discountCard}>
+          <View style={{ alignItems: "flex-end" }}>
+            <View style={styles.space1}></View>
+          </View>
+
+          <View style={styles.discountContainer}>
+            <Image source={appliedDisc.img} style={styles.discImage} />
+          </View>
+
+          <Text style={styles.discountNameText}>{appliedDisc.name}</Text>
+          <View style={styles.discountDetailsCont}>
+            <Text style={styles.discMinSpendText}>
+              Minimum Spend: ${appliedDisc.minspend}
+            </Text>
+            <TouchableOpacity
+            activeOpacity={0.8} 
+            onPress = {()=>navigation.navigate("Discounts")}>
+            <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> EDIT </Text>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity 
+          activeOpacity={0.8} 
+          onPress = {()=>navigation.navigate("Cart", {cartID: cartID, discountID: null})}>
+          <View style={styles.discRemoveButton}>
+              <Text style={styles.discApplyText}>REMOVE</Text>
+              </View>
+            </TouchableOpacity>   
+          </View>
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.discountContainer}>
+          <Text>No Discount Applied</Text>
+          <TouchableOpacity 
+          activeOpacity={0.8} 
+          onPress = {()=>navigation.navigate("Discounts")}>
+          <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> EDIT </Text>
+              </View>
+            </TouchableOpacity>    
+          </View>
+        
+        
+      );
+    }
+  };
+
   return (
     <View>
       <View
@@ -192,6 +249,12 @@ const CartScreen = ({ navig, route }) => {
           return <Card product={item.item} />;
         }}
       />
+      <View>
+        <Text style = {{fontWeight: 'bold'}}>
+          Total: {totalPrice}
+        </Text>
+        <DiscountCard discountId={discountID}/>
+      </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}

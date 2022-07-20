@@ -17,6 +17,7 @@ import { TouchableOpacity } from "react-native-gesture-handler"; // took out Tex
 import COLORS from "../consts/colors";
 import products from "../consts/products";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import discounts from "../consts/discounts";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
@@ -99,12 +100,17 @@ const ShoppingScreen = () => {
           <Text style={styles.headerText1}>Welcome to</Text>
           <Text style={styles.headerText2}>Product Shop</Text>
         </View>
-        <Icon
+        </View>
+        <View style={{paddingHorizontal: 800}}>
+          <Icon
           name="shopping-cart"
           size={28}
           onPress={() => navigation.navigate("AllCarts")}
         />
         <Icon name="settings" size={28} />
+        </View>
+      <View style = {{paddingHorizontal: 80}}>
+        <Text style = {{fontWeight:'bold'}}>Discount applied:</Text>
       </View>
       <View
         style={{ marginTop: 30, flexDirection: "row", paddingHorizontal: 50 }}
@@ -270,5 +276,46 @@ const styles = StyleSheet.create({
   cartDimensions: {
     width: 40,
     height: 40,
+
+  discountContainer: {
+    height: 100,
+    alignItems: "center",
+  },
+
+  discImage: {
+    width: 600,
+    height: 200,
+    flex: 1,
+  },
+  discountNameText: { fontWeight: "bold", fontSize: 17, marginTop: 10, paddingHorizontal: 50 },
+  discountDetailsCont: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+    paddingHorizontal: 50
+  },
+  discMinSpendText: { fontSize: 19, fontWeight: "bold" },
+  discApplyButton: {
+    height: 25,
+    width: 50,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discRemoveButton: {
+    height: 25,
+    width: 70,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discApplyText: { color: COLORS.white, fontWeight: "bold" },
+  discImage: {
+    width: 300,
+    height: 100,
+    flex: 1,
+    resizeMode: "contain",
   },
 });

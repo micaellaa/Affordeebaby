@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 //import { signOut } from 'firebase/auth';
 import React, { useState, useEffect } from "react";
+import { TextInput, View } from "react-native";
 //import { TouchableOpacity } from "react-native";
 import { authentication } from "../firebase/firebase-config";
 import { doc, getDoc } from "firebase/firestore";
@@ -14,8 +15,6 @@ import {
   Dimensions,
   Button,
   Modal,
-  TextInput,
-  View,
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
@@ -24,21 +23,8 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { MenuProvider } from "react-native-popup-menu";
 import { createCartDocument } from "../firebase/firebase-config";
 import SelectBox from "react-native-multi-selectbox";
-//import AddContributors from "../components/AddContributorsDropdown";
-const friends = [
-  {
-    item: "Juventus",
-    id: "JUVE",
-  },
-  {
-    item: "Real Madrid",
-    id: "RM",
-  },
-  {
-    item: "Barcelona",
-    id: "BR",
-  },
-];
+import onMultiChange from "../functions/onMultiSelect";
+import AddContributorsDropdown from "../components/AddContributorsDropdown";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
@@ -68,12 +54,10 @@ const AllCartsScreen = () => {
 
   //get array of cart ids
   const [carts1, setCarts1] = useState("");
-  const [friends, setFriends] = useState("");
-  const [cartName, setCartName] = useState("");
-  //const [usersid, setusersid] = useState([""]);
-  const [selectedTeams, setSelectedTeams] = useState([""]);
 
-  const [createdCart, setCreatedCart] = useState("");
+  const [CartName, setCartName] = useState("");
+  const [usersid, setusersid] = useState([""]);
+  const [password, setPassword] = useState(""); //useState()
 
   const user = authentication.currentUser;
   const userUID = user.uid;
@@ -83,22 +67,28 @@ const AllCartsScreen = () => {
     async function fetchCarts() {
       const docSnap = await getDoc(usersRef);
       if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
       }
       try {
+        console.log("try entered");
         const carts = docSnap.get("carts");
+        console.log("carts: ", carts);
         setCarts1(carts);
-        const friendsTemp = docSnap.get("friendships");
-        //setFriends(friendsTemp);
       } catch (error) {
         console.log("Error in finding carts", error);
       }
     }
     fetchCarts();
-  }, [createdCart]);
+  }, []);
+
+  console.log("carts1: ", carts1);
+
+  // fetch list of friends' user id's
+
+  //console.log("friends1: ", friends1);
 
   const Card = ({ cartID }) => {
     const [name, setName] = useState("");
-
     console.log("cartID into Card:", cartID);
     //get cart name
     const cartsRef = doc(firestore, "carts", cartID);
@@ -106,7 +96,11 @@ const AllCartsScreen = () => {
     useEffect(() => {
       async function fetchCart() {
         const docSnap = await getDoc(cartsRef);
+        if (docSnap.exists()) {
+          console.log("Document data:", docSnap.data());
+        }
         try {
+          console.log("try entered");
           const cN = docSnap.get("cartname");
           setName(cN);
         } catch (error) {
@@ -119,7 +113,7 @@ const AllCartsScreen = () => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => navigation.navigate("Cart", cartID)}
+        onPress={() => navigation.navigate("Cart", {cartID: cartID, discountID: null})}
       >
         <View style={styles.card}>
           <View style={styles.cartBtn}>
@@ -217,44 +211,31 @@ const AllCartsScreen = () => {
               <Text>X</Text>
             </View>
           </TouchableOpacity>
-          <View style={{ justifyContent: "center", alignItems: "center" }}>
-            <Text>Create a New Cart</Text>
+          <View style={{ justifyContent: "center", alignItems: "center"}}>
+            <Text>Create New Cart</Text>
           </View>
 
           <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Cart Name"
-              value={cartName}
+              placeholder="Enter Cart Name"
+              value={CartName}
               onChangeText={(text) => setCartName(text)} //a lambda
               style={styles.input}
             />
-
-            <SelectBox
-              label="Select multiple"
-              options={friends}
-              selectedValues={selectedTeams}
-              onMultiSelect={onMultiChange()}
-              onTapClose={onMultiChange()}
-              isMulti
-            />
+            
+                </View>
+               <View>
+                <AddContributorsDropdown/>
+               </View>
             <Button
               title="Create New Cart"
               color={COLORS.green}
-              onPress={() => {
-                createCartDocument(user, [cartName, [""]]);
-                setVisible(false);
-                setCreatedCart(true);
-              }}
+              onPress={() => createCartDocument(user, [CartName, usersid])}
             />
-          </View>
         </CartPopUp>
       </View>
     </View>
   );
-
-  function onMultiChange() {
-    return (item) => setSelectedTeams(xorBy(selectedTeams, [item], "id"));
-  }
 };
 
 export default AllCartsScreen;
@@ -354,6 +335,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "80%",
+    paddingHorizontal: 10
   },
 
   input: {
@@ -425,3 +407,22 @@ const Card = ({ product }) => {
     );
   };
   */
+
+  /*<Button
+              title="Add Contributors"
+              color={COLORS.indigo}
+              onPress={() => 
+              {const [selectedTeams, setSelectedTeams] = useState([]);
+                const stub = [{item: 'mic', id: 1}, {item: 'fion', id: 2}]
+                return (
+                <View style={{ margin: 30 }}>
+                <View style={{ height: 40 }} />
+                <Text style={{ fontSize: 20, paddingBottom: 10 }}>MultiSelect Demo</Text>
+                <SelectBox
+                label="Select multiple"
+                options={stub}
+                selectedValues={selectedTeams}
+                onMultiSelect={onMultiChange()}
+                onTapClose={onMultiChange()}
+                isMulti
+                />*/
