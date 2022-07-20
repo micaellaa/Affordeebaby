@@ -57,7 +57,6 @@ const AllCartsScreen = () => {
 
   const [CartName, setCartName] = useState("");
   const [usersid, setusersid] = useState([""]);
-  const [password, setPassword] = useState(""); //useState()
 
   const user = authentication.currentUser;
   const userUID = user.uid;
@@ -82,10 +81,6 @@ const AllCartsScreen = () => {
   }, []);
 
   console.log("carts1: ", carts1);
-
-  // fetch list of friends' user id's
-
-  //console.log("friends1: ", friends1);
 
   const Card = ({ cartID }) => {
     const [name, setName] = useState("");
@@ -113,7 +108,9 @@ const AllCartsScreen = () => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => navigation.navigate("Cart", {cartID: cartID, discountID: null})}
+        onPress={() =>
+          navigation.navigate("Cart", { cartID: cartID, discountID: null })
+        }
       >
         <View style={styles.card}>
           <View style={styles.cartBtn}>
@@ -211,7 +208,7 @@ const AllCartsScreen = () => {
               <Text>X</Text>
             </View>
           </TouchableOpacity>
-          <View style={{ justifyContent: "center", alignItems: "center"}}>
+          <View style={{ justifyContent: "center", alignItems: "center" }}>
             <Text>Create New Cart</Text>
           </View>
 
@@ -222,16 +219,15 @@ const AllCartsScreen = () => {
               onChangeText={(text) => setCartName(text)} //a lambda
               style={styles.input}
             />
-            
-                </View>
-               <View>
-                <AddContributorsDropdown/>
-               </View>
-            <Button
-              title="Create New Cart"
-              color={COLORS.green}
-              onPress={() => createCartDocument(user, [CartName, usersid])}
-            />
+          </View>
+          <View>
+            <AddContributorsDropdown />
+          </View>
+          <Button
+            title="Create New Cart"
+            color={COLORS.green}
+            onPress={() => createCartDocument(user, [CartName, usersid])}
+          />
         </CartPopUp>
       </View>
     </View>
@@ -335,7 +331,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "80%",
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
 
   input: {
@@ -408,7 +404,7 @@ const Card = ({ product }) => {
   };
   */
 
-  /*<Button
+/*<Button
               title="Add Contributors"
               color={COLORS.indigo}
               onPress={() => 

@@ -62,7 +62,7 @@ const DiscountsCartsDropdown = (discountID) => {
   console.log("cartsData: ", cartsData);
 
   const addDiscountToCart = (cartID, discountID) => {
-    navigation.navigate('Cart', {cartID: cartID, discountID: discountID});
+    navigation.navigate("Cart", { cartID: cartID, discountID: discountID });
   };
 
   return (
