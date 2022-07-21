@@ -27,6 +27,7 @@ import onMultiChange from "../functions/onMultiSelect";
 import AddContributorsDropdown from "../components/AddContributorsDropdown";
 
 const width = Dimensions.get("window").width / 2 - 30;
+const height = 2;
 
 const CartPopUp = ({ visible, children }) => {
   const [showModal, setShowModal] = useState(visible);

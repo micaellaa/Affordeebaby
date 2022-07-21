@@ -38,13 +38,45 @@ const AddContributorsDropdown = () => {
     fetchFriendsIDs();
   }, []);
 
-  const data = [""];
+  let data = [""];
 
   for (var i = 0; i < friendsIDs.length; i++) {
-    const docRef = doc(firestore, "users", friendsIDs[i]);
+    var friendID = friendsIDs[i];
+    if (friendsIDs[i]) {
+      console.log("*friendIDinArray ", friendID);
+
+      let friend = { id: friendID };
+
+      const friendRef = doc(firestore, "users", friendID);
+
+      var nameTemp;
+
+      async function fetchFriendsNames() {
+        const docSnap = await getDoc(friendRef);
+        try {
+          nameTemp = docSnap.get("firstName");
+          console.log("*nameTemp ", nameTemp);
+
+          console.log("**nameTemp ", nameTemp);
+          friend.item = nameTemp;
+          console.log("friend", friend);
+
+          data.push(friend);
+
+          console.log("data: ", data);
+        } catch (error) {
+          console.log("Error in finding friends", error);
+        }
+      }
+      fetchFriendsNames();
+    }
+
+    console.log("data2", data);
+    /*
+    const friendRef = doc(firestore, "users", friendsIDs[i]);
     var nameTemp;
     async function fetchFriendsNames() {
-      const docSnap = await getDoc(docRef);
+      const docSnap = await getDoc(friendRef);
       nameTemp = docSnap.get("firstName");
     }
     fetchFriendsNames();
@@ -54,9 +86,8 @@ const AddContributorsDropdown = () => {
       id: friendsIDs[i],
     };
     data.push(friend);
+    */
   }
-
-  console.log("data: ", data);
 
   //fetch friends names
 
