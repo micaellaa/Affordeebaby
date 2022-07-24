@@ -23,8 +23,9 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { MenuProvider } from "react-native-popup-menu";
 import { createCartDocument } from "../firebase/firebase-config";
 import SelectBox from "react-native-multi-selectbox";
+import { xorBy } from "lodash";
 import onMultiChange from "../functions/onMultiSelect";
-import AddContributorsDropdown from "../components/AddContributorsDropdown";
+//import AddContributorsDropdown from "../components/AddContributorsDropdown";
 
 const width = Dimensions.get("window").width / 2 - 30;
 const height = 2;
@@ -49,6 +50,12 @@ const CartPopUp = ({ visible, children }) => {
     </Modal>
   );
 };
+
+const stub = [
+  { item: "mic", id: 1 },
+  { item: "fion", id: 2 },
+  { item: "alex", id: 3 },
+];
 
 const AllCartsScreen = () => {
   const navigation = useNavigation();
@@ -135,6 +142,80 @@ const AllCartsScreen = () => {
     );
   };
   const [visible, setVisible] = useState(false);
+
+  const AddContributorsDropdown = () => {
+    const [friendsNames, setFriendsNames] = useState([""]);
+    const [friendsIDs, setFriendsIDs] = useState([""]);
+    const [selectedTeams, setSelectedTeams] = useState([]);
+    const selectedIDs = [];
+
+    //fetch friends IDs
+    useEffect(() => {
+      async function fetchFriendsIDs() {
+        const docSnap = await getDoc(usersRef);
+        try {
+          const friendIDTemp = docSnap.get("friendships");
+          setFriendsIDs(friendIDTemp);
+        } catch (error) {
+          console.log("Error in finding friends1", error);
+        }
+      }
+      fetchFriendsIDs();
+    }, []);
+
+    const data = [];
+
+    //(async () => {
+    for (var i = 0; i < friendsIDs.length; i++) {
+      var friendID = friendsIDs[i];
+      if (friendsIDs[i]) {
+        console.log("*friendIDinArray ", friendID);
+
+        let friend = { id: friendID, item: friendID };
+
+        data.push(friend);
+      }
+    }
+
+    console.log("data1: ", data);
+
+    console.log("data2: ", data);
+
+    return (
+      <View style={{ margin: 30 }}>
+        <View style={{ height: 40 }} />
+        <Text style={{ fontSize: 20, paddingBottom: 10 }}>
+          Add Contributors
+        </Text>
+        <SelectBox
+          label="Select multiple"
+          options={data}
+          selectedValues={selectedTeams}
+          onMultiSelect={onMultiChange()}
+          onTapClose={onMultiChange()}
+          isMulti
+        />
+
+        <Button
+          title="Create New Cart"
+          color={COLORS.green}
+          onPress={() => {
+            for (let i = 0; i < selectedTeams.length; i++) {
+              console.log("selectedTeams.ids: ", selectedTeams[i].id);
+              selectedIDs.push(selectedTeams[i].id);
+            }
+            console.log("selectedIDs: ", selectedIDs);
+            createCartDocument(user, [CartName, selectedIDs]);
+          }}
+        />
+      </View>
+    );
+
+    function onMultiChange() {
+      console.log("selectedteams: ", selectedTeams);
+      return (item) => setSelectedTeams(xorBy(selectedTeams, [item], "id"));
+    }
+  };
 
   return (
     <View>
@@ -224,11 +305,6 @@ const AllCartsScreen = () => {
           <View>
             <AddContributorsDropdown />
           </View>
-          <Button
-            title="Create New Cart"
-            color={COLORS.green}
-            onPress={() => createCartDocument(user, [CartName, usersid])}
-          />
         </CartPopUp>
       </View>
     </View>

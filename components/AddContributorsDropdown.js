@@ -32,26 +32,26 @@ const AddContributorsDropdown = () => {
         const friendIDTemp = docSnap.get("friendships");
         setFriendsIDs(friendIDTemp);
       } catch (error) {
-        console.log("Error in finding friends", error);
+        console.log("Error in finding friends1", error);
       }
     }
     fetchFriendsIDs();
   }, []);
 
-  let data = [""];
+  /*
+  async () => {
+    var data = [];
+    for (var i = 0; i < friendsIDs.length; i++) {
+      var friendID = friendsIDs[i];
+      if (friendsIDs[i]) {
+        console.log("*friendIDinArray ", friendID);
 
-  for (var i = 0; i < friendsIDs.length; i++) {
-    var friendID = friendsIDs[i];
-    if (friendsIDs[i]) {
-      console.log("*friendIDinArray ", friendID);
+        let friend = { id: friendID };
 
-      let friend = { id: friendID };
+        const friendRef = doc(firestore, "users", friendID);
 
-      const friendRef = doc(firestore, "users", friendID);
+        var nameTemp;
 
-      var nameTemp;
-
-      async function fetchFriendsNames() {
         const docSnap = await getDoc(friendRef);
         try {
           nameTemp = docSnap.get("firstName");
@@ -68,28 +68,63 @@ const AddContributorsDropdown = () => {
           console.log("Error in finding friends", error);
         }
       }
-      fetchFriendsNames();
     }
+    return data;
+  };*/
 
-    console.log("data2", data);
-    /*
-    const friendRef = doc(firestore, "users", friendsIDs[i]);
-    var nameTemp;
-    async function fetchFriendsNames() {
-      const docSnap = await getDoc(friendRef);
-      nameTemp = docSnap.get("firstName");
+  /*
+  fetchFriendsNames().then((y) => {
+    console.log("y: ", y);
+    for (var i = 0; i < y.length; i++) {
+      data.push(y[i]);
+      console.log("data2", data);
     }
-    fetchFriendsNames();
+  });
 
-    const friend = {
-      item: nameTemp,
-      id: friendsIDs[i],
-    };
-    data.push(friend);
-    */
+  */
+
+  const data = [];
+
+  //(async () => {
+  for (var i = 0; i < friendsIDs.length; i++) {
+    var friendID = friendsIDs[i];
+    if (friendsIDs[i]) {
+      console.log("*friendIDinArray ", friendID);
+
+      let friend = { id: friendID, item: friendID };
+
+      data.push(friend);
+
+      //const friendRef = doc(firestore, "users", friendID);
+
+      //var nameTemp;
+      /*const docSnap = await getDoc(friendRef);
+        try {
+          nameTemp = docSnap.get("firstName");
+          console.log("*nameTemp ", nameTemp);
+
+          console.log("**nameTemp ", nameTemp);
+          friend.item = nameTemp;
+          console.log("friend", friend);
+
+          data.push(friend);
+
+          console.log("data: ", data);
+        } catch (error) {
+          console.log("Error in finding friends2", error);
+        }
+        */
+
+      //fetchFriendsNames();
+    }
   }
+  // })().then((y) => {
+  //   data = y;
+  // });
 
-  //fetch friends names
+  console.log("data1: ", data);
+
+  console.log("data2: ", data);
 
   return (
     <View style={{ margin: 30 }}>
@@ -97,7 +132,7 @@ const AddContributorsDropdown = () => {
       <Text style={{ fontSize: 20, paddingBottom: 10 }}>Add Contributors</Text>
       <SelectBox
         label="Select multiple"
-        options={stub}
+        options={data}
         selectedValues={selectedTeams}
         onMultiSelect={onMultiChange()}
         onTapClose={onMultiChange()}

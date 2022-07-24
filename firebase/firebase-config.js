@@ -91,6 +91,9 @@ export const createCartDocument = async (user, additionalData) => {
   const usersid = additionalData[1];
   let docRef;
 
+  console.log("cartname: ", cartname);
+  console.log("cartname: ", usersid);
+
   try {
     console.log("try entered with: " + user.uid);
     docRef = await addDoc(collection(firestore, "carts"), {
