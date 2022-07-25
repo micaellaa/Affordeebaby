@@ -140,7 +140,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-          <Text style={styles.buttonText}>Sign out</Text>
+          <Text style={styles.signOutText}>Sign out</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -185,6 +185,11 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  signOutText: {
+    color: COLORS.indigo,
     fontWeight: "700",
     fontSize: 16,
   },
