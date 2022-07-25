@@ -146,8 +146,4 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: COLORS.indigo,
   },
-  notifDimensions: {
-    width: 40,
-    height: 40,
-  },
 });

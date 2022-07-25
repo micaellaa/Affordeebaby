@@ -98,7 +98,7 @@ const ShoppingScreen = () => {
 
           <Text style={styles.productDetailsText}>{product.name}</Text>
 
-          <View style={styles.productDetailsPriceContainer}>
+          <View style={styles.bottomrow}>
             <Text style={styles.productDetailsPriceText}>
               ${product.price.toFixed(2)}
             </Text>
@@ -113,37 +113,51 @@ const ShoppingScreen = () => {
 
   return (
     <ScrollView>
-      <View style={{ paddingHorizontal: 30, paddingVertical: 10 }}>
-        <Icon
-          name="shopping-cart"
-          size={28}
-          onPress={() => navigation.navigate("AllCarts", discountId)}
-        />
-        <Icon name="settings" size={28} />
-      </View>
-      <View style={{ paddingHorizontal: 45 }}>
-        <Text style={{ fontWeight: "bold" }}>Discount applied:</Text>
-      </View>
-      <View style={{ paddingHorizontal: 80 }}>
-        <Text style={{ fontWeight: "bold" }}>Discount applied:</Text>
-      </View>
       <View
-        style={{ marginTop: 30, flexDirection: "row", paddingHorizontal: 50 }}
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          width: "80%",
+          justifyContent: "center",
+          alignSelf: "center",
+          marginTop: 20,
+        }}
       >
-        <View>
-          <ShoppingSearchBar
-            searchPhrase={searchPhrase}
-            setSearchPhrase={setSearchPhrase}
-            clicked={clicked}
-            setClicked={setClicked}
+        <TouchableOpacity onPress={() => navigation.navigate("AllCarts")}>
+          <Image
+            style={styles.notifDimensions}
+            source={require("../assets/bell-icon2.png")}
           />
-        </View>
+        </TouchableOpacity>
+
+        <ShoppingSearchBar
+          searchPhrase={searchPhrase}
+          setSearchPhrase={setSearchPhrase}
+          clicked={clicked}
+          setClicked={setClicked}
+        />
+
+        <TouchableOpacity onPress={() => navigation.navigate("Notifications")}>
+          <Image
+            style={styles.notifDimensions}
+            source={require("../assets/cart-icon2.png")}
+          />
+        </TouchableOpacity>
       </View>
+
       <CategoryList />
-      <View style={{ position: "relative" }}>
+
+      <View
+        style={{
+          position: "relative",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+        }}
+      >
         <FlatList
           ScrollView={styles.scrollView}
-          columnWrapperStyle={{ justifyContent: "space-between" }}
+          columnWrapperStyle={{ justifyContent: "space-evenly" }}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             marginTop: 10,
@@ -174,6 +188,7 @@ const styles = StyleSheet.create({
   productDetailsContainer: {
     height: 100,
     alignItems: "center",
+    paddingHorizontal: 10,
   },
   productDetailsText: {
     fontWeight: "bold",
@@ -219,13 +234,12 @@ const styles = StyleSheet.create({
     borderColor: COLORS.indigo,
   },
   cardContainer: {
+    flex: 1,
     height: 225,
-    backgroundColor: COLORS.white,
-    width,
-    marginHorizontal: 2,
+    backgroundColor: "white",
+    width: 150,
     borderRadius: 10,
     marginBottom: 20,
-    paddingHorizontal: 15,
   },
   header: {
     marginTop: 30,
@@ -344,5 +358,17 @@ const styles = StyleSheet.create({
     padding: 20,
     borderWidth: 5,
     borderRadius: 5,
+  },
+  notifDimensions: {
+    width: 40,
+    height: 40,
+  },
+  bottomrow: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    paddingHorizontal: 15,
+    paddingBottom: 15,
   },
 });

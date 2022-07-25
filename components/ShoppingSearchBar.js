@@ -5,68 +5,75 @@ import { Feather, Entypo } from "@expo/vector-icons";
 import ShoppingSearchList from "./ShoppingSearchList";
 import products from "../consts/products";
 
-const ShoppingSearchBar = ({clicked, searchPhrase, setSearchPhrase, setClicked}) => {
+const ShoppingSearchBar = ({
+  clicked,
+  searchPhrase,
+  setSearchPhrase,
+  setClicked,
+}) => {
   return (
     <View>
-    <View style={styles.container}>
-      <View
-        style={
-          clicked
-            ? styles.searchBar__clicked
-            : styles.searchBar__unclicked
-        }
-      >
-        {/* search Icon */}
-        <Feather
-          name="search"
-          size={20}
-          color="black"
-          style={{ marginLeft: 1 }}
-        />
-        {/* Input field */}
-        <TextInput
-          style={styles.input}
-          placeholder="Search"
-          value={searchPhrase}
-          onChangeText={setSearchPhrase}
-          onFocus={() => {
-            setClicked(true);
-          }}
-        />
-        {/* cross Icon, depending on whether the search bar is clicked or not */}
+      <View style={styles.container}>
+        <View
+          style={
+            clicked ? styles.searchBar__clicked : styles.searchBar__unclicked
+          }
+        >
+          {/* search Icon */}
+          <Feather
+            name="search"
+            size={20}
+            color="black"
+            style={{ marginLeft: 1 }}
+          />
+          {/* Input field */}
+          <TextInput
+            style={styles.input}
+            placeholder="Search"
+            value={searchPhrase}
+            onChangeText={setSearchPhrase}
+            onFocus={() => {
+              setClicked(true);
+            }}
+          />
+          {/* cross Icon, depending on whether the search bar is clicked or not */}
+          {clicked && (
+            <Entypo
+              name="cross"
+              size={20}
+              color="black"
+              style={{ padding: 1 }}
+              onPress={() => {
+                setSearchPhrase("");
+              }}
+            />
+          )}
+        </View>
+        {/* cancel button, depending on whether the search bar is clicked or not */}
         {clicked && (
-          <Entypo name="cross" size={20} color="black" style={{ padding: 1 }} onPress={() => {
-              setSearchPhrase("")
-          }}/>
+          <View>
+            <Button
+              title="Cancel"
+              onPress={() => {
+                Keyboard.dismiss();
+                setClicked(false);
+              }}
+            ></Button>
+          </View>
         )}
       </View>
-      {/* cancel button, depending on whether the search bar is clicked or not */}
-      {clicked && (
-        <View>
-          <Button
-            title="Cancel"
-            onPress={() => {
-              Keyboard.dismiss();
-              setClicked(false);
-            }}
-          ></Button>
-        </View>
-      )}
-
-      </View>
       <View>
-      {clicked && (
-        <View>
+        {clicked && (
+          <View>
             <ShoppingSearchList
-            searchPhrase={searchPhrase}
-            data={products}
-            setClicked={setClicked}
-          />
-        </View>
-      )}
+              searchPhrase={searchPhrase}
+              data={products}
+              setClicked={setClicked}
+            />
+          </View>
+        )}
       </View>
-      </View>
-
+    </View>
   );
 };
 export default ShoppingSearchBar;
@@ -74,12 +81,12 @@ export default ShoppingSearchBar;
 // styles
 const styles = StyleSheet.create({
   container: {
-    margin: 15,
+    flex: 1,
     justifyContent: "flex-start",
     alignItems: "center",
+    alignSelf: "center",
     flexDirection: "row",
     width: "90%",
-
   },
   searchBar__unclicked: {
     padding: 10,

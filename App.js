@@ -63,7 +63,11 @@ export default function App() {
           component={OtherUserProfileScreen}
         />
         <Stack.Screen name="AllCarts" component={AllCartsScreen} />
-        <Stack.Screen name="Notifications" component={NotificationScreen} />
+        <Stack.Screen
+          name="Notifications"
+          component={NotificationScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="Friends"
           component={FriendsScreen}
