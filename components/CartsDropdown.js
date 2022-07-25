@@ -72,7 +72,7 @@ const CartsDropdown = (productID) => {
         console.log(selectedItem, index);
         handleAddToCart(selectedItem);
       }}
-      defaultButtonText={"add to cart"}
+      defaultButtonText={"Add to Cart"}
       buttonTextAfterSelection={(selectedItem, index) => {
         // text represented after item is selected
         // if data array is an array of objects then return selectedItem.property to render after item is selected
@@ -92,11 +92,6 @@ const CartsDropdown = (productID) => {
 export default CartsDropdown;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    padding: 40,
-  },
   dropdown: {
     backgroundColor: "white",
     borderBottomColor: "gray",
@@ -104,15 +99,19 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   dropdown3BtnStyle: {
+    backgroundColor: COLORS.lightindigo,
     width: 130,
     height: 50,
-    backgroundColor: COLORS.green,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    shadowColor: COLORS.darkindigo,
+    elevation: 2,
     paddingHorizontal: 0,
-    borderWidth: 1,
     borderRadius: 8,
   },
   dropdown3RowStyle: {
-    backgroundColor: "slategray",
+    backgroundColor: COLORS.lightindigo,
     borderBottomColor: "#444",
     height: 50,
   },
@@ -122,8 +121,6 @@ const styles = StyleSheet.create({
     height: 18,
   },
   item: {
-    paddingVertical: 17,
-    paddingHorizontal: 4,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
