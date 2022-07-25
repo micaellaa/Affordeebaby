@@ -52,30 +52,28 @@ const DiscountsScreen = () => {
 
   const Card = ({ discount }) => {
     return (
+       <TouchableOpacity
+        activeOpacity={0.8}
+        onPress={() => navigation.navigate("Quickshop", discount.id)}
+      >
       <View>
         <View style={styles.card}>
           <View style={styles.discountContainer}>
             <Image source={discount.img} style={styles.discImage} />
           </View>
 
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              alignItems: "flex-start",
-            }}
-          >
-            <View style={styles.discountDetailsCont}>
-              <Text style={styles.discountNameText}>{discount.name}</Text>
-              <Text style={styles.discMinSpendText}>
-                Minimum Spend: ${discount.minspend}
-              </Text>
+          <Text style={styles.discountNameText}>{discount.name}</Text>
+          <View style={styles.discountDetailsCont}>
+            <Text style={styles.discMinSpendText}>
+              Minimum Spend: ${discount.minspend}
+            </Text>
+              <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> APPLY </Text>
             </View>
-            <DiscountsCartsDropdown />
           </View>
         </View>
       </View>
+    </TouchableOpacity>
     );
   };
 

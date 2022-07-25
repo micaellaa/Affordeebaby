@@ -29,7 +29,8 @@ import ShoppingSearchList from "../components/ShoppingSearchList";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
-const ShoppingScreen = () => {
+const ShoppingScreen = ({ route }) => {
+  const discountId = route.params;
   const navigation = useNavigation();
   // for search bar
   const [searchPhrase, setSearchPhrase] = useState("");
@@ -62,6 +63,60 @@ const ShoppingScreen = () => {
         ))}
       </View>
     );
+  };
+
+  const DiscountCard = ({ discountId }) => {
+    if (discountId) {
+      const appliedDisc = discounts.find((elem) => elem.id == discountId);
+      return (
+        <View style={styles.discountCard}>
+          <View style={{ alignItems: "flex-end" }}>
+            <View style={styles.space1}></View>
+          </View>
+
+          <View style={styles.discountContainer}>
+            <Image source={appliedDisc.img} style={styles.discImage} />
+          </View>
+
+          <Text style={styles.discountNameText}>{appliedDisc.name}</Text>
+          <View style={styles.discountDetailsCont}>
+            <Text style={styles.discMinSpendText}>
+              Minimum Spend: ${appliedDisc.minspend}
+            </Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate("Discounts")}
+            >
+              <View style={styles.discApplyButton}>
+                <Text style={styles.discApplyText}> EDIT </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate("Quickshop", null)}
+            >
+              <View style={styles.discRemoveButton}>
+                <Text style={styles.discApplyText}>REMOVE</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.discountContainer}>
+          <Text>No Discount Applied</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("Discounts")}
+          >
+            <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> EDIT </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
   };
 
   const Card = ({ product }) => {
