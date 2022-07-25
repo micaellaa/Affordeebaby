@@ -1,7 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
 //import { signOut } from 'firebase/auth';
-import React, { useState, useEffect }  from "react";
-import { KeyboardAvoidingView, ScrollView, TextInput, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  TextInput,
+  View,
+} from "react-native";
 //import { TouchableOpacity } from "react-native";
 import { authentication } from "../firebase/firebase-config";
 import {
@@ -11,7 +16,7 @@ import {
   SafeAreaView,
   FlatList,
   Dimensions,
-   ActivityIndicator,
+  ActivityIndicator,
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
@@ -27,13 +32,12 @@ const width = Dimensions.get("window").width / 2 - 30;
 const ShoppingScreen = ({route}) => {
   const discountId = route.params;
   const navigation = useNavigation();
-  // for search bar 
+  // for search bar
   const [searchPhrase, setSearchPhrase] = useState("");
   const [clicked, setClicked] = useState(false);
 
   // get data from the fake api endpoint
   const fakeData = products;
-  
 
   // product categories
   const [catergoryIndex, setCategoryIndex] = useState(0);
@@ -149,7 +153,9 @@ const ShoppingScreen = ({route}) => {
           <Text style={styles.productDetailsText}>{product.name}</Text>
 
           <View style={styles.productDetailsPriceContainer}>
-            <Text style={styles.productDetailsPriceText}>${product.price.toFixed(2)}</Text>
+            <Text style={styles.productDetailsPriceText}>
+              ${product.price.toFixed(2)}
+            </Text>
             <View style={styles.addButton}>
               <Text style={styles.addText}>+</Text>
             </View>
@@ -161,22 +167,16 @@ const ShoppingScreen = ({route}) => {
 
   return (
     <ScrollView>
-      <View style={styles.containerShoppingScreen}>
-        <View>
-          <Text style={styles.headerText1}>Welcome to</Text>
-          <Text style={styles.headerText2}>Product Shop</Text>
-        </View>
-        </View>
-        <View style={{paddingHorizontal: 30, paddingVertical: 10}}>
-          <Icon
+      <View style={{ paddingHorizontal: 30, paddingVertical: 10 }}>
+        <Icon
           name="shopping-cart"
           size={28}
           onPress={() => navigation.navigate("AllCarts", discountId)}
         />
         <Icon name="settings" size={28} />
-        </View>
-      <View style = {{paddingHorizontal: 45}}>
-        <Text style = {{fontWeight:'bold'}}>Discount applied:</Text>
+      </View>
+      <View style={{ paddingHorizontal: 45 }}>
+        <Text style={{ fontWeight: "bold" }}>Discount applied:</Text>
       </View>
       <View>
         <DiscountCard discountId = {discountId}/>
@@ -186,31 +186,32 @@ const ShoppingScreen = ({route}) => {
       >
         <View>
           <ShoppingSearchBar
-        searchPhrase={searchPhrase}
-        setSearchPhrase={setSearchPhrase}
-        clicked={clicked}
-        setClicked={setClicked}/>
+            searchPhrase={searchPhrase}
+            setSearchPhrase={setSearchPhrase}
+            clicked={clicked}
+            setClicked={setClicked}
+          />
         </View>
       </View>
       <CategoryList />
-      <View style = {{position: 'relative'}}>
-      <FlatList
-      ScrollView = {styles.scrollView}
-        columnWrapperStyle={{ justifyContent: "space-between" }}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          marginTop: 10,
-          paddingBottom: 500, //controls bouncing back of scrolling
-        }}
-        numColumns={2}
-        data={products}
-        renderItem={({ item }) => {
-          if (item.categoryno == catergoryIndex || catergoryIndex == 0) {
-            return <Card product={item} />;
-          }
-        }}
-      />
-    </View>
+      <View style={{ position: "relative" }}>
+        <FlatList
+          ScrollView={styles.scrollView}
+          columnWrapperStyle={{ justifyContent: "space-between" }}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            marginTop: 10,
+            paddingBottom: 500, //controls bouncing back of scrolling
+          }}
+          numColumns={2}
+          data={products}
+          renderItem={({ item }) => {
+            if (item.categoryno == catergoryIndex || catergoryIndex == 0) {
+              return <Card product={item} />;
+            }
+          }}
+        />
+      </View>
     </ScrollView>
   );
 };
@@ -390,12 +391,12 @@ const styles = StyleSheet.create({
   },
 
   scrollView: {
-        height: '20%',
-        width: '80%',
-        margin: 20,
-        alignSelf: 'center',
-        padding: 20,
-        borderWidth: 5,
-        borderRadius: 5,
-      }
+    height: "20%",
+    width: "80%",
+    margin: 20,
+    alignSelf: "center",
+    padding: 20,
+    borderWidth: 5,
+    borderRadius: 5,
+  },
 });

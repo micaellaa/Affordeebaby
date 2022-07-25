@@ -58,10 +58,6 @@ const DiscountsScreen = () => {
       >
       <View>
         <View style={styles.card}>
-          <View style={{ alignItems: "flex-end" }}>
-            <View style={styles.space1}></View>
-          </View>
-
           <View style={styles.discountContainer}>
             <Image source={discount.img} style={styles.discImage} />
           </View>
@@ -98,23 +94,25 @@ const DiscountsScreen = () => {
         </View>
       </View>
       <CategoryList />
-      <FlatList
-        columnWrapperStyle={{ justifyContent: "space-between" }}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          marginTop: 10,
-          paddingBottom: 50,
-        }}
-        numColumns={2}
-        data={discounts}
-        renderItem={({ item }) => {
-          if (item.brand == catergoryIndex || catergoryIndex == 0) {
-            return <Card discount={item} />;
-          } else {
-            return null;
-          }
-        }}
-      />
+      <View style={{ alignItems: "center", width: "100%" }}>
+        <FlatList
+          //columnWrapperStyle={{ justifyContent: "space-between" }}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            marginTop: 10,
+            paddingBottom: 50,
+          }}
+          numColumns={1}
+          data={discounts}
+          renderItem={({ item }) => {
+            if (item.brand == catergoryIndex || catergoryIndex == 0) {
+              return <Card discount={item} />;
+            } else {
+              return null;
+            }
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -137,13 +135,13 @@ const styles = StyleSheet.create({
     borderColor: COLORS.indigo,
   },
   card: {
-    height: 225,
-    backgroundColor: COLORS.white,
-    width,
-    marginHorizontal: 2,
+    flex: 1,
+    height: 180,
+    backgroundColor: COLORS.lightindigo,
+    width: "100%",
     borderRadius: 10,
     marginBottom: 20,
-    paddingHorizontal: 15,
+    alignItems: "column",
   },
   header: {
     marginTop: 30,
@@ -190,7 +188,6 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 3,
-    paddingHorizontal: 50,
     backgroundColor: COLORS.white,
   },
   button: {
@@ -206,13 +203,15 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 16,
   },
-  discountNameText: { fontWeight: "bold", fontSize: 17, marginTop: 10 },
+  discountNameText: { fontWeight: "bold", fontSize: 19, marginTop: 5 },
   discountDetailsCont: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "space-evenly",
     marginTop: 5,
   },
-  discMinSpendText: { fontSize: 19, fontWeight: "bold" },
+  discMinSpendText: { fontSize: 16, fontWeight: "bold" },
   discApplyButton: {
     height: 25,
     width: 50,
@@ -221,7 +220,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  discApplyText: { color: COLORS.white, fontWeight: "bold" },
+  discApplyText: { color: COLORS.white },
   discImage: {
     width: 300,
     height: 100,

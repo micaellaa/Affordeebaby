@@ -71,7 +71,7 @@ const DiscountsCartsDropdown = (discountID) => {
       onSelect={(selectedItem, index) => {
         addDiscountToCart(selectedItem, discountID);
       }}
-      defaultButtonText={"add to cart"}
+      defaultButtonText={"Add to Cart"}
       buttonTextAfterSelection={(selectedItem, index) => {
         // text represented after item is selected
         // if data array is an array of objects then return selectedItem.property to render after item is selected
@@ -105,10 +105,12 @@ const styles = StyleSheet.create({
   dropdown3BtnStyle: {
     width: 130,
     height: 50,
-    backgroundColor: COLORS.green,
+    backgroundColor: "white",
     paddingHorizontal: 0,
-    borderWidth: 1,
     borderRadius: 8,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
   },
   dropdown3RowStyle: {
     backgroundColor: "slategray",
