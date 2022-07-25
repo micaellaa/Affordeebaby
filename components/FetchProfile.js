@@ -1,4 +1,4 @@
-import { View, Text, Flatlist, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import React, { useState, useEffect } from "react";
 import { authentication } from "../firebase/firebase-config";
 import "firebase/firestore";
@@ -6,7 +6,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
 
 const FetchProfile = () => {
-  const [users1, setUsers1] = useState("");
+  const [firstName1, setfirstName1] = useState("");
+  const [username1, setusername1] = useState("");
 
   const user = authentication.currentUser;
   const userUID = user.uid;
@@ -24,9 +25,11 @@ const FetchProfile = () => {
       try {
         console.log("try entered");
         const fN = docSnap.get("firstName");
-        setUsers1(fN);
+        const uN = docSnap.get("username");
+        setfirstName1(fN);
+        setusername1(uN);
         console.log("docSnap.firstName: ", docSnap.get("firstName"));
-        console.log("users1: ", users1);
+        console.log("firstName1: ", firstName1);
       } catch (error) {
         console.log("Error in finding profile", error);
       }
@@ -35,16 +38,16 @@ const FetchProfile = () => {
   }, []);
   /*useEffect(async () => {
     usersRef.onSnapshot((querySnapshot) => {
-      const users1 = [];
+      const firstName1 = [];
       querySnapshot.forEach((doc) => {
         const { heading, text } = doc.data();
-        users1.push({
+        firstName1.push({
           id: doc.id,
           heading,
           text,
         });
       });
-      setUsers1(users1);
+      setfirstName1(firstName1);
     });
   }, []);*/
 
@@ -59,8 +62,9 @@ const FetchProfile = () => {
   }*/
 
   return (
-    <View style={{ flex: 1, marginTop: 100 }}>
-      <Text style={StyleSheet.itemHeading}>{users1}'s Profile</Text>
+    <View style={{ flexDirection: "column", alignItems: "center" }}>
+      <Text style={styles.itemHeading}>{firstName1}</Text>
+      <Text style={styles.itemSubHeading}>@{username1}</Text>
     </View>
   );
 };
@@ -80,9 +84,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   itemHeading: {
-    fontWeight: "bold",
+    fontSize: 30,
+    color: "white",
+    fontFamily: "HelveticaNeue-BoldItalic",
+    flexShrink: 1,
   },
-  itemHeading: {
-    fontWeight: 300,
+  itemSubHeading: {
+    fontSize: 20,
+    color: "white",
+    fontFamily: "HelveticaNeue-LightItalic",
+    flexShrink: 1,
   },
 });

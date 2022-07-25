@@ -2,76 +2,39 @@ import { useNavigation } from "@react-navigation/core";
 import React, { useState } from "react";
 import {
   ImageBackground,
-  SafeAreaView,
+  Image,
   StyleSheet,
-  ScrollView,
   View,
   Text,
   StatusBar,
   FlatList,
   TouchableOpacity,
   TextInput,
+  Animated,
+  Dimensions,
 } from "react-native";
-import { authentication, fetchProfile } from "../firebase/firebase-config";
-import {
-  initializeFirestore,
-  getFirestore,
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
+import { authentication } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
 import FetchProfile from "../components/FetchProfile";
 
-/*//authentication for profile
-const user = authentication.currentUser;
-const userUID = user.uid;
-
-const userRef = doc(db, "users", userUID);
-
-try {
-  const docSnap = await getDoc(userRef);
-
-  if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
-    const firstName = docSnap.get(firstName);
-  } else {
-    // doc.data() will be undefined in this case
-    console.log("Cannot find user. Try again later.");
-    const firstName = "unknown";
-  }
-} catch (error) {
-  console.log("Error in finding user", error);
-}
-*/
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
 
   //top menu constants
   const menuOptions = ["Shop", "Profile", "Find Friends"];
-  const [menuOptionsIndex, setMenuOptionsIndex] = useState(0);
+  const [menuOptionsIndex, setMenuOptionsIndex] = useState(1);
 
   //authentication for profile
   const user = authentication.currentUser;
   const userUID = user.uid;
 
-  //console.log(currentFirstName);
-
-  //var profile = fetchProfile(user);
-  //console.log(fetchProfile(user));
-
-  // prettier-ignore
-
   return (
-    
     <ImageBackground
-      source={require("../assets/palmshadow-bg.png")} //stub image
+      source={require("../assets/palmshadow-bg2.jpg")} //stub image
       style={styles.container}
     >
-
       <View style={styles.menuContainer}>
         {menuOptions.map((item, index) => (
           <TouchableOpacity
@@ -99,8 +62,15 @@ const ProfileScreen = () => {
         ))}
       </View>
 
-    <FetchProfile/>
-    <View style={styles.buttonContainer}>
+      <TouchableOpacity onPress={() => navigation.navigate("ChooseAvatar")}>
+        <Image
+          style={styles.avatarDimensions}
+          source={require("../assets/Netguru_Avatars_Pack/Artboards_Diversity_Avatars_by_Netguru-01.png")}
+        />
+      </TouchableOpacity>
+      <FetchProfile />
+
+      <View style={styles.buttonContainer}>
         <TouchableOpacity
           onPress={() => navigation.navigate("AllCarts")}
           style={styles.button}
@@ -108,18 +78,18 @@ const ProfileScreen = () => {
           <Text style={styles.buttonText}>View Carts</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate("AllCarts")}
+          onPress={() => navigation.navigate("Friends")}
           style={styles.button}
         >
-          <Text style={styles.buttonText}>Organise Past Orders</Text>
+          <Text style={styles.buttonText}>Friends</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          //onPress={() => navigation.navigate("AllCarts")}
+          onPress={() => navigation.navigate("Notifications")}
           style={styles.button}
         >
           <Text style={styles.buttonText}>Friend Requests</Text>
         </TouchableOpacity>
-    </View>
+      </View>
     </ImageBackground>
   );
 };
@@ -140,13 +110,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  avatarDimensions: {
+    width: 150,
+    height: 150,
+    shadowColor: "grey",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 2,
+  },
   button: {
-    backgroundColor: COLORS.indigo,
+    backgroundColor: "white",
     width: "90%",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 20,
+    shadowColor: COLORS.indigo,
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    elevation: 2,
   },
   buttonContainer: {
     flex: 1,
@@ -155,16 +139,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: "white",
+    color: COLORS.indigo,
     fontWeight: "700",
     fontSize: 16,
   },
   menuContainer: {
     flexDirection: "row",
     width: "80%",
-    marginTop: 30,
+    marginTop: 60,
     marginBottom: 40,
     justifyContent: "space-between",
+  },
+  bottomContainer: {
+    width: "80%",
+    marginTop: 30,
+    marginBottom: 40,
   },
   menuOptionsText: {
     fontsize: 16,
@@ -176,5 +165,15 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     borderBottomWidth: 2,
     borderColor: COLORS.indigo,
+  },
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
+  },
+  scrollPage: {
+    width: SCREEN_WIDTH,
+    padding: 20,
   },
 });

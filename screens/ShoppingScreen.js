@@ -1,7 +1,12 @@
 import { useNavigation } from "@react-navigation/core";
 //import { signOut } from 'firebase/auth';
-import React from "react";
-import { KeyboardAvoidingView, TextInput, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  TextInput,
+  View,
+} from "react-native";
 //import { TouchableOpacity } from "react-native";
 import { authentication } from "../firebase/firebase-config";
 import {
@@ -11,21 +16,32 @@ import {
   SafeAreaView,
   FlatList,
   Dimensions,
+  ActivityIndicator,
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
-//import { authentication } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
 import products from "../consts/products";
-/*import { ScrollView } from 'react-native-gesture-handler';*/
 import Icon from "react-native-vector-icons/MaterialIcons";
+import discounts from "../consts/discounts";
+import ShoppingSearchBar from "../components/ShoppingSearchBar";
+import ShoppingSearchList from "../components/ShoppingSearchList";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
-const ShoppingScreen = () => {
+const ShoppingScreen = ({ route }) => {
+  const discountId = route.params;
   const navigation = useNavigation();
-  const [catergoryIndex, setCategoryIndex] = React.useState(0);
-  const categories = ["POPULAR", "TOPS", "BOTTOMS", "DRESSES"];
+  // for search bar
+  const [searchPhrase, setSearchPhrase] = useState("");
+  const [clicked, setClicked] = useState(false);
+
+  // get data from the fake api endpoint
+  const fakeData = products;
+
+  // product categories
+  const [catergoryIndex, setCategoryIndex] = useState(0);
+  const categories = ["ALL", "TOPS", "BOTTOMS", "DRESSES"];
   const CategoryList = () => {
     return (
       <View style={styles.categoryContainer}>
@@ -49,13 +65,67 @@ const ShoppingScreen = () => {
     );
   };
 
+  const DiscountCard = ({ discountId }) => {
+    if (discountId) {
+      const appliedDisc = discounts.find((elem) => elem.id == discountId);
+      return (
+        <View style={styles.discountCard}>
+          <View style={{ alignItems: "flex-end" }}>
+            <View style={styles.space1}></View>
+          </View>
+
+          <View style={styles.discountContainer}>
+            <Image source={appliedDisc.img} style={styles.discImage} />
+          </View>
+
+          <Text style={styles.discountNameText}>{appliedDisc.name}</Text>
+          <View style={styles.discountDetailsCont}>
+            <Text style={styles.discMinSpendText}>
+              Minimum Spend: ${appliedDisc.minspend}
+            </Text>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate("Discounts")}
+            >
+              <View style={styles.discApplyButton}>
+                <Text style={styles.discApplyText}> EDIT </Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate("Quickshop", null)}
+            >
+              <View style={styles.discRemoveButton}>
+                <Text style={styles.discApplyText}>REMOVE</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.discountContainer}>
+          <Text>No Discount Applied</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate("Discounts")}
+          >
+            <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> EDIT </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+  };
+
   const Card = ({ product }) => {
     return (
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => navigation.navigate("Details", product)}
       >
-        <View style={styles.card}>
+        <View style={styles.cardContainer}>
           <View style={{ alignItems: "flex-end" }}>
             <View
               style={{
@@ -77,50 +147,18 @@ const ShoppingScreen = () => {
             </View>
           </View>
 
-          <View
-            style={{
-              height: 100,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              source={product.img}
-              style={{ width: 150, height: 150, flex: 1, resizeMode: "contain" }}
-            />
+          <View style={styles.productDetailsContainer}>
+            <Image source={product.img} style={styles.productImg} />
           </View>
 
-          <Text style={{ fontWeight: "bold", fontSize: 17, marginTop: 10 }}>
-            {product.name}
-          </Text>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginTop: 5,
-            }}
-          >
-            <Text style={{ fontSize: 19, fontWeight: "bold" }}>
-              ${product.price}
+          <Text style={styles.productDetailsText}>{product.name}</Text>
+
+          <View style={styles.bottomrow}>
+            <Text style={styles.productDetailsPriceText}>
+              ${product.price.toFixed(2)}
             </Text>
-            <View
-              style={{
-                height: 25,
-                width: 25,
-                backgroundColor: COLORS.indigo,
-                borderRadius: 5,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 22,
-                  color: COLORS.white,
-                  fontWeight: "bold",
-                }}
-              >
-                +
-              </Text>
+            <View style={styles.addButton}>
+              <Text style={styles.addText}>+</Text>
             </View>
           </View>
         </View>
@@ -129,73 +167,95 @@ const ShoppingScreen = () => {
   };
 
   return (
-    <View>
+    <ScrollView>
       <View
         style={{
-          flex: 3,
-          paddingHorizontal: 50,
-          backgroundColor: COLORS.white,
+          flex: 1,
+          flexDirection: "row",
+          width: "80%",
+          justifyContent: "center",
+          alignSelf: "center",
+          marginTop: 20,
         }}
       >
-        <View>
-          <Text
-            style={{ fontSize: 25, fontWeight: "bold", paddingHorizontal: 50 }}
-          >
-            Welcome to
-          </Text>
-          <Text
-            style={{
-              fontSize: 38,
-              color: COLORS.indigo,
-              fontWeight: "bold",
-              paddingHorizontal: 50,
-            }}
-          >
-            Product Shop
-          </Text>
-        </View>
-        <Icon
-          name="shopping-cart"
-          size={28}
-          onPress={() => navigation.navigate("AllCarts")}
+        <TouchableOpacity onPress={() => navigation.navigate("AllCarts")}>
+          <Image
+            style={styles.notifDimensions}
+            source={require("../assets/bell-icon2.png")}
+          />
+        </TouchableOpacity>
+
+        <ShoppingSearchBar
+          searchPhrase={searchPhrase}
+          setSearchPhrase={setSearchPhrase}
+          clicked={clicked}
+          setClicked={setClicked}
         />
-        <Icon name="settings" size={28} />
+
+        <TouchableOpacity onPress={() => navigation.navigate("Notifications")}>
+          <Image
+            style={styles.notifDimensions}
+            source={require("../assets/cart-icon2.png")}
+          />
+        </TouchableOpacity>
       </View>
-      <View
-        style={{ marginTop: 30, flexDirection: "row", paddingHorizontal: 50 }}
-      >
-        <View style={styles.searchContainer}>
-          <Icon name="search" size={25} style={{ marginLeft: 20 }} />
-          <TextInput placeholder="Search" style={styles.input} />
-        </View>
-        <View style={styles.sortBtn}>
-          <Icon name="sort" size={30} color={COLORS.white} />
-        </View>
-      </View>
+
       <CategoryList />
-      <FlatList
-        columnWrapperStyle={{ justifyContent: "space-between" }}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          marginTop: 10,
-          paddingBottom: 50,
+
+      <View
+        style={{
+          position: "relative",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
         }}
-        numColumns={2}
-        data={products}
-        renderItem={({ item }) => {
-          if (item.categoryno == catergoryIndex || catergoryIndex == 0) {
-            return <Card product={item} />;
-          }
-          
-        }}
-      />
-    </View>
+      >
+        <FlatList
+          ScrollView={styles.scrollView}
+          columnWrapperStyle={{ justifyContent: "space-evenly" }}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            marginTop: 10,
+            paddingBottom: 500, //controls bouncing back of scrolling
+          }}
+          numColumns={2}
+          data={products}
+          renderItem={({ item }) => {
+            if (item.categoryno == catergoryIndex || catergoryIndex == 0) {
+              return <Card product={item} />;
+            }
+          }}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
 export default ShoppingScreen;
 
 const styles = StyleSheet.create({
+  productImg: {
+    width: 150,
+    height: 150,
+    flex: 1,
+    resizeMode: "contain",
+  },
+  productDetailsContainer: {
+    height: 100,
+    alignItems: "center",
+    paddingHorizontal: 10,
+  },
+  productDetailsText: {
+    fontWeight: "bold",
+    fontSize: 17,
+    marginTop: 10,
+  },
+  productDetailsPriceContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+  },
+  productDetailsPriceText: { fontSize: 19, fontWeight: "bold" },
   categoryContainer: {
     flexDirection: "row",
     marginTop: 30,
@@ -203,21 +263,38 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
   },
-  categoryText: { fontSize: 16, color: "grey", fontWeight: "bold" },
+  addButton: {
+    height: 25,
+    width: 25,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  addText: {
+    fontSize: 22,
+    color: COLORS.white,
+    fontWeight: "bold",
+  },
+
+  categoryText: {
+    fontSize: 16,
+    color: "grey",
+    fontWeight: "bold",
+  },
   categoryTextSelected: {
     color: COLORS.indigo,
     paddingBottom: 5,
     borderBottomWidth: 5,
     borderColor: COLORS.indigo,
   },
-  card: {
+  cardContainer: {
+    flex: 1,
     height: 225,
-    backgroundColor: COLORS.white,
-    width,
-    marginHorizontal: 2,
+    backgroundColor: "white",
+    width: 150,
     borderRadius: 10,
     marginBottom: 20,
-    paddingHorizontal: 15,
   },
   header: {
     marginTop: 30,
@@ -247,7 +324,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
   container: {
     flex: 1,
     justifyContent: "center",
@@ -265,5 +341,89 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "700",
     fontSize: 16,
+  },
+  headerText1: { fontSize: 25, fontWeight: "bold", paddingHorizontal: 50 },
+  headerText2: {
+    fontSize: 38,
+    color: COLORS.indigo,
+    fontWeight: "bold",
+    paddingHorizontal: 50,
+  },
+  containerShoppingScreen: {
+    flex: 3,
+    paddingHorizontal: 50,
+    backgroundColor: COLORS.white,
+  },
+  cartDimensions: {
+    width: 40,
+    height: 40,
+  },
+  discountContainer: {
+    height: 100,
+    alignItems: "center",
+  },
+
+  discImage: {
+    width: 600,
+    height: 200,
+    flex: 1,
+  },
+  discountNameText: {
+    fontWeight: "bold",
+    fontSize: 17,
+    marginTop: 10,
+    paddingHorizontal: 50,
+  },
+  discountDetailsCont: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+    paddingHorizontal: 50,
+  },
+  discMinSpendText: { fontSize: 15, fontWeight: "bold" },
+  discApplyButton: {
+    height: 25,
+    width: 50,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discRemoveButton: {
+    height: 25,
+    width: 70,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discApplyText: { color: COLORS.white, fontWeight: "bold" },
+  discImage: {
+    width: 300,
+    height: 100,
+    flex: 1,
+    resizeMode: "contain",
+  },
+
+  scrollView: {
+    height: "20%",
+    width: "80%",
+    margin: 20,
+    alignSelf: "center",
+    padding: 20,
+    borderWidth: 5,
+    borderRadius: 5,
+  },
+  notifDimensions: {
+    width: 40,
+    height: 40,
+  },
+  bottomrow: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    paddingHorizontal: 15,
+    paddingBottom: 15,
   },
 });

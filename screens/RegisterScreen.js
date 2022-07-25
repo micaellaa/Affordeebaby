@@ -16,7 +16,6 @@ import {
 } from "../firebase/firebase-config";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   onAuthStateChanged,
 } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";

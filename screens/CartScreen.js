@@ -16,16 +16,17 @@ import {
 } from "react-native";
 import COLORS from "../consts/colors";
 import products from "../consts/products";
+import discounts from "../consts/discounts";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, FieldValue, getDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
-//import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 const width = Dimensions.get("window").width / 2 - 30;
 
 const CartScreen = ({ navig, route }) => {
   const navigation = useNavigation();
-  const cartID = route.params;
+  const {cartID, discountID} = route.params;
   //const [product, setProduct] = useState();
   //const [total, setTotal] = useState(null);
 
@@ -52,16 +53,17 @@ const CartScreen = ({ navig, route }) => {
   console.log("productsID: ", productsID);
 
   let productData = [];
-
+  let totalPrice = 0.00;
   //productsID contains list of product ID's inside the cart
   if (productsID) {
     productsID.forEach((productID) => {
       //if (items.includes(product.id)) {
       console.log(productID);
       const product = products.find(
-        (element) => element.id == productID.productID
+        (element) => element.id == productID.productID.productID
       );
       productData.push(product);
+      totalPrice += product.price;
     });
     //setProduct(productData);
     //getTotal(productData);
@@ -84,7 +86,7 @@ const CartScreen = ({ navig, route }) => {
         onPress={() => navigation.navigate("Details", product)}
       >
         <View style={styles.card}>
-            <View
+          <View
             style={{
               height: 100,
               alignItems: "center",
@@ -92,7 +94,12 @@ const CartScreen = ({ navig, route }) => {
           >
             <Image
               source={product.img}
-              style={{ width: 150, height: 150, flex: 1, resizeMode: "contain" }}
+              style={{
+                width: 150,
+                height: 150,
+                flex: 1,
+                resizeMode: "contain",
+              }}
             />
           </View>
 
@@ -135,8 +142,78 @@ const CartScreen = ({ navig, route }) => {
     );
   };
 
+  const DiscountCard = ({ discountId }) => {
+    if (discountId) {
+      const appliedDisc = discounts.find(elem => elem.id == discountId);
+      if (totalPrice >= appliedDisc.minspend) {
+        if (appliedDisc.type == "$") {
+          totalPrice = totalPrice - appliedDisc.value;
+        } else if (appliedDisc.type == "%") {
+          totalPrice = totalPrice * appliedDisc.value;
+        }
+      }
+      return (
+        <View style={styles.discountCard}>
+          <View style={{ alignItems: "flex-end" }}>
+            <View style={styles.space1}></View>
+          </View>
+
+          <View style={styles.discountContainer}>
+            <Image source={appliedDisc.img} style={styles.discImage} />
+          </View>
+
+          <Text style={styles.discountNameText}>{appliedDisc.name}</Text>
+          <View style={styles.discountDetailsCont}>
+            <Text style={styles.discMinSpendText}>
+              Minimum Spend: ${appliedDisc.minspend}
+            </Text>
+            <TouchableOpacity
+            activeOpacity={0.8} 
+            onPress = {()=>navigation.navigate("Discounts")}>
+            <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> EDIT </Text>
+            </View>
+            </TouchableOpacity>
+            <TouchableOpacity 
+          activeOpacity={0.8} 
+          onPress = {()=>navigation.navigate("Cart", {cartID: cartID, discountID: null})}>
+          <View style={styles.discRemoveButton}>
+              <Text style={styles.discApplyText}>REMOVE</Text>
+              </View>
+            </TouchableOpacity>   
+          </View>
+          <View>
+        <Text style = {{fontWeight: 'bold', fontSize: 30}}>
+          Total: {totalPrice.toFixed(2)}
+        </Text>
+      </View>
+        </View>
+      )
+    } else {
+      return (
+        <View style={styles.discountContainer}>
+          <Text>No Discount Applied</Text>
+          <TouchableOpacity 
+          activeOpacity={0.8} 
+          onPress = {()=>navigation.navigate("Discounts")}>
+          <View style={styles.discApplyButton}>
+              <Text style={styles.discApplyText}> EDIT </Text>
+              </View>
+            </TouchableOpacity> 
+            <View>
+              <Text style = {{fontWeight: 'bold', fontSize: 30}}>
+                Total: ${totalPrice.toFixed(2)}
+                </Text>
+                </View>   
+          </View>
+        
+        
+      );
+    }
+  }
+
   return (
-    <View>
+    <ScrollView>
       <View
         style={{
           flex: 3,
@@ -162,6 +239,7 @@ const CartScreen = ({ navig, route }) => {
           </Text>
         </View>
       </View>
+
       <View
         style={{ marginTop: 30, flexDirection: "row", paddingHorizontal: 50 }}
       >
@@ -183,11 +261,22 @@ const CartScreen = ({ navig, route }) => {
         numColumns={2}
         data={productData}
         renderItem={(item) => {
-            console.log(item);
+          console.log(item);
           return <Card product={item.item} />;
         }}
       />
-    </View>
+      <View style = {{}}>
+        <DiscountCard discountId={discountID}/>
+      </View>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("CartContributors", cartID)}
+        >
+          <Text style={{color: COLORS.white, fontSize: 16, fontWeight: 'bold'}}>Edit Contributors</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -216,6 +305,66 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     paddingHorizontal: 15,
+  },
+  buttonContainer: {
+    flex: 1,
+    width: "60%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  button: {
+    backgroundColor: COLORS.indigo,
+    width: "90%",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 40,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "700",
+    fontSize: 20,
+  },
+   discountContainer: {
+    height: 100,
+    alignItems: "center",
+  },
+
+  discImage: {
+    width: 600,
+    height: 200,
+    flex: 1,
+  },
+  discountNameText: {fontSize: 17, marginTop: 10, paddingHorizontal: 50 },
+  discountDetailsCont: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 5,
+    paddingHorizontal: 50
+  },
+  discMinSpendText: { fontSize: 19},
+  discApplyButton: {
+    height: 25,
+    width: 50,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discRemoveButton: {
+    height: 25,
+    width: 70,
+    backgroundColor: COLORS.indigo,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  discApplyText: { color: COLORS.white, fontWeight: "bold" },
+  discImage: {
+    width: 300,
+    height: 100,
+    flex: 1,
+    resizeMode: "contain",
   },
 });
 

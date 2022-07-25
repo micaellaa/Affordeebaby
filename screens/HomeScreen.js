@@ -7,15 +7,19 @@ import {
   KeyboardAvoidingView,
   StyleSheet,
   Text,
-  TextInput,
+  ScrollView,
   View,
   Image,
+  Dimensions,
 } from "react-native";
 import { ImageBackground, TouchableOpacity } from "react-native";
 import { authentication } from "../firebase/firebase-config";
 import COLORS from "../consts/colors";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import background from "../assets/palmshadow-bg.png";
+
+const width = Dimensions.get("window").width;
+
+const height = Dimensions.get("window").height;
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -33,25 +37,25 @@ const HomeScreen = () => {
   };
 
   const quickShop = () => {
-    navigation.navigate("Quickshop");
+    navigation.navigate("Quickshop", null);
   };
 
   /*const manageOrders = () => {
     navigation.navigate("Quickshop")
 */
   const goToDiscounts = () => {
-    navigation.navigate("Discounts")
-  }
+    navigation.navigate("Discounts");
+  };
 
   const menuOptions = ["Shop", "Profile", "Find Friends"];
   const [menuOptionsIndex, setMenuOptionsIndex] = useState(0);
 
   return (
     <ImageBackground
-      source={require("../assets/palmshadow-bg.png")} //stub image
+      source={require("../assets/palmshadow-bg2.jpg")} //stub image
       style={styles.container}
     >
-      <View style={styles.menuContainer}>
+      <View style={styles.barContainer}>
         {menuOptions.map((item, index) => (
           <TouchableOpacity
             key={index}
@@ -78,34 +82,65 @@ const HomeScreen = () => {
         ))}
       </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={quickShop} style={styles.button}>
-          <Text style={styles.buttonText}>Quick Shop</Text>
+      <View style={styles.barContainer2}>
+        <TouchableOpacity onPress={() => navigation.navigate("AllCarts")}>
+          <Image
+            style={styles.notifDimensions}
+            source={require("../assets/bell-icon2.png")}
+          />
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate("Retailers")}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonText}>Shop by Retailer</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          //onPress={manageOrders}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonText}>Manage My Orders</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={goToDiscounts}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonText}>Discounts</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Notifications")}>
+          <Image
+            style={styles.notifDimensions}
+            source={require("../assets/cart-icon2.png")}
+          />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.container}>
-        <Text>Email: {authentication.currentUser?.email}</Text>
+      <View style={styles.buttons}>
+        <TouchableOpacity
+          onPress={quickShop}
+          style={styles.touchable}
+          activeOpacity={0.6}
+        >
+          <Image
+            style={styles.img}
+            source={require("../assets/home_dress.jpg")}
+          />
+          <View style={styles.view}>
+            <Text style={styles.text}>Quickshop</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Retailers")}
+          style={styles.touchable}
+          activeOpacity={0.6}
+        >
+          <Image
+            style={styles.img}
+            source={require("../assets/home_heels.jpg")}
+          />
+          <View style={styles.view}>
+            <Text style={styles.text}>Shop by Retailer</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={goToDiscounts}
+          style={styles.touchable}
+          activeOpacity={0.6}
+        >
+          <Image
+            style={styles.img}
+            source={require("../assets/home_purse.jpg")}
+          />
+          <View style={styles.view}>
+            <Text style={styles.text}>Discounts</Text>
+          </View>
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={handleSignOut} style={styles.button}>
-          <Text style={styles.buttonText}>Sign out</Text>
+          <Text style={styles.signOutText}>Sign out</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground>
@@ -117,34 +152,63 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
+  buttons: {
+    flex: 1,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    height: height * 0.5,
+    width: width,
+    borderRadius: 10,
+  },
   button: {
-    backgroundColor: COLORS.indigo,
+    backgroundColor: "transparent",
     width: "90%",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
-    marginTop: 40,
   },
   buttonContainer: {
     flex: 1,
-    width: "60%",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+  },
+  buttonRow: {
+    flex: 1,
+    width: "90%",
+    flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   buttonText: {
     color: "white",
     fontWeight: "700",
     fontSize: 16,
   },
-  menuContainer: {
+  signOutText: {
+    color: COLORS.indigo,
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  barContainer: {
     flexDirection: "row",
     width: "80%",
-    marginTop: 30,
-    marginBottom: 40,
+    marginTop: 60,
+    marginBottom: 30,
     justifyContent: "space-between",
+  },
+  barContainer2: {
+    flexDirection: "row",
+    width: "80%",
+    marginBottom: 10,
+    justifyContent: "space-between",
+  },
+  notifDimensions: {
+    width: 40,
+    height: 40,
   },
   menuOptionsText: {
     fontsize: 16,
@@ -156,5 +220,43 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     borderBottomWidth: 2,
     borderColor: COLORS.indigo,
+  },
+  buttonWImg: {
+    width: 30,
+    height: 30,
+  },
+  buttonImg: {
+    width: "90%",
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 40,
+  },
+  img: {
+    flex: 1,
+    width: width,
+    height: 30,
+    resizeMode: "cover",
+    //borderRadius: 10,
+  },
+  view: {
+    position: "absolute",
+    backgroundColor: "transparent",
+  },
+  touchable: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    width: width,
+    height: 30,
+  },
+  text: {
+    color: "white",
+    fontSize: 18,
+    textAlign: "center",
+    alignSelf: "center",
+    textShadowColor: "rgba(0, 0, 0, 0.35)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 2,
   },
 });

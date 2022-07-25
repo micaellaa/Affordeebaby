@@ -1,13 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { useState } from "react";
 import {
   initializeFirestore,
   getFirestore,
   collection,
-  getDocs,
   doc,
-  getDoc,
+  addDoc,
   setDoc,
   updateDoc,
   arrayUnion,
@@ -45,10 +45,7 @@ export const firestore = getFirestore(app); // CHANGED THIS FROM NO EXPORT OKAY
 export const createUserDocument = async (user, additionalData) => {
   if (!user) return;
   console.log("is user");
-  const userRef = doc(firestore, "users", user.uid);
-  //const snapshot = await getDoc(userRef);
 
-  //if (user) {
   const email = user.email;
   const firstName = additionalData[0];
   const mobileNumber = additionalData[2];
@@ -72,7 +69,10 @@ export const createUserDocument = async (user, additionalData) => {
       firstName: firstName,
       mobileNum: mobileNumber,
       username: username,
-      carts: [QRHaLdTnnjTmqbG3GkJV],
+      carts: ["QRHaLdTnnjTmqbG3GkJV"],
+      uid: user.uid,
+      friendships: [""],
+      friendRequests: [""],
     });
     console.log("user data added");
   } catch (error) {
@@ -80,30 +80,55 @@ export const createUserDocument = async (user, additionalData) => {
   }
 };
 
-export const updateCartDocument = async (user, cartID, productID) => {
+export const createCartDocument = async (user, additionalData) => {
   if (!user) return;
   console.log("is user");
+
+  //const [newCartID, setnewCartID] = useState("");
+
+  const adminid = user.uid;
+  const cartname = additionalData[0];
+  const usersid = additionalData[1];
+  let docRef;
+
+  console.log("cartname: ", cartname);
+  console.log("cartname: ", usersid);
+
+  try {
+    console.log("try entered with: " + user.uid);
+    docRef = await addDoc(collection(firestore, "carts"), {
+      adminid: adminid,
+      cartname: cartname,
+      productsID: [""],
+      usersid: usersid,
+    });
+    //setnewCartID(docRef.id);
+    console.log("cart added");
+  } catch (error) {
+    console.log("Error in creating cart", error);
+  }
+
+  const adminRef = doc(firestore, "users", adminid);
+
+  try {
+    await updateDoc(adminRef, {
+      carts: arrayUnion(docRef.id),
+    });
+  } catch (error) {
+    console.log("Error in creating cart", error);
+  }
+};
+
+/*
+export const updateCartDocument = async (userUID, cartID, productID) => {
+  if (!user) return;
+  console.log("updateCartDocument with: ");
   const cartsRef = doc(firestore, "carts", cartID);
   try {
-    console.log("Added to cart", productID);
     await updateDoc(cartsRef, {
       productsID: arrayUnion(productID),
     });
   } catch (error) {
     console.log("Error in creating order", error);
   }
-};
-/*
-  const handleAddToCart = (cartID) => {
-    const cartsRef = doc(firestore, "carts", cartID);
-    if (!cartsRef) return;
-    
-    try {
-        await updateDoc(cartsRef, {
-            productsID: arrayUnion(productID),
-        });
-    } catch (error) {
-      console.log("Error in creating order", error);
-    }
-  };
-*/
+};*/

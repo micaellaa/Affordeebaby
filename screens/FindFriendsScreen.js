@@ -15,23 +15,22 @@ import {
 } from "react-native";
 import COLORS from "../consts/colors";
 import Searchbar from "../components/Searchbar";
-import FetchUsers from "../components/FetchUsers";
+import UsersInfiniteScroll from "../components/UsersInfiniteScroll";
 
 const FindFriendsScreen = () => {
   const navigation = useNavigation();
 
   //top menu constants
   const menuOptions = ["Shop", "Profile", "Find Friends"];
-  const [menuOptionsIndex, setMenuOptionsIndex] = useState(0);
+  const [menuOptionsIndex, setMenuOptionsIndex] = useState(2);
 
   //searchbar constants
   const [value, setValue] = useState();
-  //function updateSearch(value) {}
+  // function updateSearch(value) {}
 
-  // prettier-ignore
   return (
     <ImageBackground
-      source={require("../assets/palmshadow-bg.png")} //stub image
+      source={require("../assets/palmshadow-bg2.jpg")} //stub image
       style={styles.container}
     >
       <View style={styles.menuContainer}>
@@ -60,8 +59,7 @@ const FindFriendsScreen = () => {
           </TouchableOpacity>
         ))}
       </View>
-      <Searchbar/>
-    
+      <UsersInfiniteScroll />
     </ImageBackground>
   );
 };
@@ -69,6 +67,13 @@ const FindFriendsScreen = () => {
 export default FindFriendsScreen;
 
 const styles = StyleSheet.create({
+  barContainer: {
+    flexDirection: "row",
+    width: "80%",
+    marginTop: 60,
+    marginBottom: 30,
+    justifyContent: "space-between",
+  },
   searchbarContainer: {
     flexDirection: "row",
     width: "80%",
@@ -104,13 +109,18 @@ const styles = StyleSheet.create({
   menuContainer: {
     flexDirection: "row",
     width: "80%",
-    marginTop: 30,
+    marginTop: 60,
     marginBottom: 40,
     justifyContent: "space-between",
   },
   menuOptionsText: {
     fontsize: 16,
     color: "grey",
+    fontWeight: "bold",
+  },
+  menuOptionsText1: {
+    fontsize: 16,
+    color: "white",
     fontWeight: "bold",
   },
   menuOptionsTextSelected: {
