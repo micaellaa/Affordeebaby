@@ -87,14 +87,16 @@ const NotificationScreen = () => {
         >
           <TouchableOpacity
             style={{
-              height: 10,
+              height: 30,
               width: 70,
               backgroundColor: COLORS.indigo,
               borderRadius: 5,
               justifyContent: "center",
               alignItems: "center",
             }}
-            onPress={() => acceptFriendRequest(senderID)}
+            onPress={() => {
+              acceptFriendRequest(senderID);
+            }}
           >
             <Text
               style={{

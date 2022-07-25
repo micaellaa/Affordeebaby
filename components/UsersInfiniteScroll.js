@@ -270,9 +270,12 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   firstNameText: {
-    fontsize: 36,
+    fontsize: 56,
     color: "white",
     fontWeight: "bold",
+    textShadowColor: "rgba(0, 0, 0, 0.6)",
+    textShadowOffset: { width: 1, height: 1.5 },
+    textShadowRadius: 5,
   },
   usernameText: {
     fontsize: 16,

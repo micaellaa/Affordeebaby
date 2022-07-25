@@ -21,12 +21,12 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 import { doc, FieldValue, getDoc } from "firebase/firestore";
 import { firestore } from "../firebase/firebase-config";
 
+
 const width = Dimensions.get("window").width / 2 - 30;
 
 const CartScreen = ({ navig, route }) => {
   const navigation = useNavigation();
   const {cartID, discountID} = route.params;
-
   //const [product, setProduct] = useState();
   //const [total, setTotal] = useState(null);
 

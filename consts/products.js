@@ -1,15 +1,15 @@
 const products = [
   {
     id: 1,
-    category: 'product',
-    name: 'Checkered Crop Top',
+    category: "product",
+    name: "Checkered Crop Top",
     categoryno: 1,
-    price: 9.99,
+    price: 6.99,
     about:
-      'Petite | Checkered print | Crop | Tank Top',
+      "Multicolor | Casual | Tank | Crop | Slim Fit | 90% Polyester, 4% Elastane | Machine Wash",
     isOff: true,
     offPercentage: 10,
-    img: require('../assets/checkeredtop.png'),
+    img: require("../assets/checkeredtop.png"),
     like: true,
     isAvailable: true,
     productImageList: [
@@ -20,14 +20,14 @@ const products = [
   },
   {
     id: 2,
-    category: 'product',
-    name: 'Lettuce Crop Top',
+    category: "product",
+    name: "Lettuce Crop Top",
     categoryno: 1,
     price: 9.99,
     about:
-      'Lettuce edge | Crop top | Green | Ribbed',
+      "Green | Casual | Shirt | Crop | Slim Fit | 50% Cotton, 50% Polyester | Machine Wash",
     isOff: false,
-    img: require('../assets/lettucetop.png'),
+    img: require("../assets/lettucetop.png"),
     like: true,
     isAvailable: true,
     productImageList: [
