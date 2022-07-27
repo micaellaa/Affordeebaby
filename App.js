@@ -45,7 +45,11 @@ export default function App() {
           component={RetailersScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="Quickshop" component={ShoppingScreen} />
+        <Stack.Screen
+          name="Quickshop"
+          component={ShoppingScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="Details" component={DetailsScreen} />
         <Stack.Screen
           name="FindFriends"

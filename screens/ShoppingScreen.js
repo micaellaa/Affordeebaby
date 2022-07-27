@@ -17,6 +17,7 @@ import {
   FlatList,
   Dimensions,
   ActivityIndicator,
+  ImageBackground,
 } from "react-native";
 //import { TouchableHighlight, TouchableOpacity } from 'react-native-web';
 import { TouchableOpacity } from "react-native-gesture-handler"; // took out TextInput
@@ -166,16 +167,47 @@ const ShoppingScreen = ({ route }) => {
     );
   };
 
+  const menuOptions = ["Shop", "Profile", "Find Friends"];
+  const [menuOptionsIndex, setMenuOptionsIndex] = useState(2);
+
   return (
-    <ScrollView>
+    <ImageBackground
+      source={require("../assets/palmshadow-bg2.jpg")} //stub image
+      style={styles.container}
+    >
+      <View style={styles.menuContainer}>
+        {menuOptions.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            activeOpacity={0.8}
+            onPress={() => {
+              setMenuOptionsIndex(index);
+              if (index == 0) {
+                navigation.navigate("Home"); // stub
+              }
+              if (index == 1) {
+                navigation.navigate("Profile");
+              }
+            }}
+          >
+            <Text
+              style={[
+                styles.menuOptionsText,
+                menuOptionsIndex == index && styles.menuOptionsTextSelected,
+              ]}
+            >
+              {item}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
       <View
         style={{
-          flex: 1,
           flexDirection: "row",
           width: "80%",
-          justifyContent: "center",
+          justifyContent: "space-between",
           alignSelf: "center",
-          marginTop: 20,
+          marginTop: 10,
         }}
       >
         <TouchableOpacity onPress={() => navigation.navigate("AllCarts")}>
@@ -227,7 +259,7 @@ const ShoppingScreen = ({ route }) => {
           }}
         />
       </View>
-    </ScrollView>
+    </ImageBackground>
   );
 };
 
@@ -326,8 +358,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   button: {
     backgroundColor: "#0782F9",
@@ -425,5 +455,28 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     paddingHorizontal: 15,
     paddingBottom: 15,
+  },
+  menuContainer: {
+    flexDirection: "row",
+    width: "80%",
+    marginTop: 60,
+    alignSelf: "center",
+    justifyContent: "space-between",
+  },
+  menuOptionsText: {
+    fontsize: 16,
+    color: "grey",
+    fontWeight: "bold",
+  },
+  menuOptionsText1: {
+    fontsize: 16,
+    color: "white",
+    fontWeight: "bold",
+  },
+  menuOptionsTextSelected: {
+    color: COLORS.indigo,
+    paddingBottom: 5,
+    borderBottomWidth: 2,
+    borderColor: COLORS.indigo,
   },
 });
