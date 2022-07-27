@@ -19,7 +19,7 @@ import COLORS from "../consts/colors";
 import discounts from "../consts/discounts";
 /*import { ScrollView } from 'react-native-gesture-handler';*/
 import Icon from "react-native-vector-icons/MaterialIcons";
-import DiscountsCartsDropdown from "../components/DiscountsCartsDropdown";
+//import DiscountsCartsDropdown from "../components/DiscountsCartsDropdown";
 
 const width = Dimensions.get("window").width / 2 - 30;
 
@@ -52,28 +52,28 @@ const DiscountsScreen = () => {
 
   const Card = ({ discount }) => {
     return (
-       <TouchableOpacity
+      <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => navigation.navigate("Quickshop", discount.id)}
       >
-      <View>
-        <View style={styles.card}>
-          <View style={styles.discountContainer}>
-            <Image source={discount.img} style={styles.discImage} />
-          </View>
+        <View>
+          <View style={styles.card}>
+            <View style={styles.discountContainer}>
+              <Image source={discount.img} style={styles.discImage} />
+            </View>
 
-          <Text style={styles.discountNameText}>{discount.name}</Text>
-          <View style={styles.discountDetailsCont}>
-            <Text style={styles.discMinSpendText}>
-              Minimum Spend: ${discount.minspend}
-            </Text>
+            <Text style={styles.discountNameText}>{discount.name}</Text>
+            <View style={styles.discountDetailsCont}>
+              <Text style={styles.discMinSpendText}>
+                Minimum Spend: ${discount.minspend}
+              </Text>
               <View style={styles.discApplyButton}>
-              <Text style={styles.discApplyText}> APPLY </Text>
+                <Text style={styles.discApplyText}> APPLY </Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
     );
   };
 
