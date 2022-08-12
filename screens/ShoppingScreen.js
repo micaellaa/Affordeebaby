@@ -205,7 +205,7 @@ const ShoppingScreen = ({ route }) => {
         style={{
           flexDirection: "row",
           width: "80%",
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignSelf: "center",
           marginTop: 10,
         }}
