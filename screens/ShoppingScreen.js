@@ -106,6 +106,7 @@ const ShoppingScreen = ({ route }) => {
     } else {
       return (
         <View style={styles.discountContainer}>
+
           <Text>No Discount Applied</Text>
           <TouchableOpacity
             activeOpacity={0.8}
@@ -201,6 +202,9 @@ const ShoppingScreen = ({ route }) => {
           </TouchableOpacity>
         ))}
       </View>
+      <View>
+        <DiscountCard discountId={discountId}/>
+      </View>
       <View
         style={{
           flexDirection: "row",
@@ -210,7 +214,7 @@ const ShoppingScreen = ({ route }) => {
           marginTop: 10,
         }}
       >
-        <TouchableOpacity onPress={() => navigation.navigate("AllCarts")}>
+        <TouchableOpacity onPress={() => navigation.navigate("AllCarts", discountId)}>
           <Image
             style={styles.notifDimensions}
             source={require("../assets/bell-icon2.png")}
